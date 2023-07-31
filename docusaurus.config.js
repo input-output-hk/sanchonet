@@ -72,7 +72,7 @@ const config = {
         title: 'SanchoNet',
         logo: {
           alt: 'SanchoNet Logo',
-          src: 'img/logo.svg',
+          src: 'img/logo.png',
         },
         items: [
           {
