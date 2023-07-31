@@ -1,0 +1,42 @@
+.cta {
+    display: inline-flex;
+    align-items: center;
+
+    height: 35px;
+    padding: 9px 31px;
+    border: 0;
+    border-radius: 21px;
+
+    color: #016B82;
+    background-color: #FFF;
+
+    font-size: 14px;;
+    font-family: inherit;
+    font-weight: bold;
+    letter-spacing: -0.28px;
+    white-space: nowrap;
+    text-decoration: none;
+
+    cursor: pointer;
+    touch-action: manipulation;
+}
+.cta:hover {
+    text-decoration: none;
+}
+
+.cta [data-icon] {
+    margin-left: 6px;
+}
+
+.cta--large {
+    height: 45px;
+    padding: 14px 27px;
+}
+
+.cta--primary {
+
+}
+
+.cta--secondary {
+    background-color: #F5F5F5;
+}

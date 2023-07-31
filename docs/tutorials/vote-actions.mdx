@@ -1,0 +1,46 @@
+---
+sidebar_label: Voting 
+title: Voting governance actions
+sidebar_position: 6
+slug: /tutorials/vote-action
+---
+
+To vote on governance actions, follow this process:
+
+1. Obtain the action ID of an ongoing governance action from Discord
+2. Determine your voting stance; engage in discussion if required
+3. Construct your vote file through the Cardano CLI. The example below demonstrates voting `--yes`, although options for `--no` or `--abstain` are also available. 
+
+Create your vote file, note that `--tx-in` refers to the action ID:
+
+```
+cardano-cli governance vote create-vote \
+    --yes \
+    --spo \
+    --tx-in 64e7cad9b3ece7451c5b12043bdcdaa3c563392fa97eb9f2cec02fe821dffa54#0 \
+    --cold-verification-key-file cold.vkey \
+    --conway-era \
+    --out-file 64e7cad9b3ece7451c5b12043bdcdaa3c563392fa97eb9f2cec02fe821dffa54.vote
+```
+
+Include it in a transaction:
+
+```
+cardano-cli transaction build --testnet-magic 4 --conway-era \
+    --tx-in "$(cardano-cli query utxo --address $(cat payment.addr) --testnet-magic 4 --out-file /dev/stdout | jq -r 'keys[0]')" \
+    --change-address $(cat payment.addr) \
+    --vote-file 64e7cad9b3ece7451c5b12043bdcdaa3c563392fa97eb9f2cec02fe821dffa54.vote \
+    --witness-override 2 \
+    --out-file vote-tx.raw
+```
+```
+cardano-cli transaction sign --tx-body-file vote-tx.raw \
+    --signing-key-file cold.skey \
+    --signing-key-file payment.skey \
+    --testnet-magic 4 \
+    --out-file vote-tx.signed
+```
+
+```
+cardano-cli transaction submit --testnet-magic 4 --tx-file vote-tx.signed
+```

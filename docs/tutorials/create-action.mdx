@@ -1,0 +1,93 @@
+---
+sidebar_label: Create actions
+title: Creating governance actions
+sidebar_position: 5
+slug: /tutorials/create-action
+---
+
+Currently, during **Phase 1**, only stake pools have the capability to **create** and **vote** on governance actions. Upcoming releases will introduce the ability for any ada holder to submit governance actions. This implies that, at present, the most effective approach to creating governance actions on SanchoNet is to become a [stake pool operator](../roles/spo.mdx). 
+
+Once you have your pool up and running, the process of creating an action is quite straightforward:
+
+1. Write a constitution update and save it to a text file:
+
+```
+echo "We are Cardano and we are going to change the world!" > constitution.txt
+```
+
+2. You can check the hash of the constitution.txt file with:
+
+```
+b2sum -l 256 constitution.txt
+```
+
+You should see:
+
+```
+df452c58fdbc203d78188f94d067d63df87891d9dba43f32b953b8ea5a959a69  constitution.txt
+```
+
+* The Cardano CLI may eventually offer a feature for hashing action files.
+  
+3. Create the action file:
+
+```
+cardano-cli governance action create-action create-constitution \
+  --conway-era \
+  --governance-action-deposit 1000000 \
+  --cold-verification-key-file cold.vkey \
+  --constitution-file constitution.txt \
+  --out-file constitution.action
+```
+
+4. If everything went well, you should be able to view the content of the `constitution.action` file:
+
+```
+cat constitution.action
+```
+
+5. You can now build a transaction with the proposal:
+
+```
+  cardano-cli transaction build --testnet-magic 4 --conway-era \
+  --tx-in $(cardano-cli query utxo --address $(cat payment.addr) --testnet-magic 4 --out-file /dev/stdout | jq -r 'keys[0]') \
+  --change-address $(cat payment.addr) \
+  --constitution-file constitution.action \
+  --witness-override 2 \
+  --out-file tx.raw
+```
+
+6. Sign the transaction with your `cold.skey` and a `payment.skey`:
+
+```
+cardano-cli transaction sign \
+  --tx-body-file tx.raw \
+  --signing-key-file cold.skey \
+  --signing-key-file payment.skey \
+  --testnet-magic 4 \
+  --out-file tx.signed
+```
+
+7. You can now submit the transaction to the chain:
+
+```
+cardano-cli transaction submit \
+  --testnet-magic 4 \
+  --tx-file tx.signed
+```
+
+**You have now submitted a constitution update governance action!** 
+
+8. Next, you will require the action ID to share it with others on **Discord** and seek their support for your action. For now, the simplest method to obtain it is by querying the balance again. The earlier generated UTXO and index serve as the action ID:
+
+```
+cardano-cli query utxo --address $(cat payment.addr) --testnet-magic 4 --out-file /dev/stdout | jq -r 'keys[0]'
+```
+
+You should get something like this: 
+
+```
+64e7cad9b3ece7451c5b12043bdcdaa3c563392fa97eb9f2cec02fe821dffa54#0
+```
+
+See the [Voting tutorial](./vote-actions.mdx) to find out how to vote on governance actions.  
