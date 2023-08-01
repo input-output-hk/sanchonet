@@ -1,0 +1,27 @@
+---
+sidebar_label: Start a node
+slug: /start-node
+---
+
+# Start a node
+
+## Get configuration files
+
+```
+wget https://book.world.dev.cardano.org/environments/sanchonet/config.json
+wget https://book.world.dev.cardano.org/environments/sanchonet/topology.json
+wget https://book.world.dev.cardano.org/environments/sanchonet/byron-genesis.json
+wget https://book.world.dev.cardano.org/environments/sanchonet/shelley-genesis.json
+wget https://book.world.dev.cardano.org/environments/sanchonet/alonzo-genesis.json
+wget https://book.world.dev.cardano.org/environments/sanchonet/conway-genesis.json
+```
+## Run the node
+```
+cardano-node run --topology topology.json \
+--database-path db \
+--socket-path node.socket \
+--port 3001 \
+--config config.json 
+```
+
+
