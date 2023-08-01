@@ -34,6 +34,10 @@ const config = {
     locales: ['en'],
   },
 
+  customFields: {
+    recaptchaSiteKey: "6LeyQzUnAAAAAG6qu-UkP4BiPJSPUWIBGlQ1Iyin",
+  },
+
   presets: [
     [
       'classic',
