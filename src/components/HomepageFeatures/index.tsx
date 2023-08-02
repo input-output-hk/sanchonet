@@ -10,6 +10,17 @@ type FeatureItem = {
 
 const FeatureList: FeatureItem[] = [
   {
+    title: 'Powered By Cardano',
+    src: require('@site/static/img/cardano-logo.png').default,
+    description: (
+      <>
+        The Conway era of the Cardano Blockchain powers SanchoNet.
+        This brings governance decisions of the blockchain to the
+        masses.
+      </>
+    ),
+  },
+  {
     title: 'Become a Sancho SPO',
     src: require('@site/static/img/spo-island.png').default,
     description: (
@@ -31,17 +42,6 @@ const FeatureList: FeatureItem[] = [
     ),
   },
   {
-    title: 'Develop on SanchoNet',
-    src: require('@site/static/img/dev-island.png').default,
-    description: (
-      <>
-        Calling all developers!!! Do you want to build a cool voting wallet?
-        How about a proposal explorer? Well, have we got a job for you! Start
-        Integrating your favorite ideas on SanchoNet today!!!
-      </>
-    ),
-  },
-  {
     title: 'Uphold the Constitution',
     src: require('@site/static/img/cc-island.png').default,
     description: (
@@ -49,6 +49,17 @@ const FeatureList: FeatureItem[] = [
         SanchoNet needs principled folks that will abide by and uphold our
         constitution. Help blaze the trail for blockchain governance by
         becoming a Constitutional Committee Member!
+      </>
+    ),
+  },
+  {
+    title: 'Develop on SanchoNet',
+    src: require('@site/static/img/dev-island.png').default,
+    description: (
+      <>
+        Calling all developers!!! Do you want to build a cool voting wallet?
+        How about a proposal explorer? Well, have we got a job for you! Start
+        Integrating your favorite ideas on SanchoNet today!!!
       </>
     ),
   },
