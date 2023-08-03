@@ -9,7 +9,7 @@ const path = require("path")
 /** @type {import('@docusaurus/types').Config} */
 const config = {
   title: 'SanchoNet',
-  tagline: 'Govern your own fictitious island of Barataria',
+  tagline: 'Govern your own fictitious island of Barataria on this CIP-1694 Cardano Playground',
   favicon: 'img/favicon.ico',
 
   // Set the production url of your site here
@@ -32,6 +32,10 @@ const config = {
   i18n: {
     defaultLocale: 'en',
     locales: ['en'],
+  },
+
+  customFields: {
+    recaptchaSiteKey: "6LeyQzUnAAAAAG6qu-UkP4BiPJSPUWIBGlQ1Iyin",
   },
 
   presets: [
