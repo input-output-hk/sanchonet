@@ -1,0 +1,167 @@
+---
+sidebar_label: Register a stake pool
+title: Register a stake pool in SanchoNet 
+sidebar_position: 4
+slug: /stake-pool-registration
+---
+
+**WARNING**: This is a simplified tutorial that intentionally omits secure key handling and relays architecture required on other testnets and on mainnet. 
+For an extended tutorial please visit: https://cardano-course.gitbook.io/cardano-course/ where you will find video lessons and a more detailed handbook of instructions. 
+
+**This tutorial assumes you have:**
+
+1. A running node. [See the tutorial](start-a-node.mdx)
+2. Created keys and addresses. [See the tutorial](keys-and-address.mdx)
+3. Requested funds from the faucet [See the tutorial](faucet.mdx)
+
+**Register your stake pool:**
+
+1. Install [jq](https://jqlang.github.io/jq); this tool will help us parse the utxos for our transactions:
+
+````
+sudo apt-get install jq -y
+````
+2. Set the CARDANO_NODE_SOCKET_PATH variable. This must point to the path of `node.socket` that you determined when starting the node.  
+
+```
+export CARDANO_NODE_SOCKET_PATH=~/node.socket
+```
+
+3. Register the stake address you created before, for that we create a registration certificate:
+
+```
+cardano-cli stake-address registration-certificate \
+--conway-era \
+--stake-verification-key-file stake.vkey \
+--out-file registration.cert
+```
+
+4.  Create a transaction to submit the stake key registration certificate to the chain. Creating transaction on the CLI always involves a three-step process: BUILDING, SIGNING, AND SUBMITTING the transaction.
+
+* **Build** the transaction
+```
+cardano-cli transaction build \
+--conway-era \
+--testnet-magic 4 \
+--witness-override 2 \
+--tx-in $(cardano-cli query utxo --address $(cat payment.addr) --testnet-magic 4 --out-file  /dev/stdout | jq -r 'keys[0]') \
+--change-address $(cat payment.addr) \
+--certificate-file registration.cert \
+--out-file tx.raw
+```
+* **Sign** it
+```
+cardano-cli transaction sign \
+--tx-body-file tx.raw \
+--signing-key-file payment.skey \
+--signing-key-file stake.skey \
+--testnet-magic 4 \
+--out-file tx.signed
+```
+* **Submit** it
+```
+cardano-cli transaction submit \
+--testnet-magic 4 \
+--tx-file tx.signed 
+```
+
+
+5. Generate Cold keys and operational certificate for you pool
+```
+cardano-cli node key-gen \
+--cold-verification-key-file cold.vkey \
+--cold-signing-key-file cold.skey \
+--operational-certificate-issue-counter-file opcert.counter
+```
+6. Generate the Key-evolving-signature keys
+```
+cardano-cli node key-gen-KES \
+--verification-key-file kes.vkey \
+--signing-key-file kes.skey
+```
+7. Generate VRF keys
+```
+cardano-cli node key-gen-VRF \
+--verification-key-file vrf.vkey \
+--signing-key-file vrf.skey
+```
+8. Create your stake pool registration certificate:
+
+```
+cardano-cli stake-pool registration-certificate \
+--conway-era \
+--cold-verification-key-file cold.vkey \
+--vrf-verification-key-file vrf.vkey \
+--pool-pledge 9000000000 \
+--pool-cost 340000000 \
+--pool-margin .05 \
+--pool-reward-account-verification-key-file stake.vkey \
+--pool-owner-stake-verification-key-file stake.vkey \
+--testnet-magic 4 \
+--pool-relay-ipv4 <RELAY NODE PUBLIC IP> \
+--pool-relay-port <RELAY NODE PORT> \
+--out-file pool-registration.cert
+```
+9. Create a stake delegation certificate:
+
+```
+cardano-cli stake-address delegation-certificate \
+--conway-era \
+--stake-verification-key-file stake.vkey \
+--cold-verification-key-file cold.vkey \
+--out-file delegation.cert
+```
+
+10. Submit Pool registration and Stake delegation cerrtificates
+
+* Build
+```
+cardano-cli transaction build \
+--conway-era \
+--testnet-magic 4 \
+--witness-override 3 \
+--tx-in $(cardano-cli query utxo --address $(cat payment.addr) --testnet-magic 4 --out-file  /dev/stdout | jq -r 'keys[0]') \
+--change-address $(cat payment.addr) \
+--certificate-file pool-registration.cert \
+--certificate-file delegation.cert \
+--out-file tx.raw
+```
+* Sign
+```
+cardano-cli transaction sign \
+--tx-body-file tx.raw \
+--signing-key-file payment.skey \
+--signing-key-file cold.skey \
+--signing-key-file stake.skey \
+--testnet-magic 4 \
+--out-file tx.signed
+```
+* Submit
+```
+cardano-cli transaction submit \
+--testnet-magic 4 \
+--tx-file tx.signed 
+```
+
+11. Get your pool ID, you will need to get a delegation from the faucet:
+```
+cardano-cli stake-pool id \
+--cold-verification-key-file cold.vkey \
+--output-format bech32
+--out-file pool.id
+```
+
+12. Restart your node using your pool credentials
+```
+cardano-node run --topology topology.json \
+--database-path db \
+--socket-path node.socket \
+--shelley-kes-key kes.skey \
+--shelley-vrf-key vrf.skey \
+--shelley-operational-certificate opcert.cert \
+--port 3001 \
+--config config.json
+```
+
+
+
