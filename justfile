@@ -12,3 +12,7 @@ run:
 # Build static site
 build:
     npm run build
+
+# Install npm dependencies
+setup:
+    npm install
