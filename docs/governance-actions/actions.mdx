@@ -1,0 +1,27 @@
+---
+sidebar_label: Create governance actions
+title: Governance actions on SanchoNet 
+sidebar_position: 1
+slug: /actions
+---
+
+[CIP-1694](https://cips.cardano.org/cips/cip1694/) describes 7 types of governance actions. 
+
+| Action                                                              | Description |
+| :---                                                                | :--- |
+| 1. Motion of no-confidence                                          | A motion to create a _state of no-confidence_ in the current constitutional committee |
+| 2. New constitutional committee and/or threshold and/or term limits | Changes to the members of the constitutional committee and/or to its signature threshold and/or term limits|
+| 3. Updates to the Constitution                                      | A modification to the off-chain Constitution, recorded as an on-chain hash of the text document |
+| 4. Hard-Fork[^2] Initiation                                         | Triggers a non-backwards compatible upgrade of the network; requires a prior software upgrade |
+| 5. Protocol Parameter Changes                                       | Any change to **one or more** updatable protocol parameters, excluding changes to major protocol versions ("hard forks") |
+| 6. Treasury Withdrawals                                             | Movements from the treasury, sub-categorized into small, medium or large withdrawals (based on the amount of Lovelace to be withdrawn). The thresholds for treasury withdrawals are discussed below. |
+| 7. Info                                                             | An action that has no effect on-chain, other than an on-chain record. |
+
+The abilty to propose the different types of governance actions will be released in phases during the lifespan of SanchoNet. For example:
+
+* In **Phase 1** we can propose **Updates to the Constitution** 
+* **Phase 2** will incorporate ability to propose **Info** governance actions
+* **Phase 3** and subsequent will bring further capabilities. 
+
+
+Checkout [Creating governance actions tutorial](../tutorials/create-action.mdx) and [Voting on governance actions tutorial](../tutorials/vote-actions.mdx) to learn how to crate and vote on governance actions.
