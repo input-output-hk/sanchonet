@@ -5,7 +5,6 @@ const lightCodeTheme = require('prism-react-renderer/themes/github');
 const darkCodeTheme = require('prism-react-renderer/themes/dracula');
 const path = require("path")
 
-
 /** @type {import('@docusaurus/types').Config} */
 const config = {
   title: 'SanchoNet',
@@ -38,6 +37,14 @@ const config = {
     recaptchaSiteKey: "6LeyQzUnAAAAAG6qu-UkP4BiPJSPUWIBGlQ1Iyin",
   },
 
+  scripts: [
+    {
+      // GDPR
+      src: "https://cmp.osano.com/AzZXI3TYiFWNB5yus/09f536e2-8feb-4b15-8f96-249e7ae491a3/osano.js",
+      async: false,
+    },
+  ],
+
   presets: [
     [
       'classic',
@@ -52,7 +59,7 @@ const config = {
             'https://github.com/input-output-hk/sanchonet/tree/master/',
         },
         theme: {
-          customCss: require.resolve('./src/css/custom.css'),
+          customCss: [require.resolve('./src/css/custom.css'), require.resolve('./src/css/osano.css')],
         },
       }),
     ],
