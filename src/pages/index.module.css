@@ -4,8 +4,11 @@
  */
 
 .heroBanner {
+  --ifm-hero-background-color: transparent;
+  --ifm-hero-text-color: #FFF;
+
   padding: 4rem 0;
-  text-align: center;
+  text-align: left;
   position: relative;
   overflow: hidden;
 }

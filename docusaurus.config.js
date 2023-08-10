@@ -127,6 +127,19 @@ const config = {
             ],
           },
           {
+            title: 'Legal',
+            items: [
+              {
+                label: 'Privacy Policy',
+                href: 'https://static.iohk.io/gdpr/IOHK-Data-Protection-GDPR-Policy.pdf',
+              },
+              {
+                label: 'Terms and Conditions',
+                href: 'https://static.iohk.io/terms/iohktermsandconditions.pdf',
+              },
+            ],
+          },
+          {
             title: 'More',
             items: [
               {
@@ -140,7 +153,7 @@ const config = {
             ],
           },
         ],
-        copyright: `Copyright © ${new Date().getFullYear()} iog.io`,
+        copyright: `© ${new Date().getFullYear()} Input Output Global, Inc. All Rights Reserved.`,
       },
       prism: {
         defaultLanguage: 'nix',

@@ -1,94 +1,94 @@
-import React from 'react';
-import clsx from 'clsx';
-import styles from './styles.module.css';
+import React from "react";
+import clsx from "clsx";
+import styles from "./styles.module.css";
+import Link from '@docusaurus/Link';
+
 
 type FeatureItem = {
   title: string;
   src: string;
-  description: JSX.Element;
+  description: JSX.Element | string;
+  href?: string;
+  cta?: string;
 };
 
 const FeatureList: FeatureItem[] = [
   {
-    title: 'Powered By Cardano',
-    src: require('@site/static/img/cardano-logo.png').default,
-    description: (
-      <>
-        The Conway era of the Cardano Blockchain powers SanchoNet.
-        This brings governance decisions of the blockchain to the
-        masses.
-      </>
-    ),
-  },
-  {
-    title: 'Become a Sancho SPO',
-    src: require('@site/static/img/spo-island.png').default,
+    title: "Become a Sancho SPO",
+    src: require("@site/static/img/spo-island.png").default,
     description: (
       <>
         SanchoNet SPOs are the life blood of the network. They forge the blocks
         for all other members. Learn more about becoming a Sancho SPO today!
       </>
     ),
+    href: '/roles/spo',
+    cta: "Learn more"
   },
   {
-    title: 'Become a Sancho DRep',
-    src: require('@site/static/img/drep-island.png').default,
+    title: "Become a Sancho DRep",
+    src: require("@site/static/img/drep-island.png").default,
     description: (
       <>
-        SanchoNet provides liquid democracy to get high voter turnout. DReps
-        are the governing body that are elected directly through delegation
-        of stake of the participants. Become a Sancho DRep today!
+        SanchoNet provides liquid democracy to get high voter turnout. DReps are
+        the governing body that are elected directly through delegation of stake
+        of the participants. Become a Sancho DRep today!
       </>
     ),
+    href: '/roles/drep',
+    cta: "Learn more"
   },
   {
-    title: 'Uphold the Constitution',
-    src: require('@site/static/img/cc-island.png').default,
+    title: "Uphold the Constitution",
+    src: require("@site/static/img/cc-island.png").default,
     description: (
       <>
         SanchoNet needs principled folks that will abide by and uphold our
-        constitution. Help blaze the trail for blockchain governance by
-        becoming a Constitutional Committee Member!
+        constitution. Help blaze the trail for blockchain governance by becoming
+        a Constitutional Committee Member!
       </>
     ),
+    href: '/roles/cc',
+    cta: "Learn more"
   },
   {
-    title: 'Develop on SanchoNet',
-    src: require('@site/static/img/dev-island.png').default,
+    title: "Develop on SanchoNet",
+    src: require("@site/static/img/dev-island.png").default,
     description: (
       <>
-        Calling all developers!!! Do you want to build a cool voting wallet?
-        How about a proposal explorer? Well, have we got a job for you! Start
+        Calling all developers!!! Do you want to build a cool voting wallet? How
+        about a proposal explorer? Well, have we got a job for you! Start
         Integrating your favorite ideas on SanchoNet today!!!
       </>
     ),
-  },
+    href: '/roles/dev',
+    cta: "Learn more"
+  }
 ];
 
-function Feature({title, src, description}: FeatureItem) {
+function Feature({ title, src, description, href, cta }: FeatureItem) {
   return (
-    <div className={clsx('col col--4')}>
-      <div className="text--center">
-        <img src={src} className={styles.featureSvg} />
-      </div>
-      <div className="text--center padding-horiz--md">
-        <h3>{title}</h3>
-        <p>{description}</p>
-      </div>
+    <div className={styles.feature}>
+      <img src={src} className={styles.feature__img} />
+      <h3 className={styles.feature__heading}>{title}</h3>
+      <p className={styles.feature__copy}>{description}</p>
+      {href && cta ? (
+        <Link className={styles.feature__cta} href={href}>
+          {cta}
+        </Link>
+      ) : null}
     </div>
   );
 }
 
 export default function HomepageFeatures(): JSX.Element {
   return (
-    <section className={styles.features}>
-      <div className="container">
-        <div className="row">
-          {FeatureList.map((props, idx) => (
-            <Feature key={idx} {...props} />
-          ))}
-        </div>
-      </div>
-    </section>
+    <div className="container">
+      <section className={styles.features}>
+        {FeatureList.map((props, idx) => (
+          <Feature key={idx} {...props} />
+        ))}
+      </section>
+    </div>
   );
 }
