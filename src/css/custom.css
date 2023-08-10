@@ -58,16 +58,20 @@ html:not(.docs-wrapper) {
   --ifm-navbar-height: 80px;
 
   /* Footer */
-  --ifm-footer-background-color: transparent;
+  --ifm-footer-background-color: rgba(1, 107, 130, 1);
 }
 
 html:not(.docs-wrapper) .footer--dark {
-  --ifm-footer-background-color: transparent;
+  --ifm-footer-background-color: rgba(1, 107, 130, 1);
 }
 
 html:not(.docs-wrapper) body {
   background-image: url("/homepage-bg.jpg");
   background-position: 0 0;
+}
+
+html:not(.docs-wrapper) main {
+  background-image: linear-gradient(to bottom, rgba(1, 107, 130, 0), rgba(1, 107, 130, 1) 90%);
 }
 
 .navbar__logo img {
