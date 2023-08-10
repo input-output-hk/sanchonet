@@ -40,6 +40,7 @@ html:not(.docs-wrapper) {
   --ifm-navbar-shadow: none;
   --ifm-navbar-link-color: #fff;
   --ifm-navbar-link-hover-color: #fff;
+  --ifm-navbar-height: 80px;
 
   /* Footer */
   --ifm-footer-background-color: transparent;
