@@ -16,11 +16,11 @@
   --ifm-code-font-size: 95%;
   --docusaurus-highlighted-code-line-bg: rgba(0, 0, 0, 0.1);
 
-  --theme-color-cta: #FF5454;
+  --theme-color-cta: #ff5454;
 }
 
 /* For readability concerns, you should choose a lighter palette in dark mode. */
-[data-theme='dark'] {
+[data-theme="dark"] {
   --ifm-color-primary: #0098bb;
   --ifm-color-primary-dark: #0089a8;
   --ifm-color-primary-darker: #00819f;
@@ -34,16 +34,35 @@
 /**
  * Homepage overrides
  */
- html:not(.docs-wrapper)  {
+html:not(.docs-wrapper) {
   /* Navbar */
   --ifm-navbar-background-color: transparent;
   --ifm-navbar-shadow: none;
-  --ifm-navbar-link-color: #FFF;
-  --ifm-navbar-link-hover-color: #FFF;
+  --ifm-navbar-link-color: #fff;
+  --ifm-navbar-link-hover-color: #fff;
 
+  /* Footer */
+  --ifm-footer-background-color: transparent;
+}
+
+html:not(.docs-wrapper) .footer--dark {
+  --ifm-footer-background-color: transparent;
 }
 
 html:not(.docs-wrapper) body {
   background-image: url("/homepage-bg.jpg");
   background-position: 0 0;
+}
+
+.navbar__logo img {
+  height: auto;
+  vertical-align: middle;
+}
+
+html.docs-wrapper .navbar__logo img {
+  filter: invert();
+}
+
+.navbar__title {
+  display: none;
 }

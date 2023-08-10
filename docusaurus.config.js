@@ -76,7 +76,7 @@ const config = {
         title: 'SanchoNet',
         logo: {
           alt: 'SanchoNet Logo',
-          src: 'img/logo.png',
+          src: 'img/logo.svg',
         },
         items: [
           {
@@ -98,6 +98,10 @@ const config = {
       ],
     },
     footer: {
+      logo: {
+        alt: 'SanchoNet Logo',
+        src: 'img/logo.svg',
+      },
       style: 'dark',
         links: [
           {

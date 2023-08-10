@@ -1,0 +1,8 @@
+
+.footer__inner {
+    display: flex;
+}
+.footer__logo-container,
+.footer__links-container {
+    width: 50%;
+}
