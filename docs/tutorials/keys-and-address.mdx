@@ -1,24 +1,29 @@
 ---
-sidebar_label: Create keys and address
+sidebar_label: Create keys and the address
 sidebar_position: 2
 slug: /tutorials/address
 ---
 
-# Create you keys and address for SanchoNet
+# Create your keys and the Sanchonet address 
 
-1. Generate payment keys
+1. Generate payment keys:
+
 ```
 cardano-cli address key-gen \
 --verification-key-file payment.vkey \
 --signing-key-file payment.skey
 ```
-2. Generate stake keys
+
+2. Generate stake keys:
+
 ```
 cardano-cli stake-address key-gen \
 --verification-key-file stake.vkey \
 --signing-key-file stake.skey
 ```     
-3. Build your address
+
+3. Build your address:
+
 ```
 cardano-cli address build \
 --payment-verification-key-file payment.vkey \
