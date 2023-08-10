@@ -5,29 +5,31 @@ sidebar_position: 4
 slug: /tutorials/stake-pool-registration
 ---
 
-**WARNING**: This is a simplified tutorial that intentionally omits secure key handling and relays architecture required on other testnets and on mainnet. 
-For an extended tutorial please visit: https://cardano-course.gitbook.io/cardano-course/ where you will find video lessons and a more detailed handbook of instructions. 
+**WARNING**: This tutorial is simplified and deliberately excludes secure key handling and relay architecture, which are essential for other testnets and mainnet. For a comprehensive tutorial, see the [Cardano course](https://cardano-course.gitbook.io/cardano-course/) where you can access video lessons and a more detailed instruction handbook.
 
-**This tutorial assumes you have:**
+**Prerequisites**
 
-1. A running node. [See the tutorial](start-a-node.mdx)
-2. Created keys and addresses. [See the tutorial](keys-and-address.mdx)
-3. Requested funds from the faucet [See the tutorial](faucet.mdx)
+Before you start, ensure that you have:
+
+1. A running node: [see the tutorial](start-a-node.mdx)
+2. Created keys and addresses: [see the tutorial](keys-and-address.mdx)
+3. Requested funds from the faucet: [see the tutorial](faucet.mdx)
 
 **Register your stake pool:**
 
-1. Install [jq](https://jqlang.github.io/jq); this tool will help us parse the utxos for our transactions:
+1. Install [jq](https://jqlang.github.io/jq), a tool that will assist in parsing the UTXOs for transactions:
 
 ````
 sudo apt-get install jq -y
 ````
-2. Set the CARDANO_NODE_SOCKET_PATH variable. This must point to the path of `node.socket` that you determined when starting the node.  
+
+2. Set the `CARDANO_NODE_SOCKET_PATH` variable to the path of `node.socket` that you identified when starting the node:  
 
 ```
 export CARDANO_NODE_SOCKET_PATH=~/node.socket
 ```
 
-3. Register the stake address you created before, for that we create a registration certificate:
+3. Register the stake address you previously created by generating a registration certificate:
 
 ```
 cardano-cli stake-address registration-certificate \
@@ -36,9 +38,10 @@ cardano-cli stake-address registration-certificate \
 --out-file registration.cert
 ```
 
-4.  Create a transaction to submit the stake key registration certificate to the chain. Creating transaction on the CLI always involves a three-step process: BUILDING, SIGNING, AND SUBMITTING the transaction.
+4. Create a transaction to submit the stake key registration certificate to the chain. Creating a transaction using the CLI always involves a three-step process: BUILDING, SIGNING, AND SUBMITTING the transaction.
 
-* **Build** the transaction
+* **Build** the transaction:
+
 ```
 cardano-cli transaction build \
 --conway-era \
@@ -49,7 +52,9 @@ cardano-cli transaction build \
 --certificate-file registration.cert \
 --out-file tx.raw
 ```
-* **Sign** it
+
+* **Sign** the transaction:
+
 ```
 cardano-cli transaction sign \
 --tx-body-file tx.raw \
@@ -58,33 +63,40 @@ cardano-cli transaction sign \
 --testnet-magic 4 \
 --out-file tx.signed
 ```
-* **Submit** it
+
+* **Submit** the transaction:
+
 ```
 cardano-cli transaction submit \
 --testnet-magic 4 \
 --tx-file tx.signed 
 ```
 
+5. Generate cold keys and the operational certificate for your pool:
 
-5. Generate Cold keys and operational certificate for you pool
 ```
 cardano-cli node key-gen \
 --cold-verification-key-file cold.vkey \
 --cold-signing-key-file cold.skey \
 --operational-certificate-issue-counter-file opcert.counter
 ```
-6. Generate the Key-evolving-signature keys
+
+6. Generate the key-evolving-signature (KES) keys:
+
 ```
 cardano-cli node key-gen-KES \
 --verification-key-file kes.vkey \
 --signing-key-file kes.skey
 ```
-7. Generate VRF keys
+
+7. Generate VRF keys:
+
 ```
 cardano-cli node key-gen-VRF \
 --verification-key-file vrf.vkey \
 --signing-key-file vrf.skey
 ```
+
 8. Create your stake pool registration certificate:
 
 ```
@@ -102,6 +114,7 @@ cardano-cli stake-pool registration-certificate \
 --pool-relay-port <RELAY NODE PORT> \
 --out-file pool-registration.cert
 ```
+
 9. Create a stake delegation certificate:
 
 ```
@@ -112,9 +125,10 @@ cardano-cli stake-address delegation-certificate \
 --out-file delegation.cert
 ```
 
-10. Submit Pool registration and Stake delegation cerrtificates
+10. Submit pool registration and stake delegation certificates:
 
-* Build
+* Build:
+
 ```
 cardano-cli transaction build \
 --conway-era \
@@ -126,7 +140,9 @@ cardano-cli transaction build \
 --certificate-file delegation.cert \
 --out-file tx.raw
 ```
-* Sign
+
+* Sign:
+
 ```
 cardano-cli transaction sign \
 --tx-body-file tx.raw \
@@ -136,7 +152,9 @@ cardano-cli transaction sign \
 --testnet-magic 4 \
 --out-file tx.signed
 ```
-* Submit
+
+* Submit:
+
 ```
 cardano-cli transaction submit \
 --testnet-magic 4 \
@@ -144,6 +162,7 @@ cardano-cli transaction submit \
 ```
 
 11. Get your pool ID, you will need to get a delegation from the faucet:
+
 ```
 cardano-cli stake-pool id \
 --cold-verification-key-file cold.vkey \
@@ -151,7 +170,8 @@ cardano-cli stake-pool id \
 --out-file pool.id
 ```
 
-12. Restart your node using your pool credentials
+12. Restart your node using your pool credentials:
+
 ```
 cardano-node run --topology topology.json \
 --database-path db \

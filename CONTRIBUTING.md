@@ -1,19 +1,22 @@
 # Contributing to SanchoNet
 
-Issues and Pull Requests welcome! Basic issues (like typo changes for example) should be
-done via a PR fixing it rather than opening an issue asking someone to fix it.
+Welcome to SanchoNet, where issues and pull requests are more than welcome! 
 
-We intend the website to be community-led, fun and exciting. The more
-people we get contributing, the better it will be.
+For straightforward issues, such as typo corrections, we encourage you to make a pull request with the necessary fix, rather than opening an issue requesting someone else to address it.
 
-Welcome to the island of Barataria!!!
+Our intention is to make this website community-led, fun, and exciting. The more contributors we have, the better the experience will become.
 
-## Pull Request Process
+Step onto the island of Barataria and join the adventure!
 
-1. Test changes locally with docusaurus.
-2. Submit PR.
-3. PR can be merged with one review.
-4. Website auto-deploys after merging
+## How to create a pull request?
+
+Follow these steps to submit your contribution:
+
+1. Test your changes locally using Docusaurus
+2. Submit your pull request
+3. A single review is sufficient for merging your pull request
+4. The website will auto-deploy after the merge.
 
 ## Resources
-[CODE OF CONDUCT]: https://github.com/input-output-hk/sanchonet/blob/master/CODE_OF_CONDUCT.md
+
+[CODE OF CONDUCT](https://github.com/input-output-hk/sanchonet/blob/master/CODE_OF_CONDUCT.md) 

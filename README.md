@@ -1,17 +1,16 @@
-# SanchoNet Website
+# SanchoNet website
 
-SanchoNet is a one-stop shop website on getting started on
-SanchoNet, Cardano's CIP-1694 testnet.
+The SanchoNet website serves as your all-inclusive resource for getting started on SanchoNet, Cardano's CIP-1694 testnet.
 
-See the [Website](https://sancho.network) for more details.
+For more details, please visit the [website](https://sanchonet.network).
 
-## Contributing
+## Contribution
 
-Community contributions are welcome! To setup a local development
-environment, run the following:
+Community contributions are welcome! To set up a local development environment, follow these steps:
 
 ```bash
 nix develop
 just setup
 just run
 ```
+
