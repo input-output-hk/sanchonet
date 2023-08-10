@@ -5,7 +5,7 @@
   gap: 50px;
   padding: 100px;
   width: 100%;
-  background-color: #FFF;
+  background-color: #fff;
   border-radius: 36px;
   margin-bottom: 200px;
 }
@@ -29,7 +29,7 @@
   margin: 0 auto;
 }
 .feature__img {
-  background-color: #F5F5F5;
+  background-color: #f5f5f5;
   border-radius: 50%;
   width: 160px;
   height: 160px;
@@ -49,4 +49,7 @@
   top: 100%;
   transform: translateY(-33.33%);
   right: 70px;
+  width: 261px;
+  height: 200px;
+  max-width: 100%;
 }
