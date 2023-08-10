@@ -65,13 +65,13 @@ const config = {
     ({
       // Replace with your project's social card
       image: 'img/docusaurus-social-card.jpg',
-      announcementBar: {
-        id: 'announce',
-        content: 'Phase 1 has begun!',
-        backgroundColor: '#fafbfc',
-        textColor: '#091E42',
-        isCloseable: true,
-      },
+      // announcementBar: {
+      //   id: 'announce',
+      //   content: 'Phase 1 has begun!',
+      //   backgroundColor: '#fafbfc',
+      //   textColor: '#091E42',
+      //   isCloseable: true,
+      // },
       navbar: {
         title: 'SanchoNet',
         logo: {
@@ -82,12 +82,12 @@ const config = {
           {
             type: 'docSidebar',
             sidebarId: 'docsSidebar',
-            position: 'left',
+            position: 'right',
             label: 'Content',
           },
           {
             to: 'about',
-            position: 'left',
+            position: 'right',
             label: 'About',
           },
           {
