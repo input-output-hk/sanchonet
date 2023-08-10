@@ -1,16 +1,20 @@
-import React from "react";
+import React, { ComponentType } from "react";
 import clsx from "clsx";
 import styles from "./styles.module.css";
 import Link from '@docusaurus/Link';
 
 // Images
 import boat from "@site/static/img/boat.png";
+import spoPirate from "@site/static/img/spo-pirate.svg";
+import drepPirate from "@site/static/img/drep-pirate.svg";
+import book from "@site/static/img/constitution-book.svg";
+import shovel from "@site/static/img/develop-shovel.svg";
 import { Cta } from "../Cta";
 
 
 type FeatureItem = {
   title: string;
-  src: string;
+  img: string | ComponentType<any>;
   description: JSX.Element | string;
   href?: string;
   cta?: string;
@@ -19,7 +23,7 @@ type FeatureItem = {
 const FeatureList: FeatureItem[] = [
   {
     title: "Become a Sancho SPO",
-    src: require("@site/static/img/spo-island.png").default,
+    img: spoPirate,
     description: (
       <>
         SanchoNet SPOs are the life blood of the network. They forge the blocks
@@ -31,7 +35,7 @@ const FeatureList: FeatureItem[] = [
   },
   {
     title: "Become a Sancho DRep",
-    src: require("@site/static/img/drep-island.png").default,
+    img: drepPirate,
     description: (
       <>
         SanchoNet provides liquid democracy to get high voter turnout. DReps are
@@ -44,7 +48,7 @@ const FeatureList: FeatureItem[] = [
   },
   {
     title: "Uphold the Constitution",
-    src: require("@site/static/img/cc-island.png").default,
+    img: book,
     description: (
       <>
         SanchoNet needs principled folks that will abide by and uphold our
@@ -57,7 +61,7 @@ const FeatureList: FeatureItem[] = [
   },
   {
     title: "Develop on SanchoNet",
-    src: require("@site/static/img/dev-island.png").default,
+    img: shovel,
     description: (
       <>
         Calling all developers!!! Do you want to build a cool voting wallet? How
@@ -70,11 +74,13 @@ const FeatureList: FeatureItem[] = [
   }
 ];
 
-function Feature({ title, src, description, href, cta }: FeatureItem) {
+function Feature({ title, img: Image, description, href, cta }: FeatureItem) {
   return (
     <div className={styles.feature}>
-      <img src={src} className={styles.feature__img} />
-      <h3 className={styles.feature__heading}>{title}</h3>
+      <div className={styles['feature__img-container']}>
+      {typeof Image === "string" ? <img src={Image} className={styles.feature__img} /> : <Image />}
+      </div>
+      <h2 className={styles.feature__heading}>{title}</h2>
       <p className={styles.feature__copy}>{description}</p>
       {href && cta ? (
         <Cta appearance="secondary" href={href}>
