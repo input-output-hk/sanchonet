@@ -1,8 +1,11 @@
 
 .footer__inner {
     display: flex;
+    flex-wrap: wrap;
 }
 .footer__logo-container,
 .footer__links-container {
     width: 50%;
+    flex-basis: 300px;
+    margin-bottom: 60px;
 }
