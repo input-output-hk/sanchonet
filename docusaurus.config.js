@@ -133,9 +133,13 @@ const config = {
                 label: 'GitHub',
                 href: 'https://github.com/input-output-hk/sanchonet',
               },
+              {
+                label: 'Disclaimer',
+                to: '/disclaimer',
+              },
             ],
           },
-        ],
+        ],  
         copyright: `Copyright © ${new Date().getFullYear()} iog.io`,
       },
       prism: {
