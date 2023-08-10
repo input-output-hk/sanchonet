@@ -133,6 +133,10 @@ const config = {
                 label: 'GitHub',
                 href: 'https://github.com/input-output-hk/sanchonet',
               },
+              {
+                label: 'Disclaimer',
+                to: '/disclaimer',
+              },
             ],
           },
         ],
