@@ -5,13 +5,13 @@ sidebar_position: 6
 slug: /tutorials/vote-action
 ---
 
-Voting on governance actions is a simple process. 
+To vote on governance actions, follow this process:
 
-1. Find out on Discord the Action Id of an active governance action. 
-2. Decide the direction of your vote, discuss with people if necessary.
-3. Create your vote file using the cardano-cli, in this example we will vote `--yes` but you can also vote `--no` or `--abstain` 
+1. Obtain the action ID of an ongoing governance action from Discord
+2. Determine your voting stance; engage in discussion if required
+3. Construct your vote file through the Cardano CLI. The example below demonstrates voting `--yes`, although options for `--no` or `--abstain` are also available. 
 
-Note that --tx-in refers to the ActionID, 
+Create your vote file, note that `--tx-in` refers to the action ID:
 
 ```
 cardano-cli governance vote create-vote \
@@ -23,7 +23,7 @@ cardano-cli governance vote create-vote \
     --out-file 64e7cad9b3ece7451c5b12043bdcdaa3c563392fa97eb9f2cec02fe821dffa54.vote
 ```
 
-Now include it in a transaction:
+Include it in a transaction:
 
 ```
 cardano-cli transaction build --testnet-magic 4 --conway-era \
