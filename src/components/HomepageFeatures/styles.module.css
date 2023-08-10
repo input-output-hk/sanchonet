@@ -65,3 +65,27 @@
   height: 200px;
   max-width: 100%;
 }
+
+
+.trail {
+  position: absolute;
+}
+.trail--top {
+  left: 50%;
+  bottom: 100%;
+}
+.trail--left {
+  right: 100%;
+  top: 50%;
+}
+.trail--right {
+  left: 100%;
+  top: 25%;
+  margin-left: -10px;
+}
+.trail--bottom {
+  top: 100%;
+  left: 50%;
+  margin-top: -10px;
+  margin-left: 50px;
+}

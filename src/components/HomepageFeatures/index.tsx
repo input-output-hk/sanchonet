@@ -9,6 +9,13 @@ import spoPirate from "@site/static/img/spo-pirate.svg";
 import drepPirate from "@site/static/img/drep-pirate.svg";
 import book from "@site/static/img/constitution-book.svg";
 import shovel from "@site/static/img/develop-shovel.svg";
+
+// trail
+import TrailTop from "@site/static/img/trail/top.svg"
+import TrailLeft from "@site/static/img/trail/left.svg"
+import TrailRight from "@site/static/img/trail/right.svg"
+import TrailBottom from "@site/static/img/trail/bottom.svg"
+
 import { Cta } from "../Cta";
 
 
@@ -98,6 +105,10 @@ export default function HomepageFeatures(): JSX.Element {
         {FeatureList.map((props, idx) => (
           <Feature key={idx} {...props} />
         ))}
+        <TrailTop className={clsx(styles.trail, styles['trail--top'])} />
+        <TrailLeft className={clsx(styles.trail, styles['trail--left'])} />
+        <TrailRight className={clsx(styles.trail, styles['trail--right'])} />
+        <TrailBottom className={clsx(styles.trail, styles['trail--bottom'])} />
         <img className={styles.boat} src={boat} alt="Boat" />
       </section>
     </div>

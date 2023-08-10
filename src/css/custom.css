@@ -44,6 +44,8 @@
 
 html, body {
   font-family: 'Rubik', sans-serif;
+  height: auto !important;
+  min-height: 100%;
 }
 
 /**
@@ -66,8 +68,9 @@ html:not(.docs-wrapper) .footer--dark {
 }
 
 html:not(.docs-wrapper) body {
-  background-image: url("/homepage-bg.jpg");
-  background-position: 0 0;
+  background-image: linear-gradient(to bottom, rgba(0,0,0,.2), rgba(0,0,0,0)), url("/img/homepage-bg@2x.jpg") ;
+  background-color: rgba(1, 107, 130, 1);
+  background-size: cover;
 }
 
 html:not(.docs-wrapper) main {
