@@ -4,8 +4,19 @@
  * work well for content-centric websites.
  */
 
+@font-face {
+  font-family: "Rubik";
+  font-weight: normal;
+  src: url("/fonts/Rubik-VariableFont_wght.woff2");
+  font-display: swap;
+}
+
 /* You can override the default Infima variables here. */
 :root {
+  /* Typography */
+  --ifm-heading-font-family: 'Rubik', sans-serif;
+  --ifm-heading-font-weight: bold;
+
   --ifm-color-primary: #0098bb;
   --ifm-color-primary-dark: #0089a8;
   --ifm-color-primary-darker: #00819f;
@@ -29,6 +40,10 @@
   --ifm-color-primary-lighter: #00afd7;
   --ifm-color-primary-lightest: #00c6f3;
   --docusaurus-highlighted-code-line-bg: rgba(0, 0, 0, 0.3);
+}
+
+html, body {
+  font-family: 'Rubik', sans-serif;
 }
 
 /**
