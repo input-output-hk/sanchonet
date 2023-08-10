@@ -1,6 +1,6 @@
-# Sanchonet website
+# SanchoNet website
 
-The Sanchonet website serves as your all-inclusive resource for getting started on Sanchonet, Cardano's CIP-1694 testnet.
+The SanchoNet website serves as your all-inclusive resource for getting started on SanchoNet, Cardano's CIP-1694 testnet.
 
 For more details, please visit the [website](https://sanchonet.network).
 
