@@ -1,4 +1,4 @@
 position: 2 # float position is supported
-label: 'Why SanchoNet?'
+label: 'Why Sanchonet?'
 collapsible: true # make the category collapsible
 collapsed: false # keep the category open by default
