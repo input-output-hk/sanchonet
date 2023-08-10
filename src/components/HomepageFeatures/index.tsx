@@ -3,6 +3,10 @@ import clsx from "clsx";
 import styles from "./styles.module.css";
 import Link from '@docusaurus/Link';
 
+// Images
+import boat from "@site/static/img/boat.png";
+import { Cta } from "../Cta";
+
 
 type FeatureItem = {
   title: string;
@@ -73,9 +77,9 @@ function Feature({ title, src, description, href, cta }: FeatureItem) {
       <h3 className={styles.feature__heading}>{title}</h3>
       <p className={styles.feature__copy}>{description}</p>
       {href && cta ? (
-        <Link className={styles.feature__cta} href={href}>
+        <Cta appearance="secondary" href={href}>
           {cta}
-        </Link>
+        </Cta>
       ) : null}
     </div>
   );
@@ -88,6 +92,7 @@ export default function HomepageFeatures(): JSX.Element {
         {FeatureList.map((props, idx) => (
           <Feature key={idx} {...props} />
         ))}
+        <img className={styles.boat} src={boat} alt="Boat" />
       </section>
     </div>
   );

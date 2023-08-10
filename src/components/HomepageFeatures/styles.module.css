@@ -1,4 +1,5 @@
 .features {
+  position: relative;
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 50px;
@@ -41,4 +42,11 @@
 }
 .feature__cta {
   color: var(--theme-color-cta);
+}
+
+.boat {
+  position: absolute;
+  top: 100%;
+  transform: translateY(-33.33%);
+  right: 70px;
 }

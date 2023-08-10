@@ -7,6 +7,7 @@ import HomepageFeatures from "@site/src/components/HomepageFeatures";
 import { useScroll, useTransform } from "framer-motion";
 
 import styles from "./index.module.css";
+import { Cta } from "../components/Cta";
 
 function HomepageHeader() {
   const { siteConfig } = useDocusaurusContext();
@@ -16,12 +17,12 @@ function HomepageHeader() {
         <h1 className="hero__title">{siteConfig.title}</h1>
         <p className="hero__subtitle">{siteConfig.tagline}</p>
         <div className={styles.buttons}>
-          <Link
-            className="button button--secondary button--lg"
-            to="/get-started"
+          <Cta
+            size="large"
+            href="/get-started"
           >
             Get Started
-          </Link>
+          </Cta>
         </div>
       </div>
     </header>
