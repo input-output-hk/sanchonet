@@ -80,7 +80,7 @@ html:not(.docs-wrapper) .footer--dark {
 }
 
 html:not(.docs-wrapper) body {
-  background-image: url("/img/homepage-bg@2x.jpg");
+  background-image: url("/img/homepage-bg.jpg");
   background-color: rgba(1, 107, 130, 1);
   background-size: cover;
 }

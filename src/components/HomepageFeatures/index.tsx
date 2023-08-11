@@ -11,7 +11,6 @@ import CCMap from "@site/static/img/cc-map.svg";
 import ChestOfMoney from "@site/static/img/chest-of-money.svg";
 
 // trail
-import TrailTop from "@site/static/img/trail/top.svg"
 import TrailLeft from "@site/static/img/trail/left.svg"
 import TrailRight from "@site/static/img/trail/right.svg"
 import TrailBottom from "@site/static/img/trail/bottom.svg"
@@ -105,7 +104,6 @@ export default function HomepageFeatures(): JSX.Element {
         {FeatureList.map((props, idx) => (
           <Feature key={idx} {...props} />
         ))}
-        <TrailTop className={clsx(styles.trail, styles['trail--top'])} />
         <TrailLeft className={clsx(styles.trail, styles['trail--left'])} />
         <TrailRight className={clsx(styles.trail, styles['trail--right'])} />
         <TrailBottom className={clsx(styles.trail, styles['trail--bottom'])} />
