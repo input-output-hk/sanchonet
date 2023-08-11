@@ -35,7 +35,10 @@ const config = {
   },
 
   customFields: {
-    recaptchaSiteKey: "6LeyQzUnAAAAAG6qu-UkP4BiPJSPUWIBGlQ1Iyin"
+    recaptchaSiteKey: "6LeyQzUnAAAAAG6qu-UkP4BiPJSPUWIBGlQ1Iyin",
+    posthogApiKey: "phc_XY1j74GGqQNdmlHajONrQECRB0tArPCgkxJZmJeWcKI",
+    posthogApiHost: "https://eu.posthog.com",
+    posthogProjectId: 7986
   },
 
   scripts: [
