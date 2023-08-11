@@ -48,7 +48,7 @@ export default function Home(): JSX.Element {
   }, []);
 
   return (
-    <Layout description={siteConfig.tagline}>
+    <Layout description={siteConfig.tagline} wrapperClassName="__homepage__">
       <HomepageHeader />
       <main>
         <HomepageFeatures />
