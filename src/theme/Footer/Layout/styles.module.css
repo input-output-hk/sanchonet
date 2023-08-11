@@ -4,11 +4,14 @@
     flex-wrap: wrap;
 }
 .footer__logo-container,
+
 .footer__links-container {
     width: 50%;
     margin-bottom: 60px;
-    @media screen and (max-width: 996px) {
-        flex-basis: 300px;
-    }
 }
 
+@media screen and (max-width: 996px) {
+    .footer__links-container {
+       flex-basis: 300px;
+    }
+}
