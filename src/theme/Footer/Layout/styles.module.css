@@ -6,6 +6,9 @@
 .footer__logo-container,
 .footer__links-container {
     width: 50%;
-    flex-basis: 300px;
     margin-bottom: 60px;
+    @media screen and (max-width: 996px) {
+        flex-basis: 300px;
+    }
 }
+

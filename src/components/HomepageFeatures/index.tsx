@@ -5,10 +5,10 @@ import Link from '@docusaurus/Link';
 
 // Images
 import boat from "@site/static/img/boat.png";
-import spoPirate from "@site/static/img/spo-pirate.svg";
-import drepPirate from "@site/static/img/drep-pirate.svg";
-import book from "@site/static/img/constitution-book.svg";
-import shovel from "@site/static/img/develop-shovel.svg";
+import SpoHatImage from "@site/static/img/spo-hat.svg";
+import DrepSkull from "@site/static/img/drep-sab.svg";
+import CCMap from "@site/static/img/cc-map.svg";
+import ChestOfMoney from "@site/static/img/chest-of-money.svg";
 
 // trail
 import TrailTop from "@site/static/img/trail/top.svg"
@@ -30,7 +30,7 @@ type FeatureItem = {
 const FeatureList: FeatureItem[] = [
   {
     title: "Become a Sancho SPO",
-    img: spoPirate,
+    img: SpoHatImage,
     description: (
       <>
         SanchoNet SPOs are the life blood of the network. They forge the blocks
@@ -42,7 +42,7 @@ const FeatureList: FeatureItem[] = [
   },
   {
     title: "Become a Sancho DRep",
-    img: drepPirate,
+    img: DrepSkull,
     description: (
       <>
         SanchoNet provides liquid democracy to get high voter turnout. DReps are
@@ -55,7 +55,7 @@ const FeatureList: FeatureItem[] = [
   },
   {
     title: "Uphold the Constitution",
-    img: book,
+    img: CCMap,
     description: (
       <>
         SanchoNet needs principled folks that will abide by and uphold our
@@ -68,7 +68,7 @@ const FeatureList: FeatureItem[] = [
   },
   {
     title: "Develop on SanchoNet",
-    img: shovel,
+    img: ChestOfMoney,
     description: (
       <>
         Calling all developers!!! Do you want to build a cool voting wallet? How
