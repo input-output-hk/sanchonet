@@ -79,21 +79,32 @@ html:not(.docs-wrapper) .footer--dark {
   --ifm-footer-background-color: transparent;
 }
 
+
+
 html:not(.docs-wrapper) body {
   background-image: url("/img/homepage-bg.jpg");
   background-color: rgba(1, 107, 130, 1);
   background-size: cover;
   background-repeat: no-repeat;
 }
+/* Large desktop */
+@media screen and (min-width: 1441px) {
+  html:not(.docs-wrapper) main {
+    background-image: linear-gradient(to bottom, rgba(1, 107, 130, 0), rgba(1, 107, 130, 0) 60%, rgba(1, 107, 130, 1) 90%);
+  }
+  html:not(.docs-wrapper) .footer--dark {
+    --ifm-footer-background-color: rgba(1, 107, 130, 1);
+  }
+}
+
+/* Mobile */
 @media screen and (max-width: 996px) {
   html:not(.docs-wrapper) body {
     background-image: url("/img/homepage-bg-mobile.jpg");
   }
 }
 
-html:not(.docs-wrapper) main {
-  /* background-image: linear-gradient(to bottom, rgba(1, 107, 130, 0), rgba(1, 107, 130, 1) 90%); */
-}
+
 
 .navbar__logo img {
   height: auto;
