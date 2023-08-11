@@ -1,0 +1,14 @@
+
+.footer__inner {
+    display: flex;
+    flex-wrap: wrap;
+}
+.footer__logo-container,
+.footer__links-container {
+    width: 50%;
+    margin-bottom: 60px;
+    @media screen and (max-width: 996px) {
+        flex-basis: 300px;
+    }
+}
+

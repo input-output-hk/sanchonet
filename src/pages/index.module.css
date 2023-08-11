@@ -4,20 +4,26 @@
  */
 
 .heroBanner {
-  padding: 4rem 0;
-  text-align: center;
+  --ifm-hero-background-color: transparent;
+  --ifm-hero-text-color: #FFF;
+
+  padding: 80px 0;
+  text-align: left;
   position: relative;
   overflow: hidden;
 }
 
+.hero__inner {
+  max-width: 500px;
+}
+
 @media screen and (max-width: 996px) {
   .heroBanner {
-    padding: 2rem;
+    padding: 80px 0;
+    margin-bottom: 300px;
   }
 }
 
 .buttons {
   display: flex;
-  align-items: center;
-  justify-content: center;
 }
