@@ -83,6 +83,12 @@ html:not(.docs-wrapper) body {
   background-image: url("/img/homepage-bg.jpg");
   background-color: rgba(1, 107, 130, 1);
   background-size: cover;
+  background-repeat: no-repeat;
+}
+@media screen and (max-width: 996px) {
+  html:not(.docs-wrapper) body {
+    background-image: url("/img/homepage-bg-mobile.jpg");
+  }
 }
 
 html:not(.docs-wrapper) main {

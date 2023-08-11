@@ -7,7 +7,7 @@
   --ifm-hero-background-color: transparent;
   --ifm-hero-text-color: #FFF;
 
-  padding: 4rem 0;
+  padding: 80px 0;
   text-align: left;
   position: relative;
   overflow: hidden;
@@ -19,7 +19,8 @@
 
 @media screen and (max-width: 996px) {
   .heroBanner {
-    padding: 2rem;
+    padding: 80px 0;
+    margin-bottom: 300px;
   }
 }
 
