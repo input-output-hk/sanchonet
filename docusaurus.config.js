@@ -38,6 +38,14 @@ const config = {
     recaptchaSiteKey: "6LeyQzUnAAAAAG6qu-UkP4BiPJSPUWIBGlQ1Iyin"
   },
 
+  scripts: [
+    {
+      // GDPR
+      src: "https://cmp.osano.com/AzZXI3TYiFWNB5yus/09f536e2-8feb-4b15-8f96-249e7ae491a3/osano.js",
+      async: false
+    }
+  ],
+
   presets: [
     [
       "classic",
@@ -51,7 +59,10 @@ const config = {
           editUrl: "https://github.com/input-output-hk/sanchonet/tree/master/"
         },
         theme: {
-          customCss: require.resolve("./src/css/custom.css")
+          customCss: [
+            require.resolve("./src/css/custom.css"),
+            require.resolve("./src/css/osano.css")
+          ]
         }
       })
     ]
@@ -149,15 +160,15 @@ const config = {
             title: "More",
             items: [
               {
-                label: 'GitHub',
-                href: 'https://github.com/input-output-hk/sanchonet',
+                label: "GitHub",
+                href: "https://github.com/input-output-hk/sanchonet"
               },
               {
-                label: 'Disclaimer',
-                to: '/disclaimer',
-              },
-            ],
-          },
+                label: "Disclaimer",
+                to: "/disclaimer"
+              }
+            ]
+          }
         ],
         copyright: `© ${new Date().getFullYear()} Input Output Global, Inc. All Rights Reserved.`
       },
