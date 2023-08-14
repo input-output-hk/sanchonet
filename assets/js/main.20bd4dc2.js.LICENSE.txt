@@ -26,6 +26,16 @@ object-assign
  * @public
  */
 
+/**
+ * uuidv7: An experimental implementation of the proposed UUID Version 7
+ *
+ * @license Apache-2.0
+ * @copyright 2021-2023 LiosK
+ * @packageDocumentation
+ *
+ * from https://github.com/LiosK/uuidv7/blob/e501462ea3d23241de13192ceae726956f9b3b7d/src/index.ts
+ */
+
 /** @license React v0.20.2
  * scheduler.production.min.js
  *
