@@ -131,6 +131,20 @@ body[data-homepage] .navbar__inner {
   height: auto;
   vertical-align: middle;
 }
+
+.navbar__toggle {
+  position: absolute;
+  top: 50%;
+  right: var(--ifm-global-spacing);
+  transform: translateY(-50%);
+}
+
+.navbar-sidebar {
+  left: unset;
+  right: 0;
+  transform: translate3d(100%, 0, 0);
+}
+
 .navbar-sidebar .navbar__logo img {
   width: 180px;
 }
