@@ -52,7 +52,7 @@ const FeatureList: FeatureItem[] = [
     href: '/roles/drep',
     cta: "Learn more"
   },
-  {
+  /*{
     title: "Uphold the Constitution",
     img: CCMap,
     description: (
@@ -64,7 +64,7 @@ const FeatureList: FeatureItem[] = [
     ),
     href: '/roles/cc',
     cta: "Learn more"
-  },
+  },*/
   {
     title: "Develop on SanchoNet",
     img: ChestOfMoney,
