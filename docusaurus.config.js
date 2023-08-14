@@ -148,7 +148,7 @@ const config = {
             items: [
               {
                 label: "Cookie Policy",
-                href: "https://static.iohk.io/gdpr/IOHK-Data-Protection-GDPR-Policy.pdf"
+                href: "https://static.iohk.io/sanchonet/sanchonet-cookie-policy-20230814.pdf"
               },
               {
                 label: "Privacy Policy",
