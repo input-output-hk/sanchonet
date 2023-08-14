@@ -156,6 +156,10 @@ const config = {
               {
                 label: "Privacy Policy",
                 href: "https://static.iohk.io/terms/iog-privacy-policy.pdf"
+              },
+              {
+                label: "Disclaimer",
+                to: "/disclaimer"
               }
             ]
           },
@@ -165,10 +169,6 @@ const config = {
               {
                 label: "GitHub",
                 href: "https://github.com/input-output-hk/sanchonet"
-              },
-              {
-                label: "Disclaimer",
-                to: "/disclaimer"
               }
             ]
           }
