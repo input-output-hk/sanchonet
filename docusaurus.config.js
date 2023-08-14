@@ -153,10 +153,6 @@ const config = {
               {
                 label: "Privacy Policy",
                 href: "https://static.iohk.io/gdpr/IOHK-Data-Protection-GDPR-Policy.pdf"
-              },
-              {
-                label: "Terms and Conditions",
-                href: "https://static.iohk.io/terms/iohktermsandconditions.pdf"
               }
             ]
           },
