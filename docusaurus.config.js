@@ -99,7 +99,7 @@ const config = {
             type: "docSidebar",
             sidebarId: "docsSidebar",
             position: "right",
-            label: "Content"
+            label: "Documentation"
           },
           {
             to: "about",
@@ -150,12 +150,12 @@ const config = {
             title: "Legal",
             items: [
               {
-                label: "Privacy Policy",
-                href: "https://static.iohk.io/gdpr/IOHK-Data-Protection-GDPR-Policy.pdf"
+                label: "Cookie Policy",
+                href: "https://static.iohk.io/sanchonet/sanchonet-cookie-policy-20230814.pdf"
               },
               {
-                label: "Terms and Conditions",
-                href: "https://static.iohk.io/terms/iohktermsandconditions.pdf"
+                label: "Privacy Policy",
+                href: "https://static.iohk.io/terms/iog-privacy-policy.pdf"
               }
             ]
           },

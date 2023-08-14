@@ -3,6 +3,10 @@
     display: flex;
     flex-wrap: wrap;
 }
+
+.footer__inner :global .footer__link-item {
+    white-space: nowrap;
+}
 .footer__logo-container,
 
 .footer__links-container {
