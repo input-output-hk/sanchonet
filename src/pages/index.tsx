@@ -8,6 +8,7 @@ import { useScroll, useTransform } from "framer-motion";
 
 import styles from "./index.module.css";
 import { Cta } from "../components/Cta";
+import Head from "@docusaurus/Head";
 
 function HomepageHeader() {
   const { siteConfig } = useDocusaurusContext();
@@ -48,7 +49,9 @@ export default function Home(): JSX.Element {
   }, []);
 
   return (
-    <Layout description={siteConfig.tagline} wrapperClassName="__homepage__">
+    <Layout description={siteConfig.tagline}>
+      {/* Add "hompage" signal the <body> tag */}
+      <Head bodyAttributes={{'data-homepage': true}} >{null}</Head>
       <HomepageHeader />
       <main>
         <HomepageFeatures />
