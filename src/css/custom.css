@@ -134,6 +134,7 @@ html:not(:has(.__homepage__)):not([data-theme="dark"]) .navbar__logo img {
   display: none;
 }
 
+
 .footer__copyright {
   font-size: 10px;
   line-height: 1.4;

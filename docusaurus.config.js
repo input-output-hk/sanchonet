@@ -96,7 +96,7 @@ const config = {
             type: "docSidebar",
             sidebarId: "docsSidebar",
             position: "right",
-            label: "Content"
+            label: "Documentation"
           },
           {
             to: "about",
@@ -146,6 +146,10 @@ const config = {
           {
             title: "Legal",
             items: [
+              {
+                label: "Cookie Policy",
+                href: "https://static.iohk.io/gdpr/IOHK-Data-Protection-GDPR-Policy.pdf"
+              },
               {
                 label: "Privacy Policy",
                 href: "https://static.iohk.io/gdpr/IOHK-Data-Protection-GDPR-Policy.pdf"
