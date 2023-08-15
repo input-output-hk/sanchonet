@@ -1,22 +1,20 @@
 import React, { ComponentType } from "react";
 import clsx from "clsx";
 import styles from "./styles.module.css";
-import Link from '@docusaurus/Link';
 
 // Images
 import boat from "@site/static/img/boat.png";
 import SpoHatImage from "@site/static/img/spo-hat.svg";
 import DrepSkull from "@site/static/img/drep-sab.svg";
-import CCMap from "@site/static/img/cc-map.svg";
+// import CCMap from "@site/static/img/cc-map.svg";
 import ChestOfMoney from "@site/static/img/chest-of-money.svg";
 
 // trail
-import TrailLeft from "@site/static/img/trail/left.svg"
-import TrailRight from "@site/static/img/trail/right.svg"
-import TrailBottom from "@site/static/img/trail/bottom.svg"
+import TrailLeft from "@site/static/img/trail/left.svg";
+import TrailRight from "@site/static/img/trail/right.svg";
+import TrailBottom from "@site/static/img/trail/bottom.svg";
 
 import { Cta } from "../Cta";
-
 
 type FeatureItem = {
   title: string;
@@ -36,7 +34,7 @@ const FeatureList: FeatureItem[] = [
         for all other members. Learn more about becoming a Sancho SPO today!
       </>
     ),
-    href: '/roles/spo',
+    href: "/roles/spo",
     cta: "Learn more"
   },
   {
@@ -49,7 +47,7 @@ const FeatureList: FeatureItem[] = [
         of the participants. Become a Sancho DRep today!
       </>
     ),
-    href: '/roles/drep',
+    href: "/roles/drep",
     cta: "Learn more"
   },
   /*{
@@ -75,24 +73,36 @@ const FeatureList: FeatureItem[] = [
         Integrating your favorite ideas on SanchoNet today!!!
       </>
     ),
-    href: '/roles/dev',
+    href: "/roles/dev",
     cta: "Learn more"
   }
 ];
 
-function Feature({ title, img: Image, description, href, cta }: FeatureItem) {
+function Feature({
+  title,
+  img: Image,
+  description,
+  href,
+  cta
+}: FeatureItem) {
   return (
     <div className={styles.feature}>
-      <div className={styles['feature__img-container']}>
-      {typeof Image === "string" ? <img src={Image} className={styles.feature__img} /> : <Image />}
+      <div className={styles["feature__img-container"]}>
+        {typeof Image === "string" ? (
+          <img src={Image} className={styles.feature__img} />
+        ) : (
+          <Image />
+        )}
       </div>
-      <h2 className={styles.feature__heading}>{title}</h2>
-      <p className={styles.feature__copy}>{description}</p>
-      {href && cta ? (
-        <Cta appearance="secondary" href={href}>
-          {cta}
-        </Cta>
-      ) : null}
+      <div className={styles["feature__text-container"]}>
+        <h2 className={styles.feature__heading}>{title}</h2>
+        <p className={styles.feature__copy}>{description}</p>
+        {href && cta ? (
+          <Cta appearance="secondary" href={href}>
+            {cta}
+          </Cta>
+        ) : null}
+      </div>
     </div>
   );
 }
@@ -104,9 +114,9 @@ export default function HomepageFeatures(): JSX.Element {
         {FeatureList.map((props, idx) => (
           <Feature key={idx} {...props} />
         ))}
-        <TrailLeft className={clsx(styles.trail, styles['trail--left'])} />
-        <TrailRight className={clsx(styles.trail, styles['trail--right'])} />
-        <TrailBottom className={clsx(styles.trail, styles['trail--bottom'])} />
+        <TrailLeft className={clsx(styles.trail, styles["trail--left"])} />
+        <TrailRight className={clsx(styles.trail, styles["trail--right"])} />
+        <TrailBottom className={clsx(styles.trail, styles["trail--bottom"])} />
         <img className={styles.boat} src={boat} alt="Boat" />
       </section>
     </div>
