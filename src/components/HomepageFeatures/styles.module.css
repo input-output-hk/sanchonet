@@ -1,8 +1,5 @@
 .features {
   position: relative;
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 50px;
   padding: 100px 60px;
   width: 100%;
   background-color: var(--ifm-background-color);
@@ -13,8 +10,6 @@
 
 @media screen and (max-width: 996px) {
   .features {
-    grid-template-columns: 1fr;
-    gap: 25px;
     padding: 50px 10px;
   }
 }
@@ -25,19 +20,37 @@
 }
 
 .feature {
-  text-align: center;
-  max-width: 430px;
+  display: flex;
   margin: 0 auto;
+  margin-bottom: 50px;
+}
+.feature__text-container {
+  max-width: 545px;
+}
+
+@media screen and (min-width: 997px) {
+  .feature:nth-child(2n) {
+    flex-direction: row-reverse;
+  }
+}
+@media screen and (max-width: 996px) {
+  .feature {
+    flex-direction: column;
+    text-align: center;
+    max-width: 430px;
+    margin-bottom: 25px;
+  }
 }
 
 .feature__img-container {
   margin: auto;
   margin-bottom: 30px;
   overflow: hidden;
-  display:flex;
+  display: flex;
   align-items: center;
   justify-content: center;
   height: 175px;
+  flex-shrink: 0;
 }
 .feature__img {
   max-width: 100%;
@@ -68,7 +81,6 @@
     transform: translateY(-16.67%) translateX(-50%);
   }
 }
-
 
 .trail {
   position: absolute;

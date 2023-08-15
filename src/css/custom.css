@@ -87,10 +87,6 @@ body[data-homepage] {
       rgba(1, 107, 130, 1) 90%
     );
   }
-  body[data-homepage] .footer--dark {
-    /* Make footer opaque on large screen */
-    --ifm-footer-background-color: rgba(1, 107, 130, 1);
-  }
 }
 /* Mobile */
 @media screen and (max-width: 996px) {
@@ -170,4 +166,12 @@ body[data-homepage] .footer--dark {
 .footer__copyright {
   font-size: 10px;
   line-height: 1.4;
+}
+
+/* Larger desktop */
+@media screen and (min-width: 1441px) {
+  body[data-homepage] .footer--dark {
+    /* Make footer opaque on large screen */
+    --ifm-footer-background-color: rgba(1, 107, 130, 1);
+  }
 }
