@@ -7,11 +7,14 @@
 .footer__inner :global .footer__link-item {
     white-space: nowrap;
 }
-.footer__logo-container,
+.footer__logo-container {
+    flex-basis: 440px;
+    margin-bottom: 60px;
+    margin-right: auto;
+}
 
 .footer__links-container {
-    width: 50%;
-    margin-bottom: 60px;
+    flex-grow: 1;
 }
 
 @media screen and (max-width: 996px) {
