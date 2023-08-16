@@ -5,7 +5,7 @@ sidebar_position: 5
 slug: /tutorials/create-action
 ---
 
-Currently, during **Phase 1**, only stake pools have the capability to **create** and **vote** on governance actions. Upcoming releases will introduce the ability for any ada holder to submit governance actions. This implies that, at present, the most effective approach to creating governance actions on SanchoNet is to become a [stake pool operator](../roles/spo.mdx). 
+Currently, during **Phase 1**, only stake pools have the capability to **create** and **vote** on governance actions. Upcoming releases will introduce the ability for any ada holder to submit governance actions. This implies that, at present, the most effective approach to creating governance actions on SanchoNet is to become a [stake pool operator](../roles/spo.mdx).
 
 Once you have your pool up and running, the process of creating an action is quite straightforward:
 
@@ -28,7 +28,7 @@ df452c58fdbc203d78188f94d067d63df87891d9dba43f32b953b8ea5a959a69  constitution.t
 ```
 
 * The Cardano CLI may eventually offer a feature for hashing action files.
-  
+
 3. Create the action file:
 
 ```
@@ -76,18 +76,20 @@ cardano-cli transaction submit \
   --tx-file tx.signed
 ```
 
-**You have now submitted a constitution update governance action!** 
+**You have now submitted a constitution update governance action!**
 
-8. Next, you will require the action ID to share it with others on **Discord** and seek their support for your action. For now, the simplest method to obtain it is by querying the balance again. The earlier generated UTXO and index serve as the action ID:
+8. Next, you will require the action ID to share it with others on **Discord**[^1] and seek their support for your action. For now, the simplest method to obtain it is by querying the balance again. The earlier generated UTXO and index serve as the action ID:
 
 ```
 cardano-cli query utxo --address $(cat payment.addr) --testnet-magic 4 --out-file /dev/stdout | jq -r 'keys[0]'
 ```
 
-You should get something like this: 
+You should get something like this:
 
 ```
 64e7cad9b3ece7451c5b12043bdcdaa3c563392fa97eb9f2cec02fe821dffa54#0
 ```
 
-See the [Voting tutorial](./vote-actions.mdx) to find out how to vote on governance actions.  
+See the [Voting tutorial](./vote-actions.mdx) to find out how to vote on governance actions.
+
+[^1]: Discord is only being used temporarily. A future voting proposal discussion platform will be provided at a later date.
