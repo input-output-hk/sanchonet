@@ -16,28 +16,28 @@ Before you start, ensure that you are familiar with:
 2. Created keys and addresses: [see the tutorial](keys-and-address.mdx)
 3. Requested funds from the faucet: [see the tutorial](faucet.mdx)
 
-### Setup a relay node
+### Set up a relay node
 
-Setting up a stake pool on SanchoNet involves configuring a Block Producer node and at least one Relay node. The Relay node plays a crucial
-role in propagating the blocks forged by your Block Producer node, as well as fetching blocks from other stake pools and serving them to your Block Producer. In this structure, 
-the Block Producer communicates solely with your Relay node, which in turn interfaces with the rest of the network. This ensures a streamlined communication process and helps to secure your Block Producer. 
-The typical configuration of your stake pool should resemble the following:
+Setting up a stake pool on SanchoNet involves configuring a block producer node and at least one relay node. The relay node plays a crucial
+role in propagating the blocks forged by your block-producing node, as well as fetching blocks from other stake pools and serving them to your block producer. In this structure, 
+the block producer communicates solely with your relay node, which in turn interfaces with the rest of the network. This ensures a streamlined communication process and helps to secure your block producer. 
+
+The typical configuration of the stake pool should resemble the following:
 
 ![diagram](@site/static/img/bpandrelay.png)
 
+To set up your relay node, carry out the following steps:
 
-To set up your Relay node, you will need to carry out the following steps:
+1. **Install the Cardano node and the Cardano CLI** on your relay node. 
 
-1. **Install the Cardano-node and Cardano-cli** on your Relay node. 
+2. **Configure the firewall for incoming connections**: set up the firewall to accept incoming connections on the 
+specific port that you'll be using for the Cardano node. This allows other nodes, including your block producer, to communicate with your relay.
 
-2. **Configure the Firewall for Incoming Connections**: Set up the firewall to accept incoming connections on the 
-specific port that you'll be using for the Cardano-node. This allows other nodes, including your block producer, to communicate with your Relay.
+3. **Configure the firewall for outgoing connections**: enable the firewall to allow outgoing connections. This configuration ensures 
+that your relay node can contact other relay nodes in the network as well as your block producer node. 
 
-3. **Configure the Firewall for Outgoing Connections**: Enable the firewall to allow outgoing connections. This configuration ensures 
-that your Relay node can contact other Relay nodes in the network as well as your Block Producer node. 
-
-4. **Run the Node with P2P Topology**: Start your node using the P2P topology setting. Replace **"address":"z.z.z.z"** and **"port":3000** with the actual IP address 
-and port of your Block Producer node. This step ensures that your Relay node will always maintain a connection with your Block Producer node.
+4. **Run the node with P2P topology**: start your node using the P2P topology setting. Replace **"address":"z.z.z.z"** and **"port":3000** with the actual IP address 
+and the port of your block producer node. This step ensures that your relay node will always maintain a connection with your block producer node.
 
 ```
 {
@@ -69,19 +69,19 @@ and port of your Block Producer node. This step ensures that your Relay node wil
 ```
 
 
-### Setup a block producer 
+### Set up a block producer 
 
-Setting up your Block Producer involves similar steps, but there are a few differences on the configuration: 
+Setting up your block producer involves similar steps, but there are a few differences in the configuration: 
 
-1. **Install the Cardano-node and Cardano-cli** on your Block Producer node. 
+1. **Install the Cardano node and the Cardano CLI** on your block producer node. 
 
-2. **Configure the Firewall for Incoming Connections**: Set up the firewall to accept incoming connections **only from your Relay node** on the 
-specific port that you'll be using for the Cardano-node. This ensures that only your Relay node can communicate with your Block Producer
+2. **Configure the firewall for incoming connections**: set up the firewall to accept incoming connections **only from your relay node** on the 
+specific port that you'll be using for the Cardano node. This ensures that only your relay node can communicate with your block producer.
 
-3. **Configure the Firewall for Outgoing Connections**: Enable the firewall to allow outgoing connections, preferably, **only to your own Relay's IP and port**. 
+3. **Configure the firewall for outgoing connections**: enable the firewall to allow outgoing connections, preferably, **only to your own relay's IP and port**. 
 
-4. **Run the Node with P2P Topology**: Start your node using the P2P topology configuration. This time, replace **"address":"x.x.x.x"** and **"port":3000** with the actual IP address 
-and port of your **own Relay node**. Note that the Block Producer does not connect to `sanchonet-node.world.dev.cardano.org`and we avoid using ledger peers by setting `"useLedgerAfterSlot¨`to `-1`
+4. **Run the node with P2P topology**: start your node using the P2P topology configuration. This time, replace **"address":"x.x.x.x"** and **"port":3000** with the actual IP address 
+and the port of your **own relay node**. Note that the block producer does not connect to `sanchonet-node.world.dev.cardano.org` and we avoid using ledger peers by setting `"useLedgerAfterSlot¨`to `-1`
 
 ```
 {
