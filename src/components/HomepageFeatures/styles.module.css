@@ -21,6 +21,7 @@
 
 .feature {
   display: flex;
+  align-items: center;
   margin: 0 auto;
   margin-bottom: 50px;
 }
@@ -49,7 +50,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  height: 175px;
+  height: 235px;
   flex-shrink: 0;
 }
 .feature__img {

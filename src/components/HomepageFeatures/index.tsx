@@ -3,11 +3,16 @@ import clsx from "clsx";
 import styles from "./styles.module.css";
 
 // Images
+//@ts-ignore
 import boat from "@site/static/img/boat.png";
-import SpoHatImage from "@site/static/img/spo-hat.svg";
-import DrepSkull from "@site/static/img/drep-sab.svg";
+//@ts-ignore
+import spoIcon from "@site/static/img/spo-icon.png";
+//@ts-ignore
+import drepIcon from "@site/static/img/drep-icon.png";
+//@ts-ignore
+import developIcon from "@site/static/img/develop-icon.png";
+
 // import CCMap from "@site/static/img/cc-map.svg";
-import ChestOfMoney from "@site/static/img/chest-of-money.svg";
 
 // trail
 import TrailLeft from "@site/static/img/trail/left.svg";
@@ -18,7 +23,7 @@ import { Cta } from "../Cta";
 
 type FeatureItem = {
   title: string;
-  img: string | ComponentType<any>;
+  img: string | JSX.Element;
   description: JSX.Element | string;
   href?: string;
   cta?: string;
@@ -27,7 +32,7 @@ type FeatureItem = {
 const FeatureList: FeatureItem[] = [
   {
     title: "Become a Sancho SPO",
-    img: SpoHatImage,
+    img: <img src={spoIcon} width={155} height={233} />,
     description: (
       <>
         SanchoNet SPOs are the life blood of the network. They forge the blocks
@@ -39,7 +44,7 @@ const FeatureList: FeatureItem[] = [
   },
   {
     title: "Become a Sancho DRep",
-    img: DrepSkull,
+    img: <img src={drepIcon} width={154} height={213} />,
     description: (
       <>
         SanchoNet provides liquid democracy to get high voter turnout. DReps are
@@ -65,7 +70,7 @@ const FeatureList: FeatureItem[] = [
   },*/
   {
     title: "Develop on SanchoNet",
-    img: ChestOfMoney,
+    img: <img src={developIcon} width={218} height={193} />,
     description: (
       <>
         Calling all developers!!! Do you want to build a cool voting wallet? How
@@ -91,7 +96,7 @@ function Feature({
         {typeof Image === "string" ? (
           <img src={Image} className={styles.feature__img} />
         ) : (
-          <Image />
+          Image
         )}
       </div>
       <div className={styles["feature__text-container"]}>
