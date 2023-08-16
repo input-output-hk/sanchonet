@@ -1,6 +1,6 @@
 # Contributing to SanchoNet
 
-Welcome to SanchoNet, where issues and pull requests are more than welcome! 
+Welcome to SanchoNet, where issues and pull requests are more than welcome!
 
 For straightforward issues, such as typo corrections, we encourage you to make a pull request with the necessary fix, rather than opening an issue requesting someone else to address it.
 
@@ -17,6 +17,10 @@ Follow these steps to submit your contribution:
 3. A single review is sufficient for merging your pull request
 4. The website will auto-deploy after the merge.
 
+## Pull request review process
+
+PRs will be reviewed to ensure they do not violate the code of conduct. Reviews will be completed in a timely manner on a best effort basis.
+
 ## Resources
 
-[CODE OF CONDUCT](https://github.com/input-output-hk/sanchonet/blob/master/CODE_OF_CONDUCT.md) 
+[CODE OF CONDUCT](https://github.com/input-output-hk/sanchonet/blob/master/CODE_OF_CONDUCT.md)
