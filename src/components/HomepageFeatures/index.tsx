@@ -35,7 +35,7 @@ const FeatureList: FeatureItem[] = [
     img: <img src={spoIcon} width={155} height={233} />,
     description: (
       <>
-        SanchoNet SPOs are the life blood of the network. They forge the blocks
+        SanchoNet SPOs are the lifeblood of the network. They forge the blocks
         for all other members. Learn more about becoming a Sancho SPO today!
       </>
     ),
@@ -47,22 +47,22 @@ const FeatureList: FeatureItem[] = [
     img: <img src={drepIcon} width={154} height={213} />,
     description: (
       <>
-        SanchoNet provides liquid democracy to get high voter turnout. DReps are
-        the governing body that are elected directly through delegation of stake
-        of the participants. Become a Sancho DRep today!
+        SanchoNet provides liquid democracy to get a high voter turnout. A DRep is
+        the governing body elected directly through the participants' stake delegation.
+        Become a Sancho DRep today!
       </>
     ),
     href: "/roles/drep",
     cta: "Learn more"
   },
   /*{
-    title: "Uphold the Constitution",
+    title: "Uphold the constitution",
     img: CCMap,
     description: (
       <>
-        SanchoNet needs principled folks that will abide by and uphold our
+        SanchoNet needs principled folks that will abide by and uphold the
         constitution. Help blaze the trail for blockchain governance by becoming
-        a Constitutional Committee Member!
+        a constitutional committee member!
       </>
     ),
     href: '/roles/cc',
@@ -73,9 +73,9 @@ const FeatureList: FeatureItem[] = [
     img: <img src={developIcon} width={218} height={193} />,
     description: (
       <>
-        Calling all developers!!! Do you want to build a cool voting wallet? How
-        about a proposal explorer? Well, have we got a job for you! Start
-        Integrating your favorite ideas on SanchoNet today!!!
+        Calling all developers! Do you want to build a cool voting wallet? How
+        about a proposal explorer? Well, there is a job for you. Start
+        integrating your favorite ideas on SanchoNet today!
       </>
     ),
     href: "/roles/dev",
