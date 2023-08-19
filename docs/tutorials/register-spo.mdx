@@ -125,7 +125,6 @@ export CARDANO_NODE_SOCKET_PATH=~/node.socket
 
 ```
 cardano-cli stake-address registration-certificate \
---conway-era \
 --stake-verification-key-file stake.vkey \
 --key-reg-deposit-amt 2000000 \
 --out-file registration.cert
@@ -259,13 +258,23 @@ cardano-cli transaction submit \
 ```
 cardano-cli stake-pool id \
 --cold-verification-key-file cold.vkey \
---output-format bech32
+--output-format bech32 \
 --out-file pool.id
 ```
-12. Request a stake delegation from the [faucet](/faucet). Note that although the delegation will ocurr immediately, you will need two more epochs 
-for your Block producer to start creating blocks. This due to the stake snashopt mechanism. 
 
-13. Restart your node using your pool credentials:
+12. Generate you operation certificate:
+
+```
+slotsPerKESPeriod=$(cat shelley-genesis.json | jq -r '.slotsPerKESPeriod')
+slotNo=$(cardano-cli query tip --testnet-magic 4 | jq -r '.slot')
+kesPeriod=$((${slotNo} / ${slotsPerKESPeriod}))
+cardano-cli node issue-op-cert --kes-verification-key-file kes.vkey --cold-signing-key-file cold.skey --operational-certificate-issue-counter-file opcert.counter --kes-period ${kesPeriod} --out-file opcert.cert
+```
+
+13. Request a stake delegation from the [faucet](/faucet). Note that although the delegation will ocurr immediately, you will need two more epochs
+for your Block producer to start creating blocks. This due to the stake snashopt mechanism.
+
+14. Restart your node using your pool credentials:
 
 ```
 cardano-node run --topology topology.json \
@@ -278,7 +287,7 @@ cardano-node run --topology topology.json \
 --config config.json
 ```
 
-14. Your stake pool will take part of the stake snapshot on the next epoch boundary. After that, you will be able to query the stake delegated to your pool:
+15. Your stake pool will take part of the stake snapshot on the next epoch boundary. After that, you will be able to query the stake delegated to your pool:
 
 ```
 cardano-cli query stake-snapshot \
@@ -286,7 +295,7 @@ cardano-cli query stake-snapshot \
 --stake-pool-id <pool_id>
 ```
 
-15. After two epochs (2 days in SanchoNet) your stake pool should start producing blocks, the easiest way to verify it is to `grep` your node logs
+16. After two epochs (2 days in SanchoNet) your stake pool should start producing blocks, the easiest way to verify it is to `grep` your node logs
 
 ```
 grep -e TraceForgedBlock
