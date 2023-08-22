@@ -47,7 +47,7 @@ const FeatureList: FeatureItem[] = [
     img: <img src={drepIcon} width={154} height={213} />,
     description: (
       <>
-        SanchoNet provides liquid democracy to get a high voter turnout. A DRep is
+        SanchoNet provides liquid democracy to get a high voter turnout. DReps are
         the governing body elected directly through the participants' stake delegation.
         Become a Sancho DRep today!
       </>
