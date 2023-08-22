@@ -73,9 +73,9 @@ const FeatureList: FeatureItem[] = [
     img: <img src={developIcon} width={218} height={193} />,
     description: (
       <>
-        Calling all developers!!! Do you want to build a cool voting wallet? How
-        about a proposal explorer? Well, have we got a job for you! Start
-        Integrating your favorite ideas on SanchoNet today!!!
+        Calling all developers! Do you want to build a cool voting wallet? How
+        about a proposal explorer? Well, we got a job for you! Start
+        Integrating your favorite ideas on SanchoNet today!
       </>
     ),
     href: "/roles/dev",
