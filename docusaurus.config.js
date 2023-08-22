@@ -9,7 +9,7 @@ const path = require("path");
 const config = {
   title: "SanchoNet",
   tagline:
-    "Govern your own fictitious island of Barataria on this CIP-1694 Cardano Playground",
+    "SanchoNet: building together in the age of Voltaire",
   favicon: "img/favicon.ico",
 
   // Set the production url of your site here
