@@ -9,7 +9,7 @@ const path = require("path");
 const config = {
   title: "SanchoNet",
   tagline:
-    "SanchoNet: building together in the age of Voltaire",
+    "Building together in the age of Voltaire",
   favicon: "img/favicon.ico",
 
   // Set the production url of your site here
