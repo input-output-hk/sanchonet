@@ -51,7 +51,7 @@
 </details>
 
 4. Depending on the voting results:
-    - With a supermajority in favour of a new constitution it is considered ratified and replaces the old constitution at the end of current epoch
+    - With a supermajority in favour of a new constitution it is considered ratified and replaces the old constitution at the end of current epoch. This can be proven by querying the ledger for the constitution hash and comparing with expected from step 1.
     - Without the supermajority, the proposed constitution is dropped and the old constitution remains valid at the end of current epoch
 
 

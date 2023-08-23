@@ -127,3 +127,4 @@ TODO
 - Delegating to No Confidence considers stake as a "Yes" vote for No Confidence action
 - Motion of no-confidence after ratification but before enactment
 - Majority abstain also causes motion of no-confidence
+- Funds are always immediately returned when entering a state of no-confidence and all not yet enacted governance actions are dropped
