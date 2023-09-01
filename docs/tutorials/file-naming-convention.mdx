@@ -5,7 +5,7 @@ sidebar_position: 7
 slug: /tutorials/file-naming-convention
 ---
 
-To align the tutorials, examples and also 3rd-party tooling, you can find a suggested file naming convention/schema related to Conway/Voltair Era in this document.
+To align the tutorials, examples and also 3rd-party tooling, you can find a suggested file naming convention/schema related to Conway/Voltaire Era in this document.
 
 The schemas can be extended with a `*.` prefix if needed, here is an example:
 - Suggested file name: `drep.skey`
@@ -118,14 +118,14 @@ Example content:
 }
 ```
 
-### Delegation Certificate
-`drep-deleg.cert / *.drep-deleg.cert` for the delegation certificate json
+### Vote Delegation Certificate
+`vote-deleg.cert / *.vote-deleg.cert` for the vote delegation certificate json
 
 Example content:
 ```json
 { 
-	"type": "CertificateShelley",
-	"description": "DRep Delegation Certificate",
+	"type": "CertificateConway",
+	"description": "Vote Delegation Certificate",
 	"cborHex": "83098200581cc827e7d1fb57cf12662203612fe1f0bb3578574b16f90f4a78cd355c8200581c44924d8233e23a4eda97ba2ce0a336d6152171e70960396b4903eb8a"
 }
 ```
