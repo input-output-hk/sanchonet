@@ -1,52 +1,91 @@
 ---
-sidebar_label: Create actions
-title: Creating governance actions
-sidebar_position: 5
+sidebar_label: Create governance actions
+title: Create governance actions
+sidebar_position: 8
 slug: /tutorials/create-action
 ---
 
-Currently, during **Phase 1**, only stake pools have the capability to **create** and **vote** on governance actions. Upcoming releases will introduce the ability for any ada holder to submit governance actions. This implies that, at present, the most effective approach to creating governance actions on SanchoNet is to become a [stake pool operator](../roles/spo.mdx).
+* Cardano node and Cardano CLI v.8.3.0-pre bring the ability for **any stake key** to create goveranance actions.
 
-Once you have your pool up and running, the process of creating an action is quite straightforward:
+### Pre-requisites
+
+* Payment key pair
+* Address with funds
+* Stake OR Stake pool key pair
+* A SanchoNet node
+
+### Preparing a new constitution
 
 1. Write a constitution update and save it to a text file:
 
 ```
-echo "We are Cardano and we are going to change the world!" > constitution.txt
+echo 'We are Cardano and we are going to change the world!' > constitution.txt
 ```
 
-2. You can check the hash of the constitution.txt file with:
+2. Upload the `constitution.txt` file to a URL so that everyone can read it, for example, https://shorturl.at/asIJ6.
+
+3. Check the hash of the `constitution.txt` file using (b2sum)[https://man7.org/linux/man-pages/man1/b2sum.1.html]. It is recommended that you download the file from the URL, just in case anything changes during the upload process.
+
+````
+wget https://shorturl.at/asIJ6 -O constitution.txt
+````
 
 ```
 b2sum -l 256 constitution.txt
 ```
 
-You should see:
+This returns the hash and the file name:
 
 ```
-df452c58fdbc203d78188f94d067d63df87891d9dba43f32b953b8ea5a959a69  constitution.txt
+3d2a9d15382c14f5ca260a2f5bfb645fe148bfe10c1d0e1d305b7b1393e2bd97  constitution.txt
 ```
 
-* The Cardano CLI may eventually offer a feature for hashing action files.
+4. Include a justification for the governance action, for example, a document with the necessary reasoning and analysis for the proposed changes: https://shorturl.at/xMS15.
+This document will not remain on-chain but will be captured by db-sync so that voting tools, explorers, wallets, and other tools can display it.
 
-3. Create the action file:
+````
+wget https://shorturl.at/xMS15 -O justification.txt
+````
+````
+b2sum -l 256 justification.txt
+````
+This returns:
+````
+13b0234dab754774e4530a0918d8272491541a8d2f6cf8ab0a10abdaa81f2440  justification.txt
+````
+
+### Creating the governance action file
+
+1. Create the action file:
 
 ```
-cardano-cli governance action create-action create-constitution \
-  --conway-era \
+cardano-cli conway governance action create-constitution \
+  --testnet \
   --governance-action-deposit 1000000 \
-  --cold-verification-key-file cold.vkey \
-  --constitution-file constitution.txt \
+  --stake-verification-key-file stake.vkey \
+  --proposal-url "https://shorturl.at/xMS15" \
+  --anchor-data-hash "13b0234dab754774e4530a0918d8272491541a8d2f6cf8ab0a10abdaa81f2440" \
+  --constitution-url "https://shorturl.at/asIJ6" \
+  --constitution "$(cat constitution.txt)" \
   --out-file constitution.action
 ```
 
-4. If everything went well, you should be able to view the content of the `constitution.action` file:
+2. If everything goes well, you should be able to view the content of the `constitution.action` file:
 
 ```
 cat constitution.action
 ```
+````
+{
+    "type": "Governance proposal",
+    "description": "",
+    "cborHex": "841a000f4240581de0bdc1c6e7b196abefcd5864c71843f481272a6590e3de7749b7931fed8305f68282781968747470733a2f2f73686f727475726c2e61742f6173494a3658203d2a9d15382c14f5ca260a2f5bfb645fe148bfe10c1d0e1d305b7b1393e2bd97f682781968747470733a2f2f73686f727475726c2e61742f784d53313558206f890de0c6e418e6526e2b1aa821850cb87aee94a6d77dc2a2e440116abc8e09"
+}
+````
 
-5. You can now build a transaction with the proposal:
+### Submitting the governance action in a transaction
+
+1. You can now build a transaction with the proposal:
 
 ```
   cardano-cli transaction build --testnet-magic 4 --conway-era \
@@ -57,18 +96,18 @@ cat constitution.action
   --out-file tx.raw
 ```
 
-6. Sign the transaction with your `cold.skey` and a `payment.skey`:
+2. Sign the transaction with your `cold.skey` and a `payment.skey`:
 
 ```
 cardano-cli transaction sign \
   --tx-body-file tx.raw \
-  --signing-key-file cold.skey \
+  --signing-key-file stake.skey \
   --signing-key-file payment.skey \
   --testnet-magic 4 \
   --out-file tx.signed
 ```
 
-7. You can now submit the transaction to the chain:
+3. Submit the transaction to the chain:
 
 ```
 cardano-cli transaction submit \
@@ -78,17 +117,65 @@ cardano-cli transaction submit \
 
 **You have now submitted a constitution update governance action!**
 
-8. Next, you will require the action ID to share it with others on **Discord**[^1] and seek their support for your action. For now, the simplest method to obtain it is by querying the balance again. The earlier generated UTXO and index serve as the action ID:
+### Getting the governance action ID
+
+1. You need the action ID to share it with others on **Discord**[^1] and seek their support for your action. The simplest method to obtain it is by querying the balance again. The transaction ID and index of the transaction that submitted the constitution proposal serve as the action ID. Therefore, the command
 
 ```
 cardano-cli query utxo --address $(cat payment.addr) --testnet-magic 4 --out-file /dev/stdout | jq -r 'keys[0]'
 ```
 
-You should get something like this:
+should provide the UTXO that created the constitution proposal:
 
 ```
-64e7cad9b3ece7451c5b12043bdcdaa3c563392fa97eb9f2cec02fe821dffa54#0
+9ab2df5d8076fed50720b83f5f7051c6019818270e2121817dc65758ae87ce99#0
 ```
+
+2. Sometimes, it might be helpful to query the ledger state to filter actions by a key hash:
+
+````
+keyhash=$(bech32 <<< $(cardano-cli stake-address build --stake-verification-key-file stake1.vkey --testnet-magic 4) | cut -c 3-)
+````
+
+````
+cardano-cli query ledger-state --testnet-magic 42 | jq -r --arg keyhash "$keyhash" '.stateBefore.esLState.utxoState.ppups.gov | to_entries[] | select(.value.returnAddr.credential."key hash" == $keyhash)'
+````
+````
+{
+  "key": "9ab2df5d8076fed50720b83f5f7051c6019818270e2121817dc65758ae87ce99#0",
+  "value": {
+    "committeeVotes": [],
+    "dRepVotes": [],
+    "stakePoolVotes": {},
+    "deposit": 1000000,
+    "returnAddr": {
+      "credential": {
+        "key hash": "754784f0d8555842fb27df356b56b6534f0c58fa62af76836012bfc6"
+      },
+      "network": "Testnet"
+    },
+    "action": {
+      "contents": [
+        null,
+        {
+          "constitutionAnchor": {
+            "dataHash": "3d2a9d15382c14f5ca260a2f5bfb645fe148bfe10c1d0e1d305b7b1393e2bd97",
+            "url": "https://shorturl.at/asIJ6"
+          }
+        }
+      ],
+      "tag": "NewConstitution"
+    },
+    "proposedIn": 2
+  }
+}
+````
+Similarly, to get **only** the key (the action ID) after the query, run:
+````
+cardano-cli query ledger-state --testnet-magic 42 | jq -r --arg keyhash "$keyhash" '.stateBefore.esLState.utxoState.ppups.gov | to_entries[] | select(.value.returnAddr.credential."key hash" == $keyhash) | .key'
+
+9ab2df5d8076fed50720b83f5f7051c6019818270e2121817dc65758ae87ce99#0
+````
 
 See the [Voting tutorial](./vote-actions.mdx) to find out how to vote on governance actions.
 

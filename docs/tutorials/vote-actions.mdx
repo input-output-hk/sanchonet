@@ -1,41 +1,121 @@
 ---
-sidebar_label: Voting 
-title: Voting governance actions
-sidebar_position: 6
+sidebar_label: Voting on actions
+title: Voting on governance actions
+sidebar_position: 9
 slug: /tutorials/vote-action
 ---
 
+### Pre-requisites
+
+* Payment key pair
+* Address with funds
+* DRep OR Stake pool keys
+* A SanchoNet node
+
 To vote on governance actions, follow this process:
 
-1. Obtain the action ID of an ongoing governance action from Discord
+1. Obtain the action ID of an ongoing governance action from Discord or query the ledger
 2. Determine your voting stance; engage in discussion if required
-3. Construct your vote file through the Cardano CLI. The example below demonstrates voting `--yes`, although options for `--no` or `--abstain` are also available. 
+3. Construct your vote file through the Cardano CLI. The example below demonstrates voting `--yes`, although options for `--no` or `--abstain` are also available.
 
-Create your vote file, note that `--tx-in` refers to the action ID:
+### Verify the content of the governance action
+
+Assume that we have been given the action ID `8a02dfbd297afbcb32e72fa94117f3e255100c1cb5c083e84e1c977ed5aca0da#0` for a new constitution proposal.
+
+1. Obtain the URL and hash of the new constitution proposal from the ledger state:
+
+````
+cardano-cli query ledger-state --testnet-magic 4 | \
+jq -r --arg key_to_match "8a02dfbd297afbcb32e72fa94117f3e255100c1cb5c083e84e1c977ed5aca0da#0" \
+'.stateBefore.esLState.utxoState.ppups.gov | select(.[$key_to_match] != null) | {($key_to_match): .[$key_to_match]}'
+````
+````
+{
+  "8a02dfbd297afbcb32e72fa94117f3e255100c1cb5c083e84e1c977ed5aca0da#0": {
+    "committeeVotes": [],
+    "dRepVotes": [],
+    "stakePoolVotes": {},
+    "deposit": 1000000,
+    "returnAddr": {
+      "credential": {
+        "key hash": "51330288da94527431d242993fa1f73ec4043549a073e1cfba9db3bf"
+      },
+      "network": "Testnet"
+    },
+    "action": {
+      "contents": [
+        null,
+        {
+          "constitutionAnchor": {
+            "dataHash": "3d2a9d15382c14f5ca260a2f5bfb645fe148bfe10c1d0e1d305b7b1393e2bd97",
+            "url": "https://shorturl.at/asIJ6"
+          }
+        }
+      ],
+      "tag": "NewConstitution"
+    },
+    "proposedIn": 1
+  }
+}
+````
+2. Download the file from the URL registered on the ledger state:
+
+````
+wget https://shorturl.at/asIJ6 -O constitution.txt
+````
+
+3. Verify that the hash of the file matches the `dataHash`from the ledger state:
+
+````
+b2sum -l 256 constitution.txt
+3d2a9d15382c14f5ca260a2f5bfb645fe148bfe10c1d0e1d305b7b1393e2bd97  constitution.txt
+````
+
+**Everything is in order; the text at the URL matches the dataHash, confirming that the text at the URL is precisely what we are voting for.**
+
+In the future, voting apps, explorers, wallets, and other tools could perform the filtering, ensuring that they only display actions whose URL content has been verified against the hash on the ledger state.
+
+### Create the vote file
+
+1. Vote with DRep keys
 
 ```
-cardano-cli governance vote create-vote \
+cardano-cli conway governance vote create \
     --yes \
-    --spo \
-    --tx-in "64e7cad9b3ece7451c5b12043bdcdaa3c563392fa97eb9f2cec02fe821dffa54#0" \
-    --cold-verification-key-file cold.vkey \
-    --conway-era \
-    --out-file 64e7cad9b3ece7451c5b12043bdcdaa3c563392fa97eb9f2cec02fe821dffa54.vote
+    --governance-action-tx-id "8a02dfbd297afbcb32e72fa94117f3e255100c1cb5c083e84e1c977ed5aca0da" \
+    --governance-action-index "0" \
+    --drep-verification-key-file drep.vkey \
+    --out-file 8a02dfbd297afbcb32e72fa94117f3e255100c1cb5c083e84e1c977ed5aca0da-constitution.vote
 ```
 
-Include it in a transaction:
+OR
+
+2. Vote with SPO keys
+
+```
+cardano-cli conway governance vote create \
+    --yes \
+    --governance-action-tx-id "8a02dfbd297afbcb32e72fa94117f3e255100c1cb5c083e84e1c977ed5aca0da" \
+    --governance-action-index "0" \
+    --cold-verification-key-file cold.vkey \
+    --out-file 8a02dfbd297afbcb32e72fa94117f3e255100c1cb5c083e84e1c977ed5aca0da-constitution.vote
+```
+
+### Include the vote in a transaction:
+
+1. Build, sign, and submit the transaction:
 
 ```
 cardano-cli transaction build --testnet-magic 4 --conway-era \
     --tx-in "$(cardano-cli query utxo --address $(cat payment.addr) --testnet-magic 4 --out-file /dev/stdout | jq -r 'keys[0]')" \
     --change-address $(cat payment.addr) \
-    --vote-file 64e7cad9b3ece7451c5b12043bdcdaa3c563392fa97eb9f2cec02fe821dffa54.vote \
+    --vote-file 8a02dfbd297afbcb32e72fa94117f3e255100c1cb5c083e84e1c977ed5aca0da-constitution.vote \
     --witness-override 2 \
     --out-file vote-tx.raw
 ```
 ```
 cardano-cli transaction sign --tx-body-file vote-tx.raw \
-    --signing-key-file cold.skey \
+    --signing-key-file drep.skey \
     --signing-key-file payment.skey \
     --testnet-magic 4 \
     --out-file vote-tx.signed
