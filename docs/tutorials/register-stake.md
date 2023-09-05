@@ -5,7 +5,8 @@ sidebar_position: 4
 slug: /tutorials/register-stake-address
 ---
 
-To take part on the protocol we need to submit a stake address registration certificate.
+To take part on the SanchoNet consensus protocol, we need to submit a stake address registration certificate to the chain. This allows to delegate stake to a SanchoNet stake pool
+and votes to a SanchoNet delegate representative (DRep).
 
 ### Pre-requisites
 
@@ -15,3 +16,48 @@ To take part on the protocol we need to submit a stake address registration cert
 * A SanchoNet node
 
 ### Generate the registration certificate
+
+1. Register the stake address you previously created by generating a registration certificate:
+
+```
+cardano-cli stake-address registration-certificate \
+--stake-verification-key-file stake.vkey \
+--key-reg-deposit-amt 2000000 \
+--out-file registration.cert
+```
+
+### Submit the certificate to the chain
+
+2. Build, sign and submit the transaction.
+
+* **Build** the transaction:
+
+```
+cardano-cli transaction build \
+--conway-era \
+--testnet-magic 4 \
+--witness-override 2 \
+--tx-in $(cardano-cli query utxo --address $(cat payment.addr) --testnet-magic 4 --out-file  /dev/stdout | jq -r 'keys[0]') \
+--change-address $(cat payment.addr) \
+--certificate-file registration.cert \
+--out-file tx.raw
+```
+
+* **Sign** the transaction:
+
+```
+cardano-cli transaction sign \
+--tx-body-file tx.raw \
+--signing-key-file payment.skey \
+--signing-key-file stake.skey \
+--testnet-magic 4 \
+--out-file tx.signed
+```
+
+* **Submit** the transaction:
+
+```
+cardano-cli transaction submit \
+--testnet-magic 4 \
+--tx-file tx.signed
+```
