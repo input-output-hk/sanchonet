@@ -1,12 +1,11 @@
 ---
 sidebar_label: Register a stake pool
-title: Register a stake pool in SanchoNet 
-sidebar_position: 4
+title: Register a stake pool
+sidebar_position: 5
 slug: /tutorials/stake-pool-registration
 ---
 
-**WARNING**: This tutorial is simplified and deliberately excludes secure key handling which is essential for other testnets 
-and mainnet. For a comprehensive tutorial, see the [Cardano course](https://cardano-course.gitbook.io/cardano-course/) where you can access video lessons and a more detailed instruction handbook.
+**WARNING**: This tutorial is simplified and deliberately excludes secure key handling which is essential for other testnets and mainnet. For a comprehensive tutorial, see the [Cardano course](https://cardano-course.gitbook.io/cardano-course/) where you can access video lessons and a more detailed instruction handbook.
 
 ### Prerequisites
 
@@ -14,13 +13,11 @@ Before you start, ensure that you are familiar with:
 
 1. Running a node: [see the tutorial](start-a-node.mdx)
 2. Created keys and addresses: [see the tutorial](keys-and-address.mdx)
-3. Requested funds from the faucet: [see the tutorial](faucet.mdx)
+3. Requested funds from the [faucet:](faucet.mdx)
 
 ### Set up a relay node
 
-Setting up a stake pool on SanchoNet involves configuring a block producer node and at least one relay node. The relay node plays a crucial
-role in propagating the blocks forged by your block-producing node, as well as fetching blocks from other stake pools and serving them to your block producer. In this structure, 
-the block producer communicates solely with your relay node, which in turn interfaces with the rest of the network. This ensures a streamlined communication process and helps to secure your block producer. 
+Setting up a stake pool on SanchoNet involves configuring a block producer node and at least one relay node. The relay node plays a crucial role in propagating the blocks forged by your block-producing node, as well as fetching blocks from other stake pools and serving them to your block producer. In this structure, the block producer communicates solely with your relay node, which in turn interfaces with the rest of the network. This ensures a streamlined communication process and helps to secure your block producer.
 
 The typical configuration of the stake pool should resemble the following:
 
@@ -28,13 +25,11 @@ The typical configuration of the stake pool should resemble the following:
 
 To set up your relay node, carry out the following steps:
 
-1. **Install the Cardano node and the Cardano CLI** on your relay node. 
+1. **Install the Cardano node and the Cardano CLI** on your relay node.
 
-2. **Configure the firewall for incoming connections**: set up the firewall to accept incoming connections on the 
-specific port that you'll be using for the Cardano node. This allows other nodes, including your block producer, to communicate with your relay.
+2. **Configure the firewall for incoming connections**: set up the firewall to accept incoming connections on the specific port that you'll be using for the Cardano node. This allows other nodes, including your block producer, to communicate with your relay.
 
-3. **Configure the firewall for outgoing connections**: enable the firewall to allow outgoing connections. This configuration ensures 
-that your relay node can contact other relay nodes in the network as well as your block producer node. 
+3. **Configure the firewall for outgoing connections**: enable the firewall to allow outgoing connections. This configuration ensures that your relay node can contact other relay nodes in the network as well as your block producer node.
 
 4. **Run the node with P2P topology**: start your node using the P2P topology setting.
 
@@ -63,18 +58,18 @@ that your relay node can contact other relay nodes in the network as well as you
 ```
 
 
-### Set up a block producer 
+### Set up a block producer
 
-Setting up your block producer involves similar steps, but there are a few differences in the configuration: 
+Setting up your block producer involves similar steps, but there are a few differences in the configuration:
 
-1. **Install the Cardano node and the Cardano CLI** on your block producer node. 
+1. **Install the Cardano node and the Cardano CLI** on your block producer node.
 
-2. **Configure the firewall for incoming connections**: set up the firewall to accept incoming connections **only from your relay node** on the 
+2. **Configure the firewall for incoming connections**: set up the firewall to accept incoming connections **only from your relay node** on the
 specific port that you'll be using for the Cardano node. This ensures that only your relay node can communicate with your block producer.
 
-3. **Configure the firewall for outgoing connections**: enable the firewall to allow outgoing connections, preferably, **only to your own relay's IP and port**. 
+3. **Configure the firewall for outgoing connections**: enable the firewall to allow outgoing connections, preferably, **only to your own relay's IP and port**.
 
-4. **Run the node with P2P topology**: start your node using the P2P topology configuration. This time, replace **"address":"x.x.x.x"** and **"port":3000** with the actual IP address 
+4. **Run the node with P2P topology**: start your node using the P2P topology configuration. This time, replace **"address":"x.x.x.x"** and **"port":3000** with the actual IP address
 and the port of your **own relay node**. Note that the block producer does not connect to `sanchonet-node.world.dev.cardano.org` and we avoid using ledger peers by setting `"useLedgerAfterSlot¨`to `-1`
 
 ```
@@ -101,7 +96,7 @@ and the port of your **own relay node**. Note that the block producer does not c
    "useLedgerAfterSlot":-1
 }
 ```
-### Register your stake pool
+### Install jq and set the node socket path
 
 1. Install [jq](https://jqlang.github.io/jq), a tool that will assist in parsing the UTXOs for transactions:
 
@@ -109,11 +104,13 @@ and the port of your **own relay node**. Note that the block producer does not c
 sudo apt-get install jq -y
 ````
 
-2. Set the `CARDANO_NODE_SOCKET_PATH` variable to the path of `node.socket` that you identified when starting the node:  
+2. Set the `CARDANO_NODE_SOCKET_PATH` variable to the path of `node.socket` that you identified when starting the node:
 
 ```
 export CARDANO_NODE_SOCKET_PATH=~/node.socket
 ```
+
+### Register the stake address
 
 3. Register the stake address you previously created by generating a registration certificate:
 
@@ -155,8 +152,10 @@ cardano-cli transaction sign \
 ```
 cardano-cli transaction submit \
 --testnet-magic 4 \
---tx-file tx.signed 
+--tx-file tx.signed
 ```
+
+### Generate keys for the stake pool
 
 5. Generate cold keys and the operational certificate for your pool:
 
@@ -182,6 +181,9 @@ cardano-cli node key-gen-VRF \
 --verification-key-file vrf.vkey \
 --signing-key-file vrf.skey
 ```
+
+
+### Generate the registration and delegation certificates for the pool
 
 8. Create your stake pool registration certificate:
 
@@ -211,7 +213,9 @@ cardano-cli stake-address delegation-certificate \
 --out-file delegation.cert
 ```
 
-10. Submit pool registration and stake delegation certificates:
+### Submit the certificates in a transaction
+
+10. Build, sign and submit the transaction
 
 * Build:
 
@@ -244,7 +248,7 @@ cardano-cli transaction sign \
 ```
 cardano-cli transaction submit \
 --testnet-magic 4 \
---tx-file tx.signed 
+--tx-file tx.signed
 ```
 
 11. Get your pool ID, you will need to get a delegation from the faucet:
@@ -256,7 +260,9 @@ cardano-cli stake-pool id \
 --out-file pool.id
 ```
 
-12. Generate you operation certificate:
+### Starting the node as a block-producer
+
+12. Generate your operational certificate:
 
 ```
 slotsPerKESPeriod=$(cat shelley-genesis.json | jq -r '.slotsPerKESPeriod')
@@ -294,7 +300,3 @@ cardano-cli query stake-snapshot \
 ```
 grep -e TraceForgedBlock
 ```
-
-
-
-
