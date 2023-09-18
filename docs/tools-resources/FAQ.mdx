@@ -41,33 +41,30 @@ This has been done so deposit amounts can be checked on the Ledger level. This i
 
 ### 4. Certificate/Transaction field witnesses and deposits
 
-| Certificate                   | Params                                      | Required Witnesses          | Deposit/Refund                               |
-|------------------------------|---------------------------------------------|-----------------------------|-----------------------------------------------|
-| stake_registration            | (0, stake_credential)                       | None                        | None                                          |
-| stake_deregistration          | (1, stake_credential)                       | stake_credential            | None                                          |
-| stake_delegation              | (2, stake_credential, pool_keyhash)         | stake_credential            | None                                          |
-| Pool Certificates             |                                             |                             |                                               |
-| pool_registration             | (3, pool_params)                            | pool_key                    | None                                          |
-| pool_retirement               | (4, pool_keyhash, epoch)                    | pool_key                    | None                                          |
-| Deleg Certificates            |                                             |                             |                                               |
-| reg_cert                     | (7, stake_credential, coin)                 | None                        | None                                          |
-| keyDeposit                   |                                             |                             | Refund keyDeposit of amount coin             |
-| unreg_cert                   | (8, stake_credential, coin)                 | stake_credential            | Refund keyDeposit of amount coin             |
-| vote_deleg_cert              | (9, stake_credential, drep)                 | stake_credential            | None                                          |
-| stake_vote_deleg_cert        | (10, stake_credential, pool_keyhash, drep)  | stake_credential            | None                                          |
-| stake_reg_deleg_cert         | (11, stake_credential, pool_keyhash, coin)  | stake_credential            | keyDeposit                                    |
-| vote_reg_deleg_cert          | (12, stake_credential, drep, coin)          | stake_credential            | keyDeposit                                    |
-| stake_vote_reg_deleg_cert    | (13, stake_credential, pool_keyhash, drep, coin) | stake_credential      | keyDeposit                                    |
-| Governance Certificates       |                                             |                             |                                               |
-| auth_committee_hot_cert       | (14, committee_cold_credential, committee_hot_credential) | committee_cold_credential | None  |
-| resign_committee_cold_cert   | (15, committee_cold_credential)             | committee_cold_credential | None                                          |
-| reg_drep_cert                | (16, drep_credential, coin, anchor / null)   | None                        | drepDeposit                                   |
-| unreg_drep_cert              | (17, drep_credential, coin)                 | drep_credential             | Refund drepDeposit of amount coin             |
-| update_drep_cert             | (18, drep_credential, anchor / null)        | drep_credential             | None                                          |
-| voting_procedure (not a certificate) |                                       | drep_credential<br/>OR committee_hot_credential<br/>OR stake_pool_keyHash | None       |
-| proposal_procedure (not a certificate) |                                   | coin                        | Deposit is returned at the epoch boundary to the `reward_account` that is specified in the proposal. | Treasury Value |
-| coin                         | None                                        | None                        | None                                          |
-| Treasury Donation            | positive_coin                               | payment_credential          | None                                          |
+| Certificate                            | Params                                                    | Required Witnesses                                                | Deposit/Refund                        |
+| -------------------------------------- | --------------------------------------------------------- | ----------------------------------------------------------------- |-------------------------------------- |
+| stake_registration                     | (0, stake_credential)                                     | None                                                              | None                                  |
+| stake_deregistration                   | (1, stake_credential)                                     | stake_credential                                                  | None                                  |
+| stake_delegation                       | (2, stake_credential, pool_keyhash)                       | stake_credential                                                  | None                                  |
+| pool_registration                      | (3, pool_params)                                          | pool_key                                                          | None                                  |
+| pool_retirement                        | (4, pool_keyhash, epoch)                                  | pool_key                                                          | None                                  |
+| reg_cert                               | (7, stake_credential, coin)                               | None                                                              | Deposit `coin` of amount `keyDeposit` |
+| unreg_cert                             | (8, stake_credential, coin)                               | stake_credential                                                  | Refund `keyDeposit` of amount `coin`  |
+| vote_deleg_cert                        | (9, stake_credential, drep)                               | stake_credential                                                  | None                                  |
+| stake_vote_deleg_cert                  | (10, stake_credential, pool_keyhash, drep)                | stake_credential                                                  | None                                  |
+| stake_reg_deleg_cert                   | (11, stake_credential, pool_keyhash, coin)                | stake_credential                                                  | Deposit `coin` of amount `keyDeposit` |
+| vote_reg_deleg_cert                    | (12, stake_credential, drep, coin)                        | stake_credential                                                  | Deposit `coin` of amount `keyDeposit` |
+| stake_vote_reg_deleg_cert              | (13, stake_credential, pool_keyhash, drep, coin)          | stake_credential                                                  | Deposit `coin` of amount `keyDeposit` |
+| auth_committee_hot_cert                | (14, committee_cold_credential, committee_hot_credential) | committee_cold_credential                                         | None                                  |
+| resign_committee_cold_cert             | (15, committee_cold_credential)                           | committee_cold_credential                                         | None                                  |
+| reg_drep_cert                          | (16, drep_credential, coin, anchor / null)                | None                                                              | drepDeposit                           |
+| unreg_drep_cert                        | (17, drep_credential, coin)                               | drep_credential                                                   | Refund drepDeposit of amount coin     |
+| update_drep_cert                       | (18, drep_credential, anchor / null)                      | drep_credential                                                   | None                                  |
+| voting_procedure (in Tx body)          | voting_procedures = { + voter => { + gov_action_id => voting_procedure } } | drep_credential OR committee_hot_credential OR stake_pool_keyHash | None                                  |
+| proposal_procedure (in Tx body)        | proposal_procedure = [ deposit : coin, reward_account, gov_action, anchor] | coin                                                              | Deposit is returned at the epoch boundary to the `reward_account` that is specified in the proposal. |
+| Current treasury value (in Tx body)    | coin                                                      | payment_credential                                                | None                                  |
+| Treasury Donation (in Tx body)         | positive_coin                                             | payment_credential                                                | None                                  |
+
 
 ### 5. For the proposal policy in regards to a new CC constitution action: Is there a reason why a the script is not inlined to a new constitution proposal?
 
@@ -107,4 +104,3 @@ Donations work more like fees, they get collected in a pot & then moved at the e
 ### 14. How “current treasury value” works? If I set it as incorrect value what will be?
 
 This one is for passing current treasury amount to plutus scripts, if the treasury field is set incorrectly the transaction will be rejected.
-
