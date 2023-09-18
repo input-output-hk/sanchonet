@@ -1,0 +1,4 @@
+position: 7 # float position is supported
+label: 'Conway Ledger Design'
+collapsible: true # make the category collapsible
+collapsed: false # keep the category open by default
