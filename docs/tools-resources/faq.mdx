@@ -69,7 +69,7 @@ This has been done so deposit amounts can be checked on the Ledger level. This i
 ### 5. For the proposal policy in regards to a new CC constitution action: Is there a reason why a the script is not inlined to a new constitution proposal?
 
 Supplying only the script hash, instead of the whole script for the proposal policy in the new constitution proposal allows us to reuse all of the mechanics that we've previously implemented in Babbage. So for example, people can use reference scripts to supply the actual script for the proposal policy when they are proposing various governance actions.
-While if we created another source for scripts this would be more work. I can't really think of what would we gain, if we did decide to go that route that is.
+While if we created another source for scripts this would be more work.
 
 ### 6. For the proposal policy in regards to a new CC constitution action: How will provided a script affect a script integrity hash from tx body? Will I need take into account cost model of provided script?
 
@@ -107,6 +107,6 @@ This one is for passing current treasury amount to plutus scripts, if the treasu
 
 ### 15. how does the CC resignation work (resign_committee_cold_cert)? what happens if all CC resign? does this affect the quorum?
 
-If I remember correctly then resigned and expired constitutional committee members are automatically counted as if they voted Abstain.
+Resigned and expired constitutional committee members are automatically counted as if they voted Abstain.
 
 One more important point is that, whenever a number of active committee members (not expired and not resigned) goes below the committeMinSize protocol parameter then we go into a mode as if all committee members voted No.
