@@ -1,9 +1,9 @@
 ---
-description: Conway Ledger Design"
+description: Conway Ledger Era FAQ"
 sidebar_position: 2
 ---
 
-# FAQ
+# Conway Ledger Era FAQ
 
 **Warning:** due to on-going development some answers may change over time.
 
@@ -104,3 +104,9 @@ Donations work more like fees, they get collected in a pot & then moved at the e
 ### 14. How “current treasury value” works? If I set it as incorrect value what will be?
 
 This one is for passing current treasury amount to plutus scripts, if the treasury field is set incorrectly the transaction will be rejected.
+
+### 15. how does the CC resignation work (resign_committee_cold_cert)? what happens if all CC resign? does this affect the quorum?
+
+If I remember correctly then resigned and expired constitutional committee members are automatically counted as if they voted Abstain.
+
+One more important point is that, whenever a number of active committee members (not expired and not resigned) goes below the committeMinSize protocol parameter then we go into a mode as if all committee members voted No.
