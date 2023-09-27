@@ -88,10 +88,11 @@ cat constitution.action
 1. You can now build a transaction with the proposal:
 
 ```
-  cardano-cli transaction build --testnet-magic 4 --conway-era \
+  cardano-cli conway transaction build \
+  --testnet-magic 4 \
   --tx-in $(cardano-cli query utxo --address $(cat payment.addr) --testnet-magic 4 --out-file /dev/stdout | jq -r 'keys[0]') \
   --change-address $(cat payment.addr) \
-  --constitution-file constitution.action \
+  --proposal-file constitution.action \
   --out-file tx.raw
 ```
 
