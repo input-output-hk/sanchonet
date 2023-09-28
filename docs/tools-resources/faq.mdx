@@ -71,7 +71,7 @@ This has been done so deposit amounts can be checked on the Ledger level. This i
 Supplying only the script hash, instead of the whole script for the proposal policy in the new constitution proposal allows us to reuse all of the mechanics that we've previously implemented in Babbage. So for example, people can use reference scripts to supply the actual script for the proposal policy when they are proposing various governance actions.
 While if we created another source for scripts this would be more work.
 
-### 6. For the proposal policy in regards to a new CC constitution action: How will provided a script affect a script integrity hash from tx body? Will I need take into account cost model of provided script?
+### 6. For the proposal policy in regards to a new CC constitution action: How will the proposal policy  script affect a script integrity hash from tx body? Will I need take into account cost model of provided script?
 
 New Constitution proposal contains a ScriptHash, which is also called proposal policy. Nothing special needs to do there upon a proposal, because that policy is merely getting proposed. It is only when new constitution with a script hash (proposal policy) gets enacted then such constitution will require scripts and redeemers for every governance proposal, except the new_constitution and no_confidence proposals. In which case it will work in a very similar way as all other scripts do.
 
@@ -91,7 +91,7 @@ There are no checks like this on the Ledger level. Neither for SPOs nor for the 
 
 ### 10. Can a DRep deposit be staked when locked?
 
-No, there is no mechanism to do that. Also that is the point of the deposit, you can't use that money 😁.
+No, there is no mechanism to do that. Also that is the point of the deposit, you can't use that money.
 
 ### 11. How do DRep deposits work when no stake credential is provided? where is the deposit returned to?
 
