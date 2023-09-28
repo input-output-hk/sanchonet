@@ -16,8 +16,8 @@ slug: /tutorials/drep-registration
 
 ````
 cardano-cli conway governance drep key-gen \
---verification-key-file drep.vkey drep.vkey \
---signing-key-file drep.skey drep.skey
+--verification-key-file drep.vkey \
+--signing-key-file drep.skey
 ````
 
 ````
@@ -38,7 +38,7 @@ cardano-cli conway governance drep key-gen \
 2. Generate a SanchoNet DRep ID:
 
 ````
-cardano-cli conway governance drep id
+cardano-cli conway governance drep id \
 --drep-verification-key-file drep.vkey \
 --out-file drep.id
 ````
