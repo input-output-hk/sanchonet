@@ -115,7 +115,7 @@ export CARDANO_NODE_SOCKET_PATH=~/node.socket
 3. Register the stake address you previously created by generating a registration certificate:
 
 ```
-cardano-cli stake-address registration-certificate \
+cardano-cli conway stake-address registration-certificate \
 --stake-verification-key-file stake.vkey \
 --key-reg-deposit-amt 2000000 \
 --out-file registration.cert
@@ -126,8 +126,7 @@ cardano-cli stake-address registration-certificate \
 * **Build** the transaction:
 
 ```
-cardano-cli transaction build \
---conway-era \
+cardano-cli conway transaction build \
 --testnet-magic 4 \
 --witness-override 2 \
 --tx-in $(cardano-cli query utxo --address $(cat payment.addr) --testnet-magic 4 --out-file  /dev/stdout | jq -r 'keys[0]') \
@@ -160,7 +159,7 @@ cardano-cli transaction submit \
 5. Generate cold keys and the operational certificate for your pool:
 
 ```
-cardano-cli node key-gen \
+cardano-cli conway node key-gen \
 --cold-verification-key-file cold.vkey \
 --cold-signing-key-file cold.skey \
 --operational-certificate-issue-counter-file opcert.counter
@@ -169,7 +168,7 @@ cardano-cli node key-gen \
 6. Generate the key-evolving-signature (KES) keys:
 
 ```
-cardano-cli node key-gen-KES \
+cardano-cli conway node key-gen-KES \
 --verification-key-file kes.vkey \
 --signing-key-file kes.skey
 ```
@@ -177,7 +176,7 @@ cardano-cli node key-gen-KES \
 7. Generate VRF keys:
 
 ```
-cardano-cli node key-gen-VRF \
+cardano-cli conway node key-gen-VRF \
 --verification-key-file vrf.vkey \
 --signing-key-file vrf.skey
 ```
@@ -188,8 +187,7 @@ cardano-cli node key-gen-VRF \
 8. Create your stake pool registration certificate:
 
 ```
-cardano-cli stake-pool registration-certificate \
---conway-era \
+cardano-cli conway stake-pool registration-certificate \
 --cold-verification-key-file cold.vkey \
 --vrf-verification-key-file vrf.vkey \
 --pool-pledge 9000000000 \
@@ -206,8 +204,7 @@ cardano-cli stake-pool registration-certificate \
 9. Create a stake delegation certificate:
 
 ```
-cardano-cli stake-address delegation-certificate \
---conway-era \
+cardano-cli conway stake-address stake-delegation-certificate \
 --stake-verification-key-file stake.vkey \
 --cold-verification-key-file cold.vkey \
 --out-file delegation.cert
@@ -220,8 +217,7 @@ cardano-cli stake-address delegation-certificate \
 * Build:
 
 ```
-cardano-cli transaction build \
---conway-era \
+cardano-cli conway transaction build \
 --testnet-magic 4 \
 --witness-override 3 \
 --tx-in $(cardano-cli query utxo --address $(cat payment.addr) --testnet-magic 4 --out-file  /dev/stdout | jq -r 'keys[0]') \
@@ -254,7 +250,7 @@ cardano-cli transaction submit \
 11. Get your pool ID, you will need to get a delegation from the faucet:
 
 ```
-cardano-cli stake-pool id \
+cardano-cli conway stake-pool id \
 --cold-verification-key-file cold.vkey \
 --output-format bech32 \
 --out-file pool.id
@@ -268,7 +264,7 @@ cardano-cli stake-pool id \
 slotsPerKESPeriod=$(cat shelley-genesis.json | jq -r '.slotsPerKESPeriod')
 slotNo=$(cardano-cli query tip --testnet-magic 4 | jq -r '.slot')
 kesPeriod=$((${slotNo} / ${slotsPerKESPeriod}))
-cardano-cli node issue-op-cert --kes-verification-key-file kes.vkey --cold-signing-key-file cold.skey --operational-certificate-issue-counter-file opcert.counter --kes-period ${kesPeriod} --out-file opcert.cert
+cardano-cli conway node issue-op-cert --kes-verification-key-file kes.vkey --cold-signing-key-file cold.skey --operational-certificate-issue-counter-file opcert.counter --kes-period ${kesPeriod} --out-file opcert.cert
 ```
 
 13. Request a stake delegation from the [faucet](/faucet). Note that although the delegation will ocurr immediately, you will need two more epochs
