@@ -126,7 +126,7 @@ cardano-cli conway stake-address registration-certificate \
 * **Build** the transaction:
 
 ```
-cardano-cli conway-era transaction build \
+cardano-cli conway transaction build \
 --testnet-magic 4 \
 --witness-override 2 \
 --tx-in $(cardano-cli query utxo --address $(cat payment.addr) --testnet-magic 4 --out-file  /dev/stdout | jq -r 'keys[0]') \
