@@ -96,7 +96,7 @@ cat constitution.action
   --out-file tx.raw
 ```
 
-2. Sign the transaction with your `cold.skey` and a `payment.skey`:
+2. Sign the transaction:
 
 ```
 cardano-cli transaction sign \
@@ -127,32 +127,17 @@ cardano-cli query utxo --address $(cat payment.addr) --testnet-magic 4 --out-fil
 should provide the UTXO that created the constitution proposal:
 
 ```
-9ab2df5d8076fed50720b83f5f7051c6019818270e2121817dc65758ae87ce99#0
+639a43144dc2c0ead16f2fb753360f4b4f536502dbdb8aa5e424b00abb7534ff#0
 ```
 
-2. Sometimes, it might be helpful to query the ledger state to filter actions by a key hash:
+2. It is possible to query the active governance actions:
 
 ````
-keyhash=$(bech32 <<< $(cardano-cli stake-address build --stake-verification-key-file stake1.vkey --testnet-magic 4) | cut -c 3-)
-````
-
-````
-cardano-cli query ledger-state --testnet-magic 42 | jq -r --arg keyhash "$keyhash" '.stateBefore.esLState.utxoState.ppups.gov | to_entries[] | select(.value.returnAddr.credential."key hash" == $keyhash)'
+cardano-cli conway governance query gov-state --testnet-magic 42 | jq .gov.curGovActionsState
 ````
 ````
 {
-  "key": "9ab2df5d8076fed50720b83f5f7051c6019818270e2121817dc65758ae87ce99#0",
-  "value": {
-    "committeeVotes": [],
-    "dRepVotes": [],
-    "stakePoolVotes": {},
-    "deposit": 1000000,
-    "returnAddr": {
-      "credential": {
-        "key hash": "754784f0d8555842fb27df356b56b6534f0c58fa62af76836012bfc6"
-      },
-      "network": "Testnet"
-    },
+  "639a43144dc2c0ead16f2fb753360f4b4f536502dbdb8aa5e424b00abb7534ff#0": {
     "action": {
       "contents": [
         null,
@@ -165,15 +150,32 @@ cardano-cli query ledger-state --testnet-magic 42 | jq -r --arg keyhash "$keyhas
       ],
       "tag": "NewConstitution"
     },
-    "proposedIn": 2
+    "actionId": {
+      "govActionIx": 0,
+      "txId": "639a43144dc2c0ead16f2fb753360f4b4f536502dbdb8aa5e424b00abb7534ff"
+    },
+    "committeeVotes": {},
+    "dRepVotes": {
+      "keyhash-9be19f30a2feaab39d0941e8b4c91b7a3bf7f2e295fdd54d4981bbd8": "VoteYes"
+    },
+    "deposit": 0,
+    "expiresAfter": 15,
+    "proposedIn": 14,
+    "returnAddr": {
+      "credential": {
+        "key hash": "d2efcc978ec130d5204c395446f7ff512c345127f3e30c72c73a1358"
+      },
+      "network": "Testnet"
+    },
+    "stakePoolVotes": {}
   }
 }
 ````
-Similarly, to get **only** the key (the action ID) after the query, run:
+Similarly, to get **only** the the action IDs, run
 ````
-cardano-cli query ledger-state --testnet-magic 42 | jq -r --arg keyhash "$keyhash" '.stateBefore.esLState.utxoState.ppups.gov | to_entries[] | select(.value.returnAddr.credential."key hash" == $keyhash) | .key'
+cardano-cli conway governance query gov-state --testnet-magic 42 | jq '.gov.curGovActionsState | keys[]'
 
-9ab2df5d8076fed50720b83f5f7051c6019818270e2121817dc65758ae87ce99#0
+639a43144dc2c0ead16f2fb753360f4b4f536502dbdb8aa5e424b00abb7534ff#0
 ````
 
 See the [Voting tutorial](./vote-actions.mdx) to find out how to vote on governance actions.
