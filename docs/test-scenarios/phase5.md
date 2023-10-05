@@ -126,5 +126,7 @@ TODO
 - Delegating to No Confidence considers stake as a "No" vote for every action execept for No Confidence
 - Delegating to No Confidence considers stake as a "Yes" vote for No Confidence action
 - Motion of no-confidence after ratification but before enactment
-- Majority abstain also causes motion of no-confidence
 - Funds are always immediately returned when entering a state of no-confidence and all not yet enacted governance actions are dropped
+- Successfully elect an empty committee is allowed and does not enter a state of no-condidence (governance can proceed as normal)
+- System automatically enters a state of no-confidence when the number of non-expired committee members falls below the minimal committee size (no action can be ratified but those that are already ratified proceed to be enacted)
+- A successful motion of no-confidence invalidates ratified actions from being enacted

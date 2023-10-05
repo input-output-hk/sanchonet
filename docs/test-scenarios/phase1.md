@@ -63,7 +63,6 @@
 - More than one TxIn required to satisfy deposit
 - Ledger prevents:
     - Vote too late on a new constitution that has already been accepted
-    - Vote on constitution amendment that has already been ejected by the majority
     - TxIn holds less than expected deposit amount
     - TxIn for deposit has non-ada value
 
