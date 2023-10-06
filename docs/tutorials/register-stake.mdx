@@ -20,7 +20,7 @@ and votes to a SanchoNet delegate representative (DRep).
 1. Register the stake address you previously created by generating a registration certificate:
 
 ```
-cardano-cli stake-address registration-certificate \
+cardano-cli conway stake-address registration-certificate \
 --stake-verification-key-file stake.vkey \
 --key-reg-deposit-amt 2000000 \
 --out-file registration.cert
@@ -33,8 +33,7 @@ cardano-cli stake-address registration-certificate \
 * **Build** the transaction:
 
 ```
-cardano-cli transaction build \
---conway-era \
+cardano-cli conway transaction build \
 --testnet-magic 4 \
 --witness-override 2 \
 --tx-in $(cardano-cli query utxo --address $(cat payment.addr) --testnet-magic 4 --out-file  /dev/stdout | jq -r 'keys[0]') \
@@ -46,7 +45,7 @@ cardano-cli transaction build \
 * **Sign** the transaction:
 
 ```
-cardano-cli transaction sign \
+cardano-cli conway transaction sign \
 --tx-body-file tx.raw \
 --signing-key-file payment.skey \
 --signing-key-file stake.skey \
@@ -57,7 +56,7 @@ cardano-cli transaction sign \
 * **Submit** the transaction:
 
 ```
-cardano-cli transaction submit \
+cardano-cli conway transaction submit \
 --testnet-magic 4 \
 --tx-file tx.signed
 ```

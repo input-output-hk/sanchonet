@@ -96,8 +96,7 @@ Any of the above methods produces drep-register.cert, which contains:
 * Build:
 
 ```
-cardano-cli transaction build \
---conway-era \
+cardano-cli conway transaction build \
 --testnet-magic 4 \
 --witness-override 2 \
 --tx-in $(cardano-cli query utxo --address $(cat payment.addr) --testnet-magic 4 --out-file  /dev/stdout | jq -r 'keys[0]') \
@@ -109,7 +108,7 @@ cardano-cli transaction build \
 * Sign:
 
 ```
-cardano-cli transaction sign \
+cardano-cli conway transaction sign \
 --tx-body-file tx.raw \
 --signing-key-file payment.skey \
 --signing-key-file drep.skey \
@@ -120,7 +119,7 @@ cardano-cli transaction sign \
 * Submit:
 
 ```
-cardano-cli transaction submit \
+cardano-cli conway transaction submit \
 --testnet-magic 4 \
 --tx-file tx.signed
 ```

@@ -27,21 +27,29 @@ In addition to the registered SanchoNet DReps, the system features a couple of d
 
 * Delegating to the `--always-abstain` default DRep:
 
-````
-cardano-cli conway governance drep delegation-certificate \
+```
+cardano-cli conway stake-address vote-delegation-certificate \
 --stake-verification-key-file stake.vkey \
 --always-abstain \
 --out-file vote-deleg.cert
-````
+```
+
+* Dekegating to the `--always-no-confidence` default DRep 
+```
+cardano-cli conway stake-address vote-delegation-certificate \
+--stake-verification-key-file stake.vkey \
+--always-no-confidence \
+--out-file vote-deleg.cert
+```
 
 * Delegating to a registered SanchoNet DRep:
 
-````
-cardano-cli conway governance drep delegation-certificate \
+```
+cardano-cli conway stake-address vote-delegation-certificate \
 --stake-verification-key-file stake.vkey \
 --drep-key-hash $(cat drep.id) \
 --out-file vote-deleg.cert
-````
+```
 
 ### Submitting the certificate in a transaction
 
@@ -50,7 +58,7 @@ cardano-cli conway governance drep delegation-certificate \
 * Build:
 
 ```
-cardano-cli transaction build \
+cardano-cli conway transaction build \
 --conway-era \
 --testnet-magic 4 \
 --witness-override 2 \
@@ -63,7 +71,7 @@ cardano-cli transaction build \
 * Sign with payment and stake keys:
 
 ```
-cardano-cli transaction sign \
+cardano-cli conway transaction sign \
 --tx-body-file tx.raw \
 --signing-key-file payment.skey \
 --signing-key-file stake.skey \
@@ -74,7 +82,7 @@ cardano-cli transaction sign \
 * Submit:
 
 ```
-cardano-cli transaction submit \
+cardano-cli conway transaction submit \
 --testnet-magic 4 \
 --tx-file tx.signed
 ```

@@ -138,7 +138,7 @@ cardano-cli conway transaction build \
 * **Sign** the transaction:
 
 ```
-cardano-cli transaction sign \
+cardano-cli conway transaction sign \
 --tx-body-file tx.raw \
 --signing-key-file payment.skey \
 --signing-key-file stake.skey \
@@ -149,7 +149,7 @@ cardano-cli transaction sign \
 * **Submit** the transaction:
 
 ```
-cardano-cli transaction submit \
+cardano-cli conway transaction submit \
 --testnet-magic 4 \
 --tx-file tx.signed
 ```
@@ -230,7 +230,7 @@ cardano-cli conway transaction build \
 * Sign:
 
 ```
-cardano-cli transaction sign \
+cardano-cli conway transaction sign \
 --tx-body-file tx.raw \
 --signing-key-file payment.skey \
 --signing-key-file cold.skey \
@@ -242,7 +242,7 @@ cardano-cli transaction sign \
 * Submit:
 
 ```
-cardano-cli transaction submit \
+cardano-cli conway transaction submit \
 --testnet-magic 4 \
 --tx-file tx.signed
 ```
@@ -286,7 +286,7 @@ cardano-node run --topology topology.json \
 15. Your stake pool will take part of the stake snapshot on the next epoch boundary. After that, you will be able to query the stake delegated to your pool:
 
 ```
-cardano-cli query stake-snapshot \
+cardano-cli conway query stake-snapshot \
 --testnet-magic 4 \
 --stake-pool-id <pool_id>
 ```
