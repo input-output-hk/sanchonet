@@ -9,7 +9,7 @@ slug: /tutorials/vote-action
 
 * Payment key pair
 * Address with funds
-* CC Hot, DRep OR Stake pool keys
+* CC hot, DRep OR stake pool keys
 * A SanchoNet node
 
 To vote on governance actions, follow this process:
@@ -86,7 +86,7 @@ In the future, voting apps, explorers, wallets, and other tools could perform th
 
 ### Create the vote file
 
-1. Vote with DRep keys
+1. Vote with DRep keys:
 
 ```
 cardano-cli conway governance vote create \
@@ -97,7 +97,7 @@ cardano-cli conway governance vote create \
     --out-file df58f714c0765f3489afb6909384a16c31d600695be7e86ff9c59cf2e8a48c79-constitution.vote
 ```
 
-2. Vote with CC Hot Keys
+2. Vote with CC hot keys:
 
 ```
 cardano-cli conway governance vote create \
@@ -107,7 +107,7 @@ cardano-cli conway governance vote create \
     --cc-hot-verification-key-file cc-hot.vkey" \
     --out-file df58f714c0765f3489afb6909384a16c31d600695be7e86ff9c59cf2e8a48c79-constitution.vote
 ```
-3. Vote with SPO keys
+3. Vote with SPO keys:
 
 ```
 cardano-cli conway governance vote create \
@@ -118,9 +118,9 @@ cardano-cli conway governance vote create \
     --out-file df58f714c0765f3489afb6909384a16c31d600695be7e86ff9c59cf2e8a48c79-constitution.vote
 ```
 
-### Include the vote in a transaction:
+### Include the vote in a transaction
 
-- Build the transaction
+- Build the transaction:
 
 ```
 cardano-cli transaction build --testnet-magic 4 --conway-era \
@@ -130,7 +130,7 @@ cardano-cli transaction build --testnet-magic 4 --conway-era \
     --witness-override 2 \
     --out-file vote-tx.raw
 ```
-- Sign with DRep key
+- Sign it with the DRep key:
 ```
 cardano-cli transaction sign --tx-body-file vote-tx.raw \
     --signing-key-file drep.skey \
@@ -138,7 +138,7 @@ cardano-cli transaction sign --tx-body-file vote-tx.raw \
     --testnet-magic 4 \
     --out-file vote-tx.signed
 ```
-- OR sign with CC Hot key
+- OR sign it with the CC hot key:
 ```
 cardano-cli transaction sign --tx-body-file vote-tx.raw \
     --signing-key-file cc-hot.skey \
@@ -146,7 +146,7 @@ cardano-cli transaction sign --tx-body-file vote-tx.raw \
     --testnet-magic 4 \
     --out-file vote-tx.signed
 ```
-- OR sign with SPO Cold key
+- OR sign it with the SPO cold key:
 ```
 cardano-cli transaction sign --tx-body-file vote-tx.raw \
     --signing-key-file cold.skey \
@@ -154,7 +154,7 @@ cardano-cli transaction sign --tx-body-file vote-tx.raw \
     --testnet-magic 4 \
     --out-file vote-tx.signed
 ```
-- Submit the transaction
+- Submit the transaction:
 ```
 cardano-cli transaction submit --testnet-magic 4 --tx-file vote-tx.signed
 ```
