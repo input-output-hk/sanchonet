@@ -5,23 +5,23 @@ sidebar_position: 9
 slug: /tutorials/actions
 ---
 
-### Common aspects to all types of governance actions:
+## Common aspects of all types of governance actions
 
 A proposal is the process of putting together all the information required to submit a governance action to the chain. A proposal consists of:
 
 - A deposit
 - The reward account that will receive the deposit return
 - The governance action 
-- An optional anchor
+- An optional anchor.
 
-When using the cardano-cli to create a governance action you will notice that it is really creating a proposal. 
+When using the `cardano-cli` to create a governance action, you will notice that it creates a proposal. 
 
 **Deposit and stake credentials**
 
-Any Ada holder can submit a governance action to the chain. They must provide a deposit, which will be returned when the action is finalized (whether it is ratified or has expired). 
+Any ada holder can submit a governance action to the chain. They must provide a deposit, which will be returned when the action is finalized (whether it is ratified or has expired). 
 To facilitate this process, the proposer must specify the stake credential that will receive the refunded deposit.
 
-**Previos governace action ID**
+**Previous governance action ID**
 
 To prevent unintended conflicts between governance actions of the same type, it is essential that each governance action includes the governance action ID of 
 the most recently enacted action of its respective type. Notably, this requirement does not apply to **treasury withdrawal** and **info** governance actions. 
@@ -54,8 +54,7 @@ actions against this single stored value.
 When proposing a governance action, the proposer may employ an *anchor*, which comprises a *URL* hosting a document that outlines the rationale
 for the proposed changes, along with the document's *hash*.
 
-The document at the URL can be of a free form. The important aspect of it is that it should communicate to ada holders the what and the why of the proposal. For the most 
-this tutorial uses https://tinyurl.com/3wrwb2as as an example. 
+The document at the URL can be of a free form. It's important that it should communicate to ada holders the *what* and the *why* of the proposal. This tutorial mostly uses 'https://tinyurl.com/3wrwb2as' as an example. 
 
 Utilize the BLAKE2b hashing algorithm to hash the document:
 
@@ -64,15 +63,14 @@ b2sum -l 256 rationale.txt
 ee3b0232e4fd0d3e7e8626bea8eab6f611c608ec1dcfeed4c2db69560a9f2286  rationale.txt
 ```
 
-Alternatively, users have the option to submit either the 'text' or the 'file' instead of providing its hash when creating the proposal. The cardano-cli 
-automatically computes the hash and incorporates it into the governance action file
+Alternatively, users have the option to submit either the 'text' or the 'file' instead of providing its hash when creating the proposal. The `cardano-cli` 
+automatically computes the hash and incorporates it into the governance action file.
 
-## Update committe 
+## Update committee actions  
 
-#### Update committe to *add* a new cc member:
+#### Update committe to *add* a new CC member:
 
-Assume that the individual or entity that we want to add as a CC member has generated Cold keys and has given us the Key hash `89181f26b47c3d3b6b127df163b15b74b45bba7c3b7a1d185c05c2de`, we 
-can create the proposal with: 
+Assume that the individual or entity that you want to add as a CC member has generated cold keys and has provided the key hash `89181f26b47c3d3b6b127df163b15b74b45bba7c3b7a1d185c05c2de`. You can then create the proposal with: 
 
 ```
 cardano-cli conway governance action create-new-committee \
@@ -89,9 +87,10 @@ cardano-cli conway governance action create-new-committee \
   --out-file update-committee.action
 ```
 
-#### Update committe to *remove* an existing cc member:
+#### Update committee to *remove* an existing CC member:
 
-Let's say we want to remove the CC member with key hash 89181f26b47c3d3b6b127df163b15b74b45bba7c3b7a1d185c05c2de
+Assume that you want to remove the CC member with the key hash `89181f26b47c3d3b6b127df163b15b74b45bba7c3b7a1d185c05c2de`. You can do this with:
+
 ```
 cardano-cli conway governance action create-new-committee \
   --testnet \
@@ -106,7 +105,8 @@ cardano-cli conway governance action create-new-committee \
   --out-file update-committee.action
 ```
 
-#### Update committe to change the *quorum*:
+#### Update committee to change the *quorum*:
+
 ```
 cardano-cli conway governance action create-new-committee \
   --testnet \
@@ -120,7 +120,7 @@ cardano-cli conway governance action create-new-committee \
   --out-file update-committee.action
 ```
 
-## Update the constitution
+## Updating the constitution
 
 - Find the last enacted governance action of this type:
 
@@ -132,7 +132,7 @@ cardano-cli conway governance query gov-state --testnet-magic 42 | jq .ratify.pr
 }
 ```
 
-- Write a constitution update and save it to `constitution.txt`.
+- Write a constitution update and save it to `constitution.txt`
 - Upload the `constitution.txt` file to a URL so that everyone can read it, for example, https://tinyurl.com/mr3ferf9
 - Check the hash of the `constitution.txt` file using [b2sum](https://man7.org/linux/man-pages/man1/b2sum.1.html). 
 
@@ -145,7 +145,7 @@ b2sum -l 256 constitution.txt
 5d372dca1a4cc90d7d16d966c48270e33e3aa0abcb0e78f0d5ca7ff330d2245d  constitution.txt
 ```
 
-#### Create the proposal to update the constitution
+#### Create the proposal to update the constitution:
 
 ```
 cardano-cli conway governance action create-constitution \
@@ -164,6 +164,7 @@ cardano-cli conway governance action create-constitution \
 ## Motion of no confidence
 
 - Find the last governance action enacted of this type:
+
 ```
 cardano-cli conway governance query gov-state --testnet-magic 42 | jq .ratify.prevGovActionIds.pgaCommittee
 {
@@ -171,7 +172,8 @@ cardano-cli conway governance query gov-state --testnet-magic 42 | jq .ratify.pr
   "txId": "93afe9f59ffdf7e9af98d582ebef5143691941a5236f3ec8464e601c9395bf66"
 }
 ```
-#### Create a no-confidence governance action
+
+#### Create a no-confidence governance action:
 
 ```
 cardano-cli conway governance action create-no-confidence \
@@ -191,7 +193,7 @@ In addition to the stake credential required to obtain a deposit refund, the pro
 event that the governance action is approved. The sequence in which these credentials are provided holds significance. The initial credential is used for securing 
 the deposit refund, while the second credential is necessary for the disbursement of funds from the treasury.
 
-#### Create the treasury withdrawal proposal 
+#### Create the treasury withdrawal proposal: 
 
 ```
 cardano-cli conway governance action create-treasury-withdrawal \
@@ -204,15 +206,17 @@ cardano-cli conway governance action create-treasury-withdrawal \
   --transfer 50000000000 \
   --out-file treasury.action
 ```
-* Note that we do not need to provide any previous governance action ID on treasury withdrawals.
+
+* Note that you do not need to provide any previous governance action ID on treasury withdrawals.
 
 ## Info
 
-While it's technically optional to include an anchor in proposals, a compelling case can be made for the inclusion of an anchor in Info Governance actions. This argument 
-is rooted in the inherent nature of Info actions, which lack on-chain consequences and essentially function like polls. In this context, the importance of an anchor becomes 
+While it's technically optional to include an anchor in proposals, a compelling case can be made for the inclusion of an anchor in 'info' governance actions. This argument 
+is rooted in the inherent nature of 'info' actions, which lack on-chain consequences and essentially function like polls. In this context, the importance of an anchor becomes 
 clear because the content it houses is the very essence of the proposal.
 
-#### Creating the info governance Action
+#### Create the 'info' governance action:
+
 ```
 conway governance action create-info --testnet \
   --governance-action-deposit 0 \
@@ -222,9 +226,9 @@ conway governance action create-info --testnet \
   --out-file info.action
   ```
 
-## Submit the `*.action` action file in a transaction:
+## Submitting the `*.action` action file in a transaction
 
-Submitting the *.action file to the blockchain is the essential step in bringing your proposal to life and making it accessible for the community to participate in the 
+Submitting the `*.action` file to the blockchain is the essential step in bringing your proposal to life and making it accessible for the community to participate in the 
 voting process. This process essentially transforms your proposal from a conceptual idea into an actionable item. Once submitted, it becomes part of the public ledger, 
 while also allowing members of the governance bodies to review, discuss, and ultimately cast their votes on its approval or rejection. 
 
@@ -251,18 +255,19 @@ cardano-cli conway transaction submit \
   --tx-file tx.signed
 ```
 
-## Find the governance action ID of your proposal
+## Finding the governance action ID of your proposal
 
-You may want to find your governance action ID to share it with others on Discord1 and seek their support. The transaction ID and index of the transaction that submitted the 
-proposal serve as the action ID.  An efective way to find your governance action ID is querying the governance state and filter by (the prosposer) stake key hash. 
+You may want to find your governance action ID to share it with others on Discord1 and seek their support. The transaction ID and the index of the transaction that submitted the 
+proposal serve as the action ID. An effective way to find your governance action ID is by querying the governance state and filtering by (the proposer) stake key hash. 
 
-First find your key hash with:
+First, find your key hash with:
 
 ```
 cardano-cli conway stake-address key-hash --stake-verification-key-file stake1.vkey
 f925cbd4eb78aad49ec7bf9b4ddfa4cc4486c967e392699d143c81aa
 ```
-Use jq to filter `gov-state` output by stake key hash. The output contains all the relevant information about your governance actions, including `actionId`:
+
+Use `jq` to filter the `gov-state` output by the stake key hash. The output contains all the relevant information about your governance actions, including `actionId`:
 
 ```
 cardano-cli conway governance query gov-state --testnet-magic 42 \
