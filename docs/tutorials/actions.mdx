@@ -29,7 +29,7 @@ the most recently enacted action of its respective type. Notably, this requireme
 You can get the last enacted governance action IDs with:
 
 ```
-cardano-cli conway governance query gov-state --testnet-magic 42 | jq .ratify.prevGovActionIds
+cardano-cli conway governance query gov-state --testnet-magic 4 | jq .ratify.prevGovActionIds
 
 {
   "pgaCommittee": {
@@ -125,7 +125,7 @@ cardano-cli conway governance action create-new-committee \
 - Find the last enacted governance action of this type:
 
 ```
-cardano-cli conway governance query gov-state --testnet-magic 42 | jq .ratify.prevGovActionIds.pgaConstitution
+cardano-cli conway governance query gov-state --testnet-magic 4 | jq .ratify.prevGovActionIds.pgaConstitution
 {
   "govActionIx": 0,
   "txId": "00caeb6c2db4575acc43be3e8f87b881dccb86283daf16aa2707275cbe7f3451"
@@ -166,7 +166,7 @@ cardano-cli conway governance action create-constitution \
 - Find the last governance action enacted of this type:
 
 ```
-cardano-cli conway governance query gov-state --testnet-magic 42 | jq .ratify.prevGovActionIds.pgaCommittee
+cardano-cli conway governance query gov-state --testnet-magic 4 | jq .ratify.prevGovActionIds.pgaCommittee
 {
   "govActionIx": 0,
   "txId": "93afe9f59ffdf7e9af98d582ebef5143691941a5236f3ec8464e601c9395bf66"
@@ -270,7 +270,7 @@ f925cbd4eb78aad49ec7bf9b4ddfa4cc4486c967e392699d143c81aa
 Use `jq` to filter the `gov-state` output by the stake key hash. The output contains all the relevant information about your governance actions, including `actionId`:
 
 ```
-cardano-cli conway governance query gov-state --testnet-magic 42 \
+cardano-cli conway governance query gov-state --testnet-magic 4 \
 | jq -r --arg keyHash "f925cbd4eb78aad49ec7bf9b4ddfa4cc4486c967e392699d143c81aa" '.gov.curGovSnapshots.psGovActionStates | to_entries[] | select(.value.returnAddr.credential.keyHash | contains($keyHash)) | .value'     
 
 {
