@@ -1,7 +1,7 @@
 ---
 sidebar_label: Voting on actions
 title: Voting on governance actions
-sidebar_position: 9
+sidebar_position: 10
 slug: /tutorials/vote-action
 ---
 
@@ -9,66 +9,75 @@ slug: /tutorials/vote-action
 
 * Payment key pair
 * Address with funds
-* DRep OR Stake pool keys
+* CC hot, DRep OR stake pool keys
 * A SanchoNet node
 
 To vote on governance actions, follow this process:
 
-1. Obtain the action ID of an ongoing governance action from Discord or query the ledger
+1. Obtain the action ID of an ongoing governance action from Discord or query the governance state.
 2. Determine your voting stance; engage in discussion if required
 3. Construct your vote file through the Cardano CLI. The example below demonstrates voting `--yes`, although options for `--no` or `--abstain` are also available.
 
 ### Verify the content of the governance action
 
-Assume that we have been given the action ID `8a02dfbd297afbcb32e72fa94117f3e255100c1cb5c083e84e1c977ed5aca0da#0` for a new constitution proposal.
+Assume that we have been given the action ID `df58f714c0765f3489afb6909384a16c31d600695be7e86ff9c59cf2e8a48c79#0` for a new constitution proposal.
 
-1. Obtain the URL and hash of the new constitution proposal from the ledger state:
+1. Obtain the URL and hash of the new constitution proposal from the governance state:
 
-````
-cardano-cli query ledger-state --testnet-magic 4 | \
-jq -r --arg key_to_match "8a02dfbd297afbcb32e72fa94117f3e255100c1cb5c083e84e1c977ed5aca0da#0" \
-'.stateBefore.esLState.utxoState.ppups.gov | select(.[$key_to_match] != null) | {($key_to_match): .[$key_to_match]}'
-````
-````
+```
+cardano-cli conway governance query gov-state --testnet-magic 4 | \
+jq -r '.gov.curGovSnapshots.psGovActionStates["df58f714c0765f3489afb6909384a16c31d600695be7e86ff9c59cf2e8a48c79#0"]'
+```
+```
 {
-  "8a02dfbd297afbcb32e72fa94117f3e255100c1cb5c083e84e1c977ed5aca0da#0": {
-    "committeeVotes": [],
-    "dRepVotes": [],
-    "stakePoolVotes": {},
-    "deposit": 1000000,
-    "returnAddr": {
-      "credential": {
-        "key hash": "51330288da94527431d242993fa1f73ec4043549a073e1cfba9db3bf"
-      },
-      "network": "Testnet"
-    },
-    "action": {
-      "contents": [
-        null,
-        {
-          "constitutionAnchor": {
-            "dataHash": "3d2a9d15382c14f5ca260a2f5bfb645fe148bfe10c1d0e1d305b7b1393e2bd97",
-            "url": "https://shorturl.at/asIJ6"
-          }
+  "action": {
+    "contents": [
+      null,
+      {
+        "anchor": {
+          "dataHash": "5d372dca1a4cc90d7d16d966c48270e33e3aa0abcb0e78f0d5ca7ff330d2245d",
+          "url": "https://tinyurl.com/mr3ferf9"
         }
-      ],
-      "tag": "NewConstitution"
+      }
+    ],
+    "tag": "NewConstitution"
+  },
+  "actionId": {
+    "govActionIx": 0,
+    "txId": "df58f714c0765f3489afb6909384a16c31d600695be7e86ff9c59cf2e8a48c79"
+  },
+  "committeeVotes": {
+    "keyHash-c8ac605b25d6084c2ceb28043c8f01b62629966d038a249c7847d66d": "VoteYes",
+    "keyHash-d13507f7e7fb8ac3ce2094187c9d99d4601021e9ef5a5f310567765d": "VoteYes"
+  },
+  "dRepVotes": {
+    "keyHash-16faaf6daa2635bbf53bbbaf38b3a6040adf7ced2f7f08952592cf5b": "VoteYes",
+    "keyHash-57cb90cfb635e76af648abf1b6a91519218a5919b3cba2527e3725d1": "VoteYes",
+    "keyHash-7d84808d563f0f258ad7e4337c2c4bd13010930ebdf7b86c3bfd9ef8": "VoteYes"
+  },
+  "deposit": 0,
+  "expiresAfter": 80,
+  "proposedIn": 78,
+  "returnAddr": {
+    "credential": {
+      "keyHash": "f925cbd4eb78aad49ec7bf9b4ddfa4cc4486c967e392699d143c81aa"
     },
-    "proposedIn": 1
-  }
+    "network": "Testnet"
+  },
+  "stakePoolVotes": {}
 }
-````
+```
 2. Download the file from the URL registered on the ledger state:
 
 ````
-wget https://shorturl.at/asIJ6 -O constitution.txt
+wget https://tinyurl.com/mr3ferf9 -O constitution.txt
 ````
 
 3. Verify that the hash of the file matches the `dataHash`from the ledger state:
 
 ````
 b2sum -l 256 constitution.txt
-3d2a9d15382c14f5ca260a2f5bfb645fe148bfe10c1d0e1d305b7b1393e2bd97  constitution.txt
+5d372dca1a4cc90d7d16d966c48270e33e3aa0abcb0e78f0d5ca7ff330d2245d  constitution.txt
 ````
 
 **Everything is in order; the text at the URL matches the dataHash, confirming that the text at the URL is precisely what we are voting for.**
@@ -77,42 +86,51 @@ In the future, voting apps, explorers, wallets, and other tools could perform th
 
 ### Create the vote file
 
-1. Vote with DRep keys
+1. Vote with DRep keys:
 
 ```
 cardano-cli conway governance vote create \
     --yes \
-    --governance-action-tx-id "8a02dfbd297afbcb32e72fa94117f3e255100c1cb5c083e84e1c977ed5aca0da" \
+    --governance-action-tx-id "df58f714c0765f3489afb6909384a16c31d600695be7e86ff9c59cf2e8a48c79" \
     --governance-action-index "0" \
     --drep-verification-key-file drep.vkey \
-    --out-file 8a02dfbd297afbcb32e72fa94117f3e255100c1cb5c083e84e1c977ed5aca0da-constitution.vote
+    --out-file df58f714c0765f3489afb6909384a16c31d600695be7e86ff9c59cf2e8a48c79-constitution.vote
 ```
 
-OR
-
-2. Vote with SPO keys
+2. Vote with CC hot keys:
 
 ```
 cardano-cli conway governance vote create \
     --yes \
-    --governance-action-tx-id "8a02dfbd297afbcb32e72fa94117f3e255100c1cb5c083e84e1c977ed5aca0da" \
+    --governance-action-tx-id "df58f714c0765f3489afb6909384a16c31d600695be7e86ff9c59cf2e8a48c79" \
+    --governance-action-index "0" \
+    --cc-hot-verification-key-file cc-hot.vkey" \
+    --out-file df58f714c0765f3489afb6909384a16c31d600695be7e86ff9c59cf2e8a48c79-constitution.vote
+```
+3. Vote with SPO keys:
+
+```
+cardano-cli conway governance vote create \
+    --yes \
+    --governance-action-tx-id "df58f714c0765f3489afb6909384a16c31d600695be7e86ff9c59cf2e8a48c79" \
     --governance-action-index "0" \
     --cold-verification-key-file cold.vkey \
-    --out-file 8a02dfbd297afbcb32e72fa94117f3e255100c1cb5c083e84e1c977ed5aca0da-constitution.vote
+    --out-file df58f714c0765f3489afb6909384a16c31d600695be7e86ff9c59cf2e8a48c79-constitution.vote
 ```
 
-### Include the vote in a transaction:
+### Include the vote in a transaction
 
-1. Build, sign, and submit the transaction:
+- Build the transaction:
 
 ```
 cardano-cli transaction build --testnet-magic 4 --conway-era \
     --tx-in "$(cardano-cli query utxo --address $(cat payment.addr) --testnet-magic 4 --out-file /dev/stdout | jq -r 'keys[0]')" \
     --change-address $(cat payment.addr) \
-    --vote-file 8a02dfbd297afbcb32e72fa94117f3e255100c1cb5c083e84e1c977ed5aca0da-constitution.vote \
+    --vote-file df58f714c0765f3489afb6909384a16c31d600695be7e86ff9c59cf2e8a48c79-constitution.vote \
     --witness-override 2 \
     --out-file vote-tx.raw
 ```
+- Sign it with the DRep key:
 ```
 cardano-cli transaction sign --tx-body-file vote-tx.raw \
     --signing-key-file drep.skey \
@@ -120,7 +138,23 @@ cardano-cli transaction sign --tx-body-file vote-tx.raw \
     --testnet-magic 4 \
     --out-file vote-tx.signed
 ```
-
+- OR sign it with the CC hot key:
+```
+cardano-cli transaction sign --tx-body-file vote-tx.raw \
+    --signing-key-file cc-hot.skey \
+    --signing-key-file payment.skey \
+    --testnet-magic 4 \
+    --out-file vote-tx.signed
+```
+- OR sign it with the SPO cold key:
+```
+cardano-cli transaction sign --tx-body-file vote-tx.raw \
+    --signing-key-file cold.skey \
+    --signing-key-file payment.skey \
+    --testnet-magic 4 \
+    --out-file vote-tx.signed
+```
+- Submit the transaction:
 ```
 cardano-cli transaction submit --testnet-magic 4 --tx-file vote-tx.signed
 ```
