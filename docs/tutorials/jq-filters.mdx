@@ -5,14 +5,14 @@ sidebar_position: 11
 slug: /tutorials/jq-filters
 ---
 
-"_jq is like sed for JSON data - you can use it to slice and filter and map and transform 
-structured data with the same ease that sed, awk, grep and friends let you play with text._"
+'_jq is like sed for JSON data - you can use it to slice, filter, map, and transform 
+structured data with the same ease that sed, awk, grep and friends let you play with text._'
 
-[Install jq](https://jqlang.github.io/jq/download/) 
+[Install jq](https://jqlang.github.io/jq/download/). 
 
 Below you will find some useful jq filters to parse the governance state. 
 
-#### Show governance actions that will expire at the end of the current epoch:
+### Show governance actions that will expire at the end of the current epoch:
 
 ```
 current_epoch=$(cardano-cli query tip --testnet-magic 4 | jq .epoch)
@@ -25,7 +25,7 @@ cardano-cli conway governance query gov-state --testnet-magic 4 \
 
 ```
 
-#### Show governance actions that were proposed in the current epoch:  
+### Show governance actions that were proposed in the current epoch:  
 
 ```
 current_epoch=$(cardano-cli query tip --testnet-magic 4 | jq .epoch)
@@ -37,7 +37,7 @@ cardano-cli conway governance query gov-state --testnet-magic 4 \
     | select(.value.proposedIn == $epoch)'
 ```
 
-#### Sort governance actions by number of DRep votes: 
+### Sort governance actions by the number of DRep votes: 
 
 ```
 cardano-cli conway governance query gov-state --testnet-magic 4 | jq -r '
@@ -47,7 +47,7 @@ cardano-cli conway governance query gov-state --testnet-magic 4 | jq -r '
   ' | jq -s 'sort_by(.voteCount) | reverse[]'
 ```
 
-#### Sort by number of SPO votes:
+### Sort by the number of SPO votes:
 
 ```
 cardano-cli conway governance query gov-state --testnet-magic 4 | jq -r '
@@ -57,7 +57,7 @@ cardano-cli conway governance query gov-state --testnet-magic 4 | jq -r '
   ' | jq -s 'sort_by(.voteCount) | reverse[]'
 ```
 
-#### Sort by number of CC votes:
+### Sort by the number of CC votes:
 
 ```
 cardano-cli conway governance query gov-state --testnet-magic 4 | jq -r '
@@ -68,7 +68,7 @@ cardano-cli conway governance query gov-state --testnet-magic 4 | jq -r '
 
 ```
 
-#### Filter actions that expire within the current and next 2 epochs, include information about all roles votes, sort by expiration epoch:
+### Filter actions that expire within the current and the next two epochs, including information about all roles' votes, sorted by expiration epoch:
 
 ```
 current_epoch=$(cardano-cli query tip --testnet-magic 4 | jq .epoch)
@@ -91,9 +91,9 @@ cardano-cli conway governance query gov-state --testnet-magic 4 | jq -r --argjso
 
 ```
 
-#### Show those actions where a given drep key has already voted, how the drep voted and show how many votes the aciton has:
+### Show actions for which a specific DRep key has voted, indicating the DRep's vote and the total number of votes received for this action:
 
-Replace `058b60ead63f667c0ff5b40e269dd1f05ce3a804256735ad4eddce20` with the hex drep id of your interest.
+Replace `058b60ead63f667c0ff5b40e269dd1f05ce3a804256735ad4eddce20` with the hex DRep ID of your interest.
 
 ```
 cardano-cli conway governance query gov-state --testnet-magic 4 | jq -r --arg dRepKey "keyHash-058b60ead63f667c0ff5b40e269dd1f05ce3a804256735ad4eddce20" '
@@ -112,9 +112,9 @@ cardano-cli conway governance query gov-state --testnet-magic 4 | jq -r --arg dR
   '
 ```
 
-#### Show the actions where the given drep key has not voted yet:
+### Show actions where the given DRep key has not voted yet:
 
-Replace `058b60ead63f667c0ff5b40e269dd1f05ce3a804256735ad4eddce20` with the hex drep id of your interest.
+Replace `058b60ead63f667c0ff5b40e269dd1f05ce3a804256735ad4eddce20` with the hex DRep ID of your interest.
 
 ```
 cardano-cli conway governance query gov-state --testnet-magic 4 | jq -r --arg dRepKey "keyHash-058b60ead63f667c0ff5b40e269dd1f05ce3a804256735ad4eddce20" '
@@ -132,7 +132,7 @@ cardano-cli conway governance query gov-state --testnet-magic 4 | jq -r --arg dR
   '
 ```
 
-#### Show the total number of yes, no and abstain votes for a given governance action id:
+### Show the total number of 'yes', 'no', and 'abstain' votes for a given governance action ID:
 
 Replace `cf2dce795cef4f8e92f0ab062a5dae0c1f7d8891d943ced9c2eeda9a62d8f092#0` with the governance action ID of your interest.
 
@@ -155,7 +155,7 @@ cardano-cli conway governance query gov-state --testnet-magic 4 | jq -r --arg ac
   '
 ```
 
-#### Show he active `treasury withdrawal` governance actions and their current vote count:
+### Show the active `treasury withdrawal` governance actions and their current vote count:
 
 ```
 current_epoch=$(cardano-cli query tip --testnet-magic 4 | jq .epoch)
@@ -178,7 +178,7 @@ cardano-cli conway governance query gov-state --testnet-magic 4 | jq -r --arg cu
 
 ```
 
-#### Show the active `update committee` governance actions and their current vote count: 
+### Show the active `update committee` governance actions and their current vote count: 
 
 ```
 current_epoch=$(cardano-cli query tip --testnet-magic 4 | jq .epoch)
