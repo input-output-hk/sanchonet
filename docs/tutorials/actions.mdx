@@ -153,7 +153,7 @@ cardano-cli conway governance action create-constitution \
   --governance-action-deposit 0 \
   --stake-verification-key-file stake.vkey \
   --proposal-url https://tinyurl.com/3wrwb2as \
-  --anchor-data-hash "52e69500a92d80f2126c836a4903dc582006709f004cf7a28ed648f732dff8d2" \
+  --proposal-hash "52e69500a92d80f2126c836a4903dc582006709f004cf7a28ed648f732dff8d2" \
   --constitution-url https://tinyurl.com/mr3ferf9  \
   --constitution "$(cat constitution.txt)" \
   --governance-action-tx-id 00caeb6c2db4575acc43be3e8f87b881dccb86283daf16aa2707275cbe7f3451 \
@@ -236,7 +236,7 @@ while also allowing members of the governance bodies to review, discuss, and ult
 cardano-cli conway transaction build \
   --testnet-magic 4 \
   --tx-in "$(cardano-cli query utxo --address "$(cat payment.addr)" --testnet-magic 4 --out-file /dev/stdout | jq -r 'keys[0]')" \
-  --change-address payment.addr \
+  --change-address "$(cat payment.addr)" \
   --proposal-file info.action \
   --witness-override 2 \
   --out-file tx.raw
