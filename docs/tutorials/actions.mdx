@@ -211,9 +211,9 @@ cardano-cli conway governance action create-treasury-withdrawal \
 
 ## Info
 
-While it's technically optional to include an anchor in proposals, a compelling case can be made for the inclusion of an anchor in 'info' governance actions. This argument 
-is rooted in the inherent nature of 'info' actions, which lack on-chain consequences and essentially function like polls. In this context, the importance of an anchor becomes 
-clear because the content it houses is the very essence of the proposal.
+All governance actions require to be accompanied by an anchor `(url,hash)` with the supporting rationale for the proposed change, this requirement is even more important for 
+'info' governance actions. This argument is rooted in the inherent nature of 'info' actions, which lack on-chain consequences and essentially function like polls. In this context, 
+the importance of an anchor becomes clear because the content it houses is exactly what governance actors would be voting on. 
 
 #### Create the 'info' governance action:
 
