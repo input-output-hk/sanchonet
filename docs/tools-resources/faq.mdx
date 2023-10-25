@@ -7,7 +7,7 @@ sidebar_position: 2
 
 **Warning:** Please note that due to ongoing development, some answers may change over time.
 
-*Last update: 2023-09-18*
+*Last update: 2023-10-25*
 
 Based on ledger design at commit: [cd10d6b](https://github.com/input-output-hk/cardano-ledger/blob/cd10d6b968bda704fb1ddc1226388fe221789155/eras/conway/test-suite/cddl-files/conway.cddl)
 
@@ -47,7 +47,7 @@ This change has been made to enable the checking of deposit amounts at the ledge
 | stake_delegation                       | (2, stake_credential, pool_keyhash)                       | stake_credential                                                  | None                                  |
 | pool_registration                      | (3, pool_params)                                          | pool_key                                                          | None                                  |
 | pool_retirement                        | (4, pool_keyhash, epoch)                                  | pool_key                                                          | None                                  |
-| reg_cert                               | (7, stake_credential, coin)                               | None                                                              | Deposit `coin` of amount `keyDeposit` |
+| reg_cert                               | (7, stake_credential, coin)                               | *stake_credential*                                                | Deposit `coin` of amount `keyDeposit` |
 | unreg_cert                             | (8, stake_credential, coin)                               | stake_credential                                                  | Refund `keyDeposit` of amount `coin`  |
 | vote_deleg_cert                        | (9, stake_credential, drep)                               | stake_credential                                                  | None                                  |
 | stake_vote_deleg_cert                  | (10, stake_credential, pool_keyhash, drep)                | stake_credential                                                  | None                                  |
@@ -55,7 +55,7 @@ This change has been made to enable the checking of deposit amounts at the ledge
 | vote_reg_deleg_cert                    | (12, stake_credential, drep, coin)                        | stake_credential                                                  | Deposit `coin` of amount `keyDeposit` |
 | stake_vote_reg_deleg_cert              | (13, stake_credential, pool_keyhash, drep, coin)          | stake_credential                                                  | Deposit `coin` of amount `keyDeposit` |
 | auth_committee_hot_cert                | (14, committee_cold_credential, committee_hot_credential) | committee_cold_credential                                         | None                                  |
-| resign_committee_cold_cert             | (15, committee_cold_credential)                           | committee_cold_credential                                         | None                                  |
+| resign_committee_cold_cert             | (15, committee_cold_credential, anchor / null)            | committee_cold_credential                                         | None                                  |
 | reg_drep_cert                          | (16, drep_credential, coin, anchor / null)                | None                                                              | drepDeposit                           |
 | unreg_drep_cert                        | (17, drep_credential, coin)                               | drep_credential                                                   | Refund drepDeposit of amount coin     |
 | update_drep_cert                       | (18, drep_credential, anchor / null)                      | drep_credential                                                   | None                                  |
