@@ -41,7 +41,7 @@ cardano-cli conway governance committee key-gen-hot \
     --signing-key-file cc-hot.skey
 ```
 ```
-conway governance committee create-hot-key-authorization-certificate \
+cardano-cli conway governance committee create-hot-key-authorization-certificate \
     --cold-verification-key-file cc-cold.vkey \
     --hot-key-file cc-hot.vkey \
     --out-file cc-hot-key-authorization.cert
