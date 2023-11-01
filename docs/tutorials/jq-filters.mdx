@@ -5,12 +5,12 @@ sidebar_position: 11
 slug: /tutorials/jq-filters
 ---
 
-'_jq is like sed for JSON data - you can use it to slice, filter, map, and transform 
+'_jq is like sed for JSON data - you can use it to slice, filter, map, and transform
 structured data with the same ease that sed, awk, grep and friends let you play with text._'
 
-[Install jq](https://jqlang.github.io/jq/download/). 
+[Install jq](https://jqlang.github.io/jq/download/).
 
-Below you will find some useful jq filters to parse the governance state. 
+Below you will find some useful jq filters to parse the governance state.
 
 ### Show governance actions that will expire at the end of the current epoch:
 
@@ -18,30 +18,30 @@ Below you will find some useful jq filters to parse the governance state.
 current_epoch=$(cardano-cli query tip --testnet-magic 4 | jq .epoch)
 ```
 ```
-cardano-cli conway governance query gov-state --testnet-magic 4 \
-    | jq --argjson epoch "$current_epoch" '.gov.curGovSnapshots.psGovActionStates 
-    | to_entries[] 
+cardano-cli conway query gov-state --testnet-magic 4 \
+    | jq --argjson epoch "$current_epoch" '.proposals.psGovActionStates
+    | to_entries[]
     | select(.value.expiresAfter == $epoch)'
 
 ```
 
-### Show governance actions that were proposed in the current epoch:  
+### Show governance actions that were proposed in the current epoch:
 
 ```
 current_epoch=$(cardano-cli query tip --testnet-magic 4 | jq .epoch)
 ```
 ```
-cardano-cli conway governance query gov-state --testnet-magic 4 \
-    | jq -r --argjson epoch "$current_epoch" '.gov.curGovSnapshots.psGovActionStates 
-    | to_entries[] 
+cardano-cli conway query gov-state --testnet-magic 4 \
+    | jq -r --argjson epoch "$current_epoch" '.proposals.psGovActionStates
+    | to_entries[]
     | select(.value.proposedIn == $epoch)'
 ```
 
-### Sort governance actions by the number of DRep votes: 
+### Sort governance actions by the number of DRep votes:
 
 ```
-cardano-cli conway governance query gov-state --testnet-magic 4 | jq -r '
-  .gov.curGovSnapshots.psGovActionStates
+cardano-cli conway query gov-state --testnet-magic 4 | jq -r '
+  .proposals.psGovActionStates
   | to_entries[]
   | {govActionId: .key, type: .value.action.tag, drepVoteCount: (.value.dRepVotes | keys | length)}
   ' | jq -s 'sort_by(.voteCount) | reverse[]'
@@ -50,8 +50,8 @@ cardano-cli conway governance query gov-state --testnet-magic 4 | jq -r '
 ### Sort by the number of SPO votes:
 
 ```
-cardano-cli conway governance query gov-state --testnet-magic 4 | jq -r '
-  .gov.curGovSnapshots.psGovActionStates
+cardano-cli conway query gov-state --testnet-magic 4 | jq -r '
+  .proposals.psGovActionStates
   | to_entries[]
   | {govActionId: .key, type: .value.action.tag, spoVoteCount: (.value.stakePoolVotes | keys | length)}
   ' | jq -s 'sort_by(.voteCount) | reverse[]'
@@ -60,8 +60,8 @@ cardano-cli conway governance query gov-state --testnet-magic 4 | jq -r '
 ### Sort by the number of CC votes:
 
 ```
-cardano-cli conway governance query gov-state --testnet-magic 4 | jq -r '
-  .gov.curGovSnapshots.psGovActionStates
+cardano-cli conway query gov-state --testnet-magic 4 | jq -r '
+  .proposals.psGovActionStates
   | to_entries[]
   | {govActionId: .key, ccVoteCount: (.value.committeeVotes | keys | length)}
   ' | jq -s 'sort_by(.voteCount) | reverse[]'
@@ -75,8 +75,8 @@ current_epoch=$(cardano-cli query tip --testnet-magic 4 | jq .epoch)
 ```
 
 ```
-cardano-cli conway governance query gov-state --testnet-magic 4 | jq -r --argjson current_epoch "$current_epoch" '
-  .gov.curGovSnapshots.psGovActionStates
+cardano-cli conway query gov-state --testnet-magic 4 | jq -r --argjson current_epoch "$current_epoch" '
+  .proposals.psGovActionStates
   | to_entries[]
   | select(.value.expiresAfter >= ($current_epoch | tonumber) and .value.expiresAfter <= ($current_epoch + 2))
   | {
@@ -96,8 +96,8 @@ cardano-cli conway governance query gov-state --testnet-magic 4 | jq -r --argjso
 Replace `058b60ead63f667c0ff5b40e269dd1f05ce3a804256735ad4eddce20` with the hex DRep ID of your interest.
 
 ```
-cardano-cli conway governance query gov-state --testnet-magic 4 | jq -r --arg dRepKey "keyHash-058b60ead63f667c0ff5b40e269dd1f05ce3a804256735ad4eddce20" '
-  .gov.curGovSnapshots.psGovActionStates
+cardano-cli conway query gov-state --testnet-magic 4 | jq -r --arg dRepKey "keyHash-058b60ead63f667c0ff5b40e269dd1f05ce3a804256735ad4eddce20" '
+  .proposals.psGovActionStates
   | to_entries[]
   | select(.value.dRepVotes[$dRepKey] != null)
   | {
@@ -117,8 +117,8 @@ cardano-cli conway governance query gov-state --testnet-magic 4 | jq -r --arg dR
 Replace `058b60ead63f667c0ff5b40e269dd1f05ce3a804256735ad4eddce20` with the hex DRep ID of your interest.
 
 ```
-cardano-cli conway governance query gov-state --testnet-magic 4 | jq -r --arg dRepKey "keyHash-058b60ead63f667c0ff5b40e269dd1f05ce3a804256735ad4eddce20" '
-  .gov.curGovSnapshots.psGovActionStates
+cardano-cli conway query gov-state --testnet-magic 4 | jq -r --arg dRepKey "keyHash-058b60ead63f667c0ff5b40e269dd1f05ce3a804256735ad4eddce20" '
+  .proposals.psGovActionStates
   | to_entries[]
   | select(.value.dRepVotes[$dRepKey] == null)
   | {
@@ -137,8 +137,8 @@ cardano-cli conway governance query gov-state --testnet-magic 4 | jq -r --arg dR
 Replace `cf2dce795cef4f8e92f0ab062a5dae0c1f7d8891d943ced9c2eeda9a62d8f092#0` with the governance action ID of your interest.
 
 ```
-cardano-cli conway governance query gov-state --testnet-magic 4 | jq -r --arg actionId "cf2dce795cef4f8e92f0ab062a5dae0c1f7d8891d943ced9c2eeda9a62d8f092#0" '
-  .gov.curGovSnapshots.psGovActionStates
+cardano-cli conway query gov-state --testnet-magic 4 | jq -r --arg actionId "cf2dce795cef4f8e92f0ab062a5dae0c1f7d8891d943ced9c2eeda9a62d8f092#0" '
+  .proposals.psGovActionStates
   | to_entries[]
   | select(.key == $actionId)
   | { govActionId: .key,
@@ -160,8 +160,8 @@ cardano-cli conway governance query gov-state --testnet-magic 4 | jq -r --arg ac
 ```
 current_epoch=$(cardano-cli query tip --testnet-magic 4 | jq .epoch)
 
-cardano-cli conway governance query gov-state --testnet-magic 4 | jq -r --arg currentEpoch "$current_epoch" '
-  .gov.curGovSnapshots.psGovActionStates
+cardano-cli conway query gov-state --testnet-magic 4 | jq -r --arg currentEpoch "$current_epoch" '
+  .proposals.psGovActionStates
   | to_entries[]
   | select(.value.expiresAfter > ($currentEpoch | tonumber) and .value.action.tag == "TreasuryWithdrawals")
   | { govActionId: .key,
@@ -178,13 +178,13 @@ cardano-cli conway governance query gov-state --testnet-magic 4 | jq -r --arg cu
 
 ```
 
-### Show the active `update committee` governance actions and their current vote count: 
+### Show the active `update committee` governance actions and their current vote count:
 
 ```
 current_epoch=$(cardano-cli query tip --testnet-magic 4 | jq .epoch)
 
-cardano-cli conway governance query gov-state --testnet-magic 4 | jq -r --arg currentEpoch "$current_epoch" '
-  .gov.curGovSnapshots.psGovActionStates
+cardano-cli conway query gov-state --testnet-magic 4 | jq -r --arg currentEpoch "$current_epoch" '
+  .proposals.psGovActionStates
   | to_entries[]
   | select(.value.expiresAfter > ($currentEpoch | tonumber) and .value.action.tag == "UpdateCommittee")
   | { govActionId: .key,
@@ -199,4 +199,3 @@ cardano-cli conway governance query gov-state --testnet-magic 4 | jq -r --arg cu
     }
 ' | jq -s 'sort_by(.expiresAfter)'
 ```
-
