@@ -154,8 +154,20 @@ cardano-cli conway query committee-state --cold-verification-key-hash da9f5c5c94
 ````
 cardano-cli conway query committee-state --expired --testnet-magic 4
 {
-    "committee": {},
-    "epoch": 103,
+    "committee": {
+        "keyHash-059349cd1e77dc3e500d3ffc498adb7307001ecc022c8b083faaa48b": {
+            "expiration": 161,
+            "hotCredsAuthStatus": {
+                "contents": {
+                    "keyHash": "23e05ad2b71317a6348ce4b68dae37aa1c0e545cdea740b23c21742e"
+                },
+                "tag": "MemberAuthorized"
+            },
+            "nextEpochChange": "NoChangeExpected",
+            "status": "Expired"
+        }
+    },
+    "epoch": 169,
     "quorum": 0.6
 }
 ````
