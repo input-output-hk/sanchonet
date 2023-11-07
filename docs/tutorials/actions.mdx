@@ -75,7 +75,7 @@ Assume that the individual or entity that you want to add as a CC member has gen
 ```
 cardano-cli conway governance action create-new-committee \
   --testnet \
-  --governance-action-deposit 0 \
+  --governance-action-deposit 1000000000 \
   --stake-verification-key-file stake.vkey \
   --proposal-url https://tinyurl.com/3wrwb2as \
   --proposal-file rationale.txt \
@@ -94,7 +94,7 @@ Assume that you want to remove the CC member with the key hash `89181f26b47c3d3b
 ```
 cardano-cli conway governance action create-new-committee \
   --testnet \
-  --governance-action-deposit 0 \
+  --governance-action-deposit 1000000000 \
   --stake-verification-key-file utxo-keys/stake1.vkey \
   --proposal-url https://tinyurl.com/3wrwb2as \
   --proposal-file rationale.txt \
@@ -110,7 +110,7 @@ cardano-cli conway governance action create-new-committee \
 ```
 cardano-cli conway governance action create-new-committee \
   --testnet \
-  --governance-action-deposit 0 \
+  --governance-action-deposit 1000000000 \
   --stake-verification-key-file utxo-keys/stake1.vkey \
   --proposal-url https://tinyurl.com/3wrwb2as \
   --proposal-file rationale.txt \
@@ -150,7 +150,7 @@ b2sum -l 256 constitution.txt
 ```
 cardano-cli conway governance action create-constitution \
   --testnet \
-  --governance-action-deposit 0 \
+  --governance-action-deposit 1000000000 \
   --stake-verification-key-file stake.vkey \
   --proposal-url https://tinyurl.com/3wrwb2as \
   --proposal-hash "52e69500a92d80f2126c836a4903dc582006709f004cf7a28ed648f732dff8d2" \
@@ -178,7 +178,7 @@ cardano-cli conway governance query gov-state --testnet-magic 4 | jq .ratify.pre
 ```
 cardano-cli conway governance action create-no-confidence \
 --testnet \
---governance-action-deposit 0 \
+--governance-action-deposit 1000000000 \
 --stake-verification-key-file stake.vkey \
 --proposal-url https://tinyurl.com/3wrwb2as \
 --proposal-file rationale.txt \
@@ -198,7 +198,7 @@ the deposit refund, while the second credential is necessary for the disbursemen
 ```
 cardano-cli conway governance action create-treasury-withdrawal \
   --testnet \
-  --governance-action-deposit 0 \
+  --governance-action-deposit 1000000000 \
   --stake-verification-key-file deposit-stake.vkey \
   --proposal-url https://tinyurl.com/3wrwb2as \
   --proposal-file  rationale.txt \
@@ -219,7 +219,7 @@ clear because the content it houses is the very essence of the proposal.
 
 ```
 cardano-cli conway governance action create-info --testnet \
-  --governance-action-deposit 0 \
+  --governance-action-deposit 1000000000 \
   --stake-verification-key-file stake.vkey \
   --proposal-url https://tinyurl.com/yc74fxx4 \
   --proposal-file rationale.txt \
@@ -299,7 +299,7 @@ cardano-cli conway governance query gov-state --testnet-magic 4 \
     "keyHash-57cb90cfb635e76af648abf1b6a91519218a5919b3cba2527e3725d1": "VoteYes",
     "keyHash-7d84808d563f0f258ad7e4337c2c4bd13010930ebdf7b86c3bfd9ef8": "VoteYes"
   },
-  "deposit": 0,
+  "deposit": 1000000000,
   "expiresAfter": 16,
   "proposedIn": 14,
   "returnAddr": {
