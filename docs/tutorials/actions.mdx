@@ -1,6 +1,6 @@
 ---
 sidebar_label: Create governance actions
-title: Governance actions 
+title: Governance actions
 sidebar_position: 9
 slug: /tutorials/actions
 ---
@@ -11,42 +11,42 @@ A proposal is the process of putting together all the information required to su
 
 - A deposit
 - The reward account that will receive the deposit return
-- The governance action 
+- The governance action
 - An optional anchor.
 
-When using the `cardano-cli` to create a governance action, you will notice that it creates a proposal. 
+When using the `cardano-cli` to create a governance action, you will notice that it creates a proposal.
 
 **Deposit and stake credentials**
 
-Any ada holder can submit a governance action to the chain. They must provide a deposit, which will be returned when the action is finalized (whether it is ratified or has expired). 
+Any ada holder can submit a governance action to the chain. They must provide a deposit, which will be returned when the action is finalized (whether it is ratified or has expired).
 To facilitate this process, the proposer must specify the stake credential that will receive the refunded deposit.
 
 **Previous governance action ID**
 
-To prevent unintended conflicts between governance actions of the same type, it is essential that each governance action includes the governance action ID of 
-the most recently enacted action of its respective type. Notably, this requirement does not apply to **treasury withdrawal** and **info** governance actions. 
+To prevent unintended conflicts between governance actions of the same type, it is essential that each governance action includes the governance action ID of
+the most recently enacted action of its respective type. Notably, this requirement does not apply to **treasury withdrawal** and **info** governance actions.
 
 You can get the last enacted governance action IDs with:
 
 ```
-cardano-cli conway governance query gov-state --testnet-magic 4 | jq .ratify.prevGovActionIds
+cardano-cli conway query gov-state --testnet-magic 4 | jq -r .enactState.prevGovActionIds
 
 {
   "pgaCommittee": {
     "govActionIx": 0,
-    "txId": "93afe9f59ffdf7e9af98d582ebef5143691941a5236f3ec8464e601c9395bf66"
+    "txId": "fe2c99fe6bc75a9666427163d51ae7dbf5a60df40135361b7bfd53ac6c7912ec"
   },
   "pgaConstitution": {
     "govActionIx": 0,
-    "txId": "00caeb6c2db4575acc43be3e8f87b881dccb86283daf16aa2707275cbe7f3451"
+    "txId": "2bcf2a93cb840d72e6fbbad4d52419fa69a3971dee2e32fab414e32a44ecbaf7"
   },
   "pgaHardFork": null,
   "pgaPParamUpdate": null
 }
 ```
 
-Please note that both the **update committee** and **motion of no confidence** actions share the same space, referred to as 'pgaCommittee,' within the 
-governance state. Consequently, the governance state stores a single value to represent both of these actions. The system also verifies either of these 
+Please note that both the **update committee** and **motion of no confidence** actions share the same space, referred to as 'pgaCommittee,' within the
+governance state. Consequently, the governance state stores a single value to represent both of these actions. The system also verifies either of these
 actions against this single stored value.
 
 **Anchors**
@@ -54,68 +54,81 @@ actions against this single stored value.
 When proposing a governance action, the proposer may employ an *anchor*, which comprises a *URL* hosting a document that outlines the rationale
 for the proposed changes, along with the document's *hash*.
 
-The document at the URL can be of a free form. It's important that it should communicate to ada holders the *what* and the *why* of the proposal. This tutorial mostly uses 'https://tinyurl.com/3wrwb2as' as an example. 
+The document at the URL can be of a free form. It's important that it should communicate to ada holders the *what* and the *why* of the proposal. This tutorial mostly uses 'https://tinyurl.com/3wrwb2as' as an example.
 
 Utilize the BLAKE2b hashing algorithm to hash the document:
 
 ```
-b2sum -l 256 rationale.txt 
+b2sum -l 256 rationale.txt
 ee3b0232e4fd0d3e7e8626bea8eab6f611c608ec1dcfeed4c2db69560a9f2286  rationale.txt
 ```
 
-Alternatively, users have the option to submit either the 'text' or the 'file' instead of providing its hash when creating the proposal. The `cardano-cli` 
+Alternatively, users have the option to submit either the 'text' or the 'file' instead of providing its hash when creating the proposal. The `cardano-cli`
 automatically computes the hash and incorporates it into the governance action file.
 
-## Update committee actions  
+## Update committee actions
 
 #### Update committe to *add* a new CC member:
 
-Assume that the individual or entity that you want to add as a CC member has generated cold keys and has provided the key hash `89181f26b47c3d3b6b127df163b15b74b45bba7c3b7a1d185c05c2de`. You can then create the proposal with: 
+Assume you want to add three CC members, who have generated cold keys and have provided their key hashes:
+- `89181f26b47c3d3b6b127df163b15b74b45bba7c3b7a1d185c05c2de`
+- `ea8738081fca0726f4e781f5e55fda05f8745432a5f8a8d09eb0b34b`
+- `7f6721067362d4ae9ca73469fe983ce5572dad9028386100104b0da0`
 
+You can create a proposal to add them as new CC members with an expiration epoch (`--epoch`) for each of them. This is a good time to review the quorum. Let’s assume that 2/3 of the committee needs to accept the proposal:
+
+Query the current deposit required for a governance action:
 ```
-cardano-cli conway governance action create-new-committee \
+govActDeposit="$(cardano-cli conway query gov-state --testnet-magic 4 | jq -r '.enactState.curPParams.govActionDeposit')"
+```
+Create the governance action proposal:
+```
+cardano-cli conway governance action update-committee \
   --testnet \
   --governance-action-deposit 1000000000 \
   --stake-verification-key-file stake.vkey \
-  --proposal-url https://tinyurl.com/3wrwb2as \
-  --proposal-file rationale.txt \
+  --proposal-anchor-url https://tinyurl.com/3wrwb2as \
+  --proposal-anchor-metadata-file rationale.txt \
   --add-cc-cold-verification-key-hash 89181f26b47c3d3b6b127df163b15b74b45bba7c3b7a1d185c05c2de \
   --epoch 100 \
-  --quorum 51/100 \
-  --governance-action-tx-id 93afe9f59ffdf7e9af98d582ebef5143691941a5236f3ec8464e601c9395bf66 \
-  --governance-action-index 0 \
+  --add-cc-cold-verification-key-hash ea8738081fca0726f4e781f5e55fda05f8745432a5f8a8d09eb0b34b \
+  --epoch 95 \
+  --add-cc-cold-verification-key-hash 7f6721067362d4ae9ca73469fe983ce5572dad9028386100104b0da0 \
+  --epoch 90 \
+  --quorum 2/3 \
   --out-file update-committee.action
 ```
+* Note: If there is a **previously enacted** governance action to update the committee, the proposal must also include `--governance-action-tx-id` and `--governance-action-index`.
 
 #### Update committee to *remove* an existing CC member:
 
 Assume that you want to remove the CC member with the key hash `89181f26b47c3d3b6b127df163b15b74b45bba7c3b7a1d185c05c2de`. You can do this with:
 
 ```
-cardano-cli conway governance action create-new-committee \
+cardano-cli conway governance action update-committee \
   --testnet \
   --governance-action-deposit 1000000000 \
-  --stake-verification-key-file utxo-keys/stake1.vkey \
-  --proposal-url https://tinyurl.com/3wrwb2as \
-  --proposal-file rationale.txt \
+  --stake-verification-key-file stake.vkey \
+  --proposal-anchor-url https://tinyurl.com/3wrwb2as \
+  --proposal-anchor-metadata-file rationale.txt \
   --remove-cc-cold-verification-key-hash 89181f26b47c3d3b6b127df163b15b74b45bba7c3b7a1d185c05c2de \
-  --quorum 51/100 \
-  --governance-action-tx-id 93afe9f59ffdf7e9af98d582ebef5143691941a5236f3ec8464e601c9395bf66 \
+  --quorum 1/2 \
+  --governance-action-tx-id fe2c99fe6bc75a9666427163d51ae7dbf5a60df40135361b7bfd53ac6c7912ec \
   --governance-action-index 0 \
   --out-file update-committee.action
 ```
 
-#### Update committee to change the *quorum*:
+#### Update committee to only change the *quorum*:
 
 ```
-cardano-cli conway governance action create-new-committee \
+cardano-cli conway governance action update-committee \
   --testnet \
   --governance-action-deposit 1000000000 \
-  --stake-verification-key-file utxo-keys/stake1.vkey \
-  --proposal-url https://tinyurl.com/3wrwb2as \
-  --proposal-file rationale.txt \
+  --stake-verification-key-file stake.vkey \
+  --proposal-anchor-url https://tinyurl.com/3wrwb2as \
+  --proposal-anchor-metadata-file rationale.txt \
   --quorum 60/100 \
-  --governance-action-tx-id 93afe9f59ffdf7e9af98d582ebef5143691941a5236f3ec8464e601c9395bf66 \
+  --governance-action-tx-id fe2c99fe6bc75a9666427163d51ae7dbf5a60df40135361b7bfd53ac6c7912ec \
   --governance-action-index 0 \
   --out-file update-committee.action
 ```
@@ -125,7 +138,7 @@ cardano-cli conway governance action create-new-committee \
 - Find the last enacted governance action of this type:
 
 ```
-cardano-cli conway governance query gov-state --testnet-magic 4 | jq .ratify.prevGovActionIds.pgaConstitution
+cardano-cli conway query gov-state --testnet-magic 4 | jq .enactState.prevGovActionIds.pgaConstitution
 {
   "govActionIx": 0,
   "txId": "00caeb6c2db4575acc43be3e8f87b881dccb86283daf16aa2707275cbe7f3451"
@@ -134,14 +147,14 @@ cardano-cli conway governance query gov-state --testnet-magic 4 | jq .ratify.pre
 
 - Write a constitution update and save it to `constitution.txt`
 - Upload the `constitution.txt` file to a URL so that everyone can read it, for example, https://tinyurl.com/mr3ferf9
-- Check the hash of the `constitution.txt` file using [b2sum](https://man7.org/linux/man-pages/man1/b2sum.1.html). 
+- Check the hash of the `constitution.txt` file using [b2sum](https://man7.org/linux/man-pages/man1/b2sum.1.html).
 
 ````
 wget https://tinyurl.com/mr3ferf9 -O constitution.txt
 ````
 
 ```
-b2sum -l 256 constitution.txt                        
+b2sum -l 256 constitution.txt
 5d372dca1a4cc90d7d16d966c48270e33e3aa0abcb0e78f0d5ca7ff330d2245d  constitution.txt
 ```
 
@@ -152,10 +165,10 @@ cardano-cli conway governance action create-constitution \
   --testnet \
   --governance-action-deposit 1000000000 \
   --stake-verification-key-file stake.vkey \
-  --proposal-url https://tinyurl.com/3wrwb2as \
-  --proposal-hash "52e69500a92d80f2126c836a4903dc582006709f004cf7a28ed648f732dff8d2" \
-  --constitution-url https://tinyurl.com/mr3ferf9  \
-  --constitution "$(cat constitution.txt)" \
+  --proposal-anchor-url https://tinyurl.com/3wrwb2as \
+  --proposal-anchor-metadata-hash "52e69500a92d80f2126c836a4903dc582006709f004cf7a28ed648f732dff8d2" \
+  --constitution-anchor-url https://tinyurl.com/mr3ferf9  \
+  --constitution-anchor-metadata "$(cat constitution.txt)" \
   --governance-action-tx-id 00caeb6c2db4575acc43be3e8f87b881dccb86283daf16aa2707275cbe7f3451 \
   --governance-action-index 0 \
   --out-file constitution.action
@@ -166,10 +179,10 @@ cardano-cli conway governance action create-constitution \
 - Find the last governance action enacted of this type:
 
 ```
-cardano-cli conway governance query gov-state --testnet-magic 4 | jq .ratify.prevGovActionIds.pgaCommittee
+cardano-cli conway query gov-state --testnet-magic 4 | jq -r '.enactState.prevGovActionIds.pgaCommittee'
 {
   "govActionIx": 0,
-  "txId": "93afe9f59ffdf7e9af98d582ebef5143691941a5236f3ec8464e601c9395bf66"
+  "txId": "fe2c99fe6bc75a9666427163d51ae7dbf5a60df40135361b7bfd53ac6c7912ec"
 }
 ```
 
@@ -177,32 +190,32 @@ cardano-cli conway governance query gov-state --testnet-magic 4 | jq .ratify.pre
 
 ```
 cardano-cli conway governance action create-no-confidence \
---testnet \
---governance-action-deposit 1000000000 \
---stake-verification-key-file stake.vkey \
---proposal-url https://tinyurl.com/3wrwb2as \
---proposal-file rationale.txt \
---governance-action-tx-id 93afe9f59ffdf7e9af98d582ebef5143691941a5236f3ec8464e601c9395bf66 \
---governance-action-index 0 \
---out-file no-confidence.action
+  --testnet \
+  --governance-action-deposit 1000000000 \
+  --stake-verification-key-file stake.vkey \
+  --proposal-anchor-url https://tinyurl.com/3wrwb2as \
+  --proposal-anchor-metadata-file rationale.txt \
+  --governance-action-tx-id fe2c99fe6bc75a9666427163d51ae7dbf5a60df40135361b7bfd53ac6c7912ec \
+  --governance-action-index 0 \
+  --out-file no-confidence.action
 ```
 
 ## Treasury withdrawal
 
-In addition to the stake credential required to obtain a deposit refund, the proposer must also furnish stake credentials for receiving funds from the treasury in the 
-event that the governance action is approved. The sequence in which these credentials are provided holds significance. The initial credential is used for securing 
+In addition to the stake credential required to obtain a deposit refund, the proposer must also furnish stake credentials for receiving funds from the treasury in the
+event that the governance action is approved. The sequence in which these credentials are provided holds significance. The initial credential is used for securing
 the deposit refund, while the second credential is necessary for the disbursement of funds from the treasury.
 
-#### Create the treasury withdrawal proposal: 
+#### Create the treasury withdrawal proposal:
 
 ```
 cardano-cli conway governance action create-treasury-withdrawal \
   --testnet \
   --governance-action-deposit 1000000000 \
-  --stake-verification-key-file deposit-stake.vkey \
-  --proposal-url https://tinyurl.com/3wrwb2as \
-  --proposal-file  rationale.txt \
-  --stake-verification-key-file treasury-funds-stake.vkey \
+  --deposit-return-stake-verification-key-file stake.vkey \
+  --proposal-anchor-url https://tinyurl.com/3wrwb2as \
+  --proposal-anchor-metadata-file rationale.txt \
+  --funds-receiving-stake-verification-key-file stake.vkey \
   --transfer 50000000000 \
   --out-file treasury.action
 ```
@@ -211,8 +224,8 @@ cardano-cli conway governance action create-treasury-withdrawal \
 
 ## Info
 
-While it's technically optional to include an anchor in proposals, a compelling case can be made for the inclusion of an anchor in 'info' governance actions. This argument 
-is rooted in the inherent nature of 'info' actions, which lack on-chain consequences and essentially function like polls. In this context, the importance of an anchor becomes 
+While it's technically optional to include an anchor in proposals, a compelling case can be made for the inclusion of an anchor in 'info' governance actions. This argument
+is rooted in the inherent nature of 'info' actions, which lack on-chain consequences and essentially function like polls. In this context, the importance of an anchor becomes
 clear because the content it houses is the very essence of the proposal.
 
 #### Create the 'info' governance action:
@@ -221,24 +234,25 @@ clear because the content it houses is the very essence of the proposal.
 cardano-cli conway governance action create-info --testnet \
   --governance-action-deposit 1000000000 \
   --stake-verification-key-file stake.vkey \
-  --proposal-url https://tinyurl.com/yc74fxx4 \
-  --proposal-file rationale.txt \
+  --proposal-anchor-url  https://tinyurl.com/yc74fxx4 \
+  --proposal-anchor-metadata-file rationale.txt \
   --out-file info.action
   ```
 
 ## Submitting the `*.action` action file in a transaction
 
-Submitting the `*.action` file to the blockchain is the essential step in bringing your proposal to life and making it accessible for the community to participate in the 
-voting process. This process essentially transforms your proposal from a conceptual idea into an actionable item. Once submitted, it becomes part of the public ledger, 
-while also allowing members of the governance bodies to review, discuss, and ultimately cast their votes on its approval or rejection. 
+Submitting the `*.action` file to the blockchain is the essential step in bringing your proposal to life and making it accessible for the community to participate in the
+voting process. This process essentially transforms your proposal from a conceptual idea into an actionable item. Once submitted, it becomes part of the public ledger,
+while also allowing members of the governance bodies to review, discuss, and ultimately cast their votes on its approval or rejection.
+
+* Note that you can also use `build-raw` and `calculate-min-fee` to build transactions in an off-line settting. The example below uses the convenient `build`:
 
 ```
 cardano-cli conway transaction build \
   --testnet-magic 4 \
   --tx-in "$(cardano-cli query utxo --address "$(cat payment.addr)" --testnet-magic 4 --out-file /dev/stdout | jq -r 'keys[0]')" \
-  --change-address "$(cat payment.addr)" \
+  --tx-out $(cat payment.addr)+<lovelace> \
   --proposal-file info.action \
-  --witness-override 2 \
   --out-file tx.raw
 ```
 ```
@@ -257,54 +271,56 @@ cardano-cli conway transaction submit \
 
 ## Finding the governance action ID of your proposal
 
-You may want to find your governance action ID to share it with others on Discord and seek their support. The transaction ID and the index of the transaction that submitted the 
-proposal serve as the action ID. An effective way to find your governance action ID is by querying the governance state and filtering by (the proposer) stake key hash. 
+You may want to find your governance action ID to share it with others on Discord1 and seek their support. The transaction ID and the index of the transaction that submitted the
+proposal serve as the action ID. An effective way to find your governance action ID is by querying the governance state and filtering by (the proposer) stake key hash.
 
 First, find your key hash with:
 
 ```
 cardano-cli conway stake-address key-hash --stake-verification-key-file stake1.vkey
-f925cbd4eb78aad49ec7bf9b4ddfa4cc4486c967e392699d143c81aa
+8e0debc9fdc6c616ac40d98bf3950b436895eea9cccf0396a6e5e12b
 ```
 
 Use `jq` to filter the `gov-state` output by the stake key hash. The output contains all the relevant information about your governance actions, including `actionId`:
 
 ```
-cardano-cli conway governance query gov-state --testnet-magic 4 \
-| jq -r --arg keyHash "f925cbd4eb78aad49ec7bf9b4ddfa4cc4486c967e392699d143c81aa" '.gov.curGovSnapshots.psGovActionStates | to_entries[] | select(.value.returnAddr.credential.keyHash | contains($keyHash)) | .value'     
-
+cardano-cli conway query gov-state --testnet-magic 4 \
+| jq -r --arg keyHash "8e0debc9fdc6c616ac40d98bf3950b436895eea9cccf0396a6e5e12b" '.proposals.psGovActionStates | to_entries[] | select(.value.returnAddr.credential.keyHash | contains($keyHash)) | .value'
 {
   "action": {
     "contents": [
-      null,
-      {
-        "anchor": {
-          "dataHash": "5d372dca1a4cc90d7d16d966c48270e33e3aa0abcb0e78f0d5ca7ff330d2245d",
-          "url": "hhttps://tinyurl.com/mr3ferf9"
-        }
-      }
+      [
+        {
+          "credential": {
+            "keyHash": "7249a71391f08399f06b492eae7892a33191699625cff50b7dee55c6"
+          },
+          "network": "Testnet"
+        },
+        20388738581
+      ]
     ],
-    "tag": "NewConstitution"
+    "tag": "TreasuryWithdrawals"
   },
   "actionId": {
     "govActionIx": 0,
-    "txId": "132d0f1642b2a6364693575cebab32c6357cdf69cad3560ff0b47d463d27a8c8"
+    "txId": "4fcd92abf2ce3d6796c5fae51ea83d563ca8611359c9624fd1cecd7fa1ce71cc"
   },
   "committeeVotes": {
-    "keyHash-c8ac605b25d6084c2ceb28043c8f01b62629966d038a249c7847d66d": "VoteYes",
-    "keyHash-d13507f7e7fb8ac3ce2094187c9d99d4601021e9ef5a5f310567765d": "VoteYes"
+    "keyHash-23e05ad2b71317a6348ce4b68dae37aa1c0e545cdea740b23c21742e": "VoteNo",
+    "keyHash-540bedcd4bdcbf523e899c3ef43f2b96ecec4f6303af58d15a413ed1": "VoteYes",
+    "keyHash-6c1d098a366f2274651943a7f778b3b5459c129f0407a0db2902253a": "VoteYes"
   },
   "dRepVotes": {
-    "keyHash-16faaf6daa2635bbf53bbbaf38b3a6040adf7ced2f7f08952592cf5b": "VoteYes",
-    "keyHash-57cb90cfb635e76af648abf1b6a91519218a5919b3cba2527e3725d1": "VoteYes",
-    "keyHash-7d84808d563f0f258ad7e4337c2c4bd13010930ebdf7b86c3bfd9ef8": "VoteYes"
+    "keyHash-13797df5308dfebf2348fa58b312a177cf97939f5f7d21168e1a54db": "VoteYes",
+    "keyHash-9853551d8b99884f51608822e012bbf0d444eb7bea2807ee664f1241": "Abstain",
+    "keyHash-cf09b59e134fa14e48da39b552c02299a054d7c8b895b3d827453672": "VoteNo"
   },
   "deposit": 1000000000,
-  "expiresAfter": 16,
-  "proposedIn": 14,
+  "expiresAfter": 34,
+  "proposedIn": 33,
   "returnAddr": {
     "credential": {
-      "keyHash": "f925cbd4eb78aad49ec7bf9b4ddfa4cc4486c967e392699d143c81aa"
+      "keyHash": "8e0debc9fdc6c616ac40d98bf3950b436895eea9cccf0396a6e5e12b"
     },
     "network": "Testnet"
   },
