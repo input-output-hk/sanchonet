@@ -22,7 +22,7 @@ and votes to a SanchoNet delegate representative (DRep).
 ```
 cardano-cli conway stake-address registration-certificate \
 --stake-verification-key-file stake.vkey \
---key-reg-deposit-amt 2000000 \
+--key-reg-deposit-amt $(cardano-cli conway query gov-state --testnet-magic 4 | jq -r .enactState.curPParams.keyDeposit) \
 --out-file registration.cert
 ```
 
