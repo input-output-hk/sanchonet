@@ -25,8 +25,8 @@ Assume that we have been given the action ID `df58f714c0765f3489afb6909384a16c31
 1. Obtain the URL and hash of the new constitution proposal from the governance state:
 
 ```
-cardano-cli conway governance query gov-state --testnet-magic 4 | \
-jq -r '.gov.curGovSnapshots.psGovActionStates["df58f714c0765f3489afb6909384a16c31d600695be7e86ff9c59cf2e8a48c79#0"]'
+cardano-cli conway query gov-state --testnet-magic 4 | \
+jq -r '.proposals.psGovActionStates["df58f714c0765f3489afb6909384a16c31d600695be7e86ff9c59cf2e8a48c79#0"]'
 ```
 ```
 {
