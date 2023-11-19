@@ -30,7 +30,8 @@ You can get the last enacted governance action IDs with:
 
 ```
 cardano-cli conway query gov-state --testnet-magic 4 | jq -r .enactState.prevGovActionIds
-
+```
+```
 {
   "pgaCommittee": {
     "govActionIx": 0,
@@ -85,7 +86,7 @@ Create the governance action proposal:
 ```
 cardano-cli conway governance action update-committee \
   --testnet \
-  --governance-action-deposit 1000000000 \
+  --governance-action-deposit ${govActDeposit} \
   --stake-verification-key-file stake.vkey \
   --proposal-anchor-url https://tinyurl.com/3wrwb2as \
   --proposal-anchor-metadata-file rationale.txt \
@@ -143,6 +144,8 @@ the dedicated forum to explore the weighty matters of Cardano's constitution wit
 
 ```
 cardano-cli conway query gov-state --testnet-magic 4 | jq .enactState.prevGovActionIds.pgaConstitution
+```
+```
 {
   "govActionIx": 0,
   "txId": "00caeb6c2db4575acc43be3e8f87b881dccb86283daf16aa2707275cbe7f3451"
@@ -184,6 +187,8 @@ cardano-cli conway governance action create-constitution \
 
 ```
 cardano-cli conway query gov-state --testnet-magic 4 | jq -r '.enactState.prevGovActionIds.pgaCommittee'
+```
+```
 {
   "govActionIx": 0,
   "txId": "fe2c99fe6bc75a9666427163d51ae7dbf5a60df40135361b7bfd53ac6c7912ec"
@@ -241,7 +246,7 @@ cardano-cli conway governance action create-info --testnet \
   --proposal-anchor-url  https://tinyurl.com/yc74fxx4 \
   --proposal-anchor-metadata-file rationale.txt \
   --out-file info.action
-  ```
+```
 
 ## Submitting the `*.action` action file in a transaction
 
@@ -255,7 +260,7 @@ while also allowing members of the governance bodies to review, discuss, and ult
 cardano-cli conway transaction build \
   --testnet-magic 4 \
   --tx-in "$(cardano-cli query utxo --address "$(cat payment.addr)" --testnet-magic 4 --out-file /dev/stdout | jq -r 'keys[0]')" \
-  --tx-out $(cat payment.addr)+<lovelace> \
+  --change-address $(cat payment.addr) \
   --proposal-file info.action \
   --out-file tx.raw
 ```
@@ -282,14 +287,16 @@ First, find your key hash with:
 
 ```
 cardano-cli conway stake-address key-hash --stake-verification-key-file stake1.vkey
-8e0debc9fdc6c616ac40d98bf3950b436895eea9cccf0396a6e5e12b
 ```
+`8e0debc9fdc6c616ac40d98bf3950b436895eea9cccf0396a6e5e12b`
 
 Use `jq` to filter the `gov-state` output by the stake key hash. The output contains all the relevant information about your governance actions, including `actionId`:
 
 ```
 cardano-cli conway query gov-state --testnet-magic 4 \
 | jq -r --arg keyHash "8e0debc9fdc6c616ac40d98bf3950b436895eea9cccf0396a6e5e12b" '.proposals.psGovActionStates | to_entries[] | select(.value.returnAddr.credential.keyHash | contains($keyHash)) | .value'
+```
+```
 {
   "action": {
     "contents": [
