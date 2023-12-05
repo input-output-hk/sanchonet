@@ -19,7 +19,7 @@ current_epoch=$(cardano-cli query tip --testnet-magic 4 | jq .epoch)
 ```
 ```
 cardano-cli conway query gov-state --testnet-magic 4 \
-    | jq --argjson epoch "$current_epoch" '.proposals.psGovActionStates
+    | jq --argjson epoch "$current_epoch" '.proposals
     | to_entries[]
     | select(.value.expiresAfter == $epoch)'
 
@@ -32,7 +32,7 @@ current_epoch=$(cardano-cli query tip --testnet-magic 4 | jq .epoch)
 ```
 ```
 cardano-cli conway query gov-state --testnet-magic 4 \
-    | jq -r --argjson epoch "$current_epoch" '.proposals.psGovActionStates
+    | jq -r --argjson epoch "$current_epoch" '.proposals
     | to_entries[]
     | select(.value.proposedIn == $epoch)'
 ```
@@ -41,7 +41,7 @@ cardano-cli conway query gov-state --testnet-magic 4 \
 
 ```
 cardano-cli conway query gov-state --testnet-magic 4 | jq -r '
-  .proposals.psGovActionStates
+  .proposals
   | to_entries[]
   | {govActionId: .key, type: .value.action.tag, drepVoteCount: (.value.dRepVotes | keys | length)}
   ' | jq -s 'sort_by(.voteCount) | reverse[]'
@@ -51,7 +51,7 @@ cardano-cli conway query gov-state --testnet-magic 4 | jq -r '
 
 ```
 cardano-cli conway query gov-state --testnet-magic 4 | jq -r '
-  .proposals.psGovActionStates
+  .proposals
   | to_entries[]
   | {govActionId: .key, type: .value.action.tag, spoVoteCount: (.value.stakePoolVotes | keys | length)}
   ' | jq -s 'sort_by(.voteCount) | reverse[]'
@@ -61,7 +61,7 @@ cardano-cli conway query gov-state --testnet-magic 4 | jq -r '
 
 ```
 cardano-cli conway query gov-state --testnet-magic 4 | jq -r '
-  .proposals.psGovActionStates
+  .proposals
   | to_entries[]
   | {govActionId: .key, ccVoteCount: (.value.committeeVotes | keys | length)}
   ' | jq -s 'sort_by(.voteCount) | reverse[]'
@@ -76,7 +76,7 @@ current_epoch=$(cardano-cli query tip --testnet-magic 4 | jq .epoch)
 
 ```
 cardano-cli conway query gov-state --testnet-magic 4 | jq -r --argjson current_epoch "$current_epoch" '
-  .proposals.psGovActionStates
+  .proposals
   | to_entries[]
   | select(.value.expiresAfter >= ($current_epoch | tonumber) and .value.expiresAfter <= ($current_epoch + 2))
   | {
@@ -97,7 +97,7 @@ Replace `058b60ead63f667c0ff5b40e269dd1f05ce3a804256735ad4eddce20` with the hex 
 
 ```
 cardano-cli conway query gov-state --testnet-magic 4 | jq -r --arg dRepKey "keyHash-058b60ead63f667c0ff5b40e269dd1f05ce3a804256735ad4eddce20" '
-  .proposals.psGovActionStates
+  .proposals
   | to_entries[]
   | select(.value.dRepVotes[$dRepKey] != null)
   | {
@@ -118,7 +118,7 @@ Replace `058b60ead63f667c0ff5b40e269dd1f05ce3a804256735ad4eddce20` with the hex 
 
 ```
 cardano-cli conway query gov-state --testnet-magic 4 | jq -r --arg dRepKey "keyHash-058b60ead63f667c0ff5b40e269dd1f05ce3a804256735ad4eddce20" '
-  .proposals.psGovActionStates
+  .proposals
   | to_entries[]
   | select(.value.dRepVotes[$dRepKey] == null)
   | {
@@ -138,7 +138,7 @@ Replace `cf2dce795cef4f8e92f0ab062a5dae0c1f7d8891d943ced9c2eeda9a62d8f092#0` wit
 
 ```
 cardano-cli conway query gov-state --testnet-magic 4 | jq -r --arg actionId "cf2dce795cef4f8e92f0ab062a5dae0c1f7d8891d943ced9c2eeda9a62d8f092#0" '
-  .proposals.psGovActionStates
+  .proposals
   | to_entries[]
   | select(.key == $actionId)
   | { govActionId: .key,
@@ -161,7 +161,7 @@ cardano-cli conway query gov-state --testnet-magic 4 | jq -r --arg actionId "cf2
 current_epoch=$(cardano-cli query tip --testnet-magic 4 | jq .epoch)
 
 cardano-cli conway query gov-state --testnet-magic 4 | jq -r --arg currentEpoch "$current_epoch" '
-  .proposals.psGovActionStates
+  .proposals
   | to_entries[]
   | select(.value.expiresAfter > ($currentEpoch | tonumber) and .value.action.tag == "TreasuryWithdrawals")
   | { govActionId: .key,
@@ -184,7 +184,7 @@ cardano-cli conway query gov-state --testnet-magic 4 | jq -r --arg currentEpoch 
 current_epoch=$(cardano-cli query tip --testnet-magic 4 | jq .epoch)
 
 cardano-cli conway query gov-state --testnet-magic 4 | jq -r --arg currentEpoch "$current_epoch" '
-  .proposals.psGovActionStates
+  .proposals
   | to_entries[]
   | select(.value.expiresAfter > ($currentEpoch | tonumber) and .value.action.tag == "UpdateCommittee")
   | { govActionId: .key,

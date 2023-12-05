@@ -57,15 +57,19 @@ for the proposed changes, along with the document's *hash*.
 
 The document at the URL can be of a free form. It's important that it should communicate to ada holders the *what* and the *why* of the proposal. This tutorial mostly uses 'https://tinyurl.com/3wrwb2as' as an example.
 
-Utilize the BLAKE2b hashing algorithm to hash the document:
+You can use `cardano-cli` to get the hash:
+
+```
+cardano-cli conway governance hash --file-text rationale.txt
+52e69500a92d80f2126c836a4903dc582006709f004cf7a28ed648f732dff8d2
+```
+Alternatively, utilize b2sum to hash the document:
 
 ```
 b2sum -l 256 rationale.txt
-ee3b0232e4fd0d3e7e8626bea8eab6f611c608ec1dcfeed4c2db69560a9f2286  rationale.txt
+52e69500a92d80f2126c836a4903dc582006709f004cf7a28ed648f732dff8d2  rationale.txt
 ```
-
-Alternatively, users have the option to submit either the 'text' or the 'file' instead of providing its hash when creating the proposal. The `cardano-cli`
-automatically computes the hash and incorporates it into the governance action file.
+You will need to supply the hash of the document when creating a governance action.
 
 ## Update committee actions
 
@@ -87,9 +91,9 @@ Create the governance action proposal:
 cardano-cli conway governance action update-committee \
   --testnet \
   --governance-action-deposit ${govActDeposit} \
-  --stake-verification-key-file stake.vkey \
-  --proposal-anchor-url https://tinyurl.com/3wrwb2as \
-  --proposal-anchor-metadata-file rationale.txt \
+  --deposit-return-stake-verification-key-file stake.vkey \
+  --anchor-url https://tinyurl.com/3wrwb2as \
+  --anchor-data-hash 52e69500a92d80f2126c836a4903dc582006709f004cf7a28ed648f732dff8d2 \
   --add-cc-cold-verification-key-hash 89181f26b47c3d3b6b127df163b15b74b45bba7c3b7a1d185c05c2de \
   --epoch 100 \
   --add-cc-cold-verification-key-hash ea8738081fca0726f4e781f5e55fda05f8745432a5f8a8d09eb0b34b \
@@ -109,9 +113,9 @@ Assume that you want to remove the CC member with the key hash `89181f26b47c3d3b
 cardano-cli conway governance action update-committee \
   --testnet \
   --governance-action-deposit 1000000000 \
-  --stake-verification-key-file stake.vkey \
-  --proposal-anchor-url https://tinyurl.com/3wrwb2as \
-  --proposal-anchor-metadata-file rationale.txt \
+  --deposit-return-stake-verification-key-file stake.vkey \
+  --anchor-url https://tinyurl.com/3wrwb2as \
+  --anchor-data-hash 52e69500a92d80f2126c836a4903dc582006709f004cf7a28ed648f732dff8d2 \
   --remove-cc-cold-verification-key-hash 89181f26b47c3d3b6b127df163b15b74b45bba7c3b7a1d185c05c2de \
   --quorum 1/2 \
   --governance-action-tx-id fe2c99fe6bc75a9666427163d51ae7dbf5a60df40135361b7bfd53ac6c7912ec \
@@ -125,9 +129,9 @@ cardano-cli conway governance action update-committee \
 cardano-cli conway governance action update-committee \
   --testnet \
   --governance-action-deposit 1000000000 \
-  --stake-verification-key-file stake.vkey \
-  --proposal-anchor-url https://tinyurl.com/3wrwb2as \
-  --proposal-anchor-metadata-file rationale.txt \
+  --deposit-return-stake-verification-key-file stake.vkey \
+  --anchor-url https://tinyurl.com/3wrwb2as \
+  --anchor-data-hash 52e69500a92d80f2126c836a4903dc582006709f004cf7a28ed648f732dff8d2 \
   --quorum 60/100 \
   --governance-action-tx-id fe2c99fe6bc75a9666427163d51ae7dbf5a60df40135361b7bfd53ac6c7912ec \
   --governance-action-index 0 \
@@ -156,9 +160,14 @@ cardano-cli conway query gov-state --testnet-magic 4 | jq .enactState.prevGovAct
 - Upload the `constitution.txt` file to a URL so that everyone can read it, for example, https://tinyurl.com/mr3ferf9
 - Check the hash of the `constitution.txt` file using [b2sum](https://man7.org/linux/man-pages/man1/b2sum.1.html).
 
-````
+```
 wget https://tinyurl.com/mr3ferf9 -O constitution.txt
-````
+```
+```
+cardano-cli conway governance hash --file-text constitution.txt
+5d372dca1a4cc90d7d16d966c48270e33e3aa0abcb0e78f0d5ca7ff330d2245d
+```
+or
 
 ```
 b2sum -l 256 constitution.txt
@@ -171,12 +180,12 @@ b2sum -l 256 constitution.txt
 cardano-cli conway governance action create-constitution \
   --testnet \
   --governance-action-deposit 1000000000 \
-  --stake-verification-key-file stake.vkey \
-  --proposal-anchor-url https://tinyurl.com/3wrwb2as \
-  --proposal-anchor-metadata-hash "52e69500a92d80f2126c836a4903dc582006709f004cf7a28ed648f732dff8d2" \
-  --constitution-anchor-url https://tinyurl.com/mr3ferf9  \
-  --constitution-anchor-metadata "$(cat constitution.txt)" \
-  --governance-action-tx-id 00caeb6c2db4575acc43be3e8f87b881dccb86283daf16aa2707275cbe7f3451 \
+  --deposit-return-stake-verification-key-file stake.vkey \
+  --anchor-url https://tinyurl.com/3wrwb2as \
+  --anchor-data-hash "52e69500a92d80f2126c836a4903dc582006709f004cf7a28ed648f732dff8d2" \
+  --constitution-url https://tinyurl.com/mr3ferf9  \
+  --constitution-hash "5d372dca1a4cc90d7d16d966c48270e33e3aa0abcb0e78f0d5ca7ff330d2245d" \
+  --governance-action-tx-id "00caeb6c2db4575acc43be3e8f87b881dccb86283daf16aa2707275cbe7f3451" \
   --governance-action-index 0 \
   --out-file constitution.action
 ```
@@ -201,9 +210,9 @@ cardano-cli conway query gov-state --testnet-magic 4 | jq -r '.enactState.prevGo
 cardano-cli conway governance action create-no-confidence \
   --testnet \
   --governance-action-deposit 1000000000 \
-  --stake-verification-key-file stake.vkey \
-  --proposal-anchor-url https://tinyurl.com/3wrwb2as \
-  --proposal-anchor-metadata-file rationale.txt \
+  --deposit-return-stake-verification-key-file stake.vkey \
+  --anchor-url https://tinyurl.com/3wrwb2as \
+  --anchor-data-hash 52e69500a92d80f2126c836a4903dc582006709f004cf7a28ed648f732dff8d2 \
   --governance-action-tx-id fe2c99fe6bc75a9666427163d51ae7dbf5a60df40135361b7bfd53ac6c7912ec \
   --governance-action-index 0 \
   --out-file no-confidence.action
@@ -212,8 +221,7 @@ cardano-cli conway governance action create-no-confidence \
 ## Treasury withdrawal
 
 In addition to the stake credential required to obtain a deposit refund, the proposer must also furnish stake credentials for receiving funds from the treasury in the
-event that the governance action is approved. The sequence in which these credentials are provided holds significance. The initial credential is used for securing
-the deposit refund, while the second credential is necessary for the disbursement of funds from the treasury.
+event that the governance action is approved.
 
 #### Create the treasury withdrawal proposal:
 
@@ -222,8 +230,8 @@ cardano-cli conway governance action create-treasury-withdrawal \
   --testnet \
   --governance-action-deposit 1000000000 \
   --deposit-return-stake-verification-key-file stake.vkey \
-  --proposal-anchor-url https://tinyurl.com/3wrwb2as \
-  --proposal-anchor-metadata-file rationale.txt \
+  --anchor-url https://tinyurl.com/3wrwb2as \
+  --anchor-data-hash 52e69500a92d80f2126c836a4903dc582006709f004cf7a28ed648f732dff8d2 \
   --funds-receiving-stake-verification-key-file stake.vkey \
   --transfer 50000000000 \
   --out-file treasury.action
@@ -233,19 +241,27 @@ cardano-cli conway governance action create-treasury-withdrawal \
 
 ## Info
 
-While it's technically optional to include an anchor in proposals, a compelling case can be made for the inclusion of an anchor in 'info' governance actions. This argument
-is rooted in the inherent nature of 'info' actions, which lack on-chain consequences and essentially function like polls. In this context, the importance of an anchor becomes
-clear because the content it houses is the very essence of the proposal.
-
 #### Create the 'info' governance action:
 
 ```
 cardano-cli conway governance action create-info --testnet \
   --governance-action-deposit 1000000000 \
-  --stake-verification-key-file stake.vkey \
-  --proposal-anchor-url  https://tinyurl.com/yc74fxx4 \
-  --proposal-anchor-metadata-file rationale.txt \
+  --deposit-return-stake-verification-key-file stake.vkey \
+  --anchor-url  https://tinyurl.com/yc74fxx4 \
+  --anchor-data-hash  \
   --out-file info.action
+```
+
+## Update protocol parameters
+
+```
+cardano-cli conway governance action create-info --testnet \
+  --governance-action-deposit 1000000000 \
+  --deposit-return-stake-verification-key-file stake.vkey \
+  --anchor-url https://tinyurl.com/3wrwb2as \
+  --anchor-data-hash 52e69500a92d80f2126c836a4903dc582006709f004cf7a28ed648f732dff8d2 \
+  --key-reg-deposit-amt 1000000 \
+  --out-file
 ```
 
 ## Submitting the `*.action` action file in a transaction
@@ -294,7 +310,7 @@ Use `jq` to filter the `gov-state` output by the stake key hash. The output cont
 
 ```
 cardano-cli conway query gov-state --testnet-magic 4 \
-| jq -r --arg keyHash "8e0debc9fdc6c616ac40d98bf3950b436895eea9cccf0396a6e5e12b" '.proposals.psGovActionStates | to_entries[] | select(.value.returnAddr.credential.keyHash | contains($keyHash)) | .value'
+| jq -r --arg keyHash "8e0debc9fdc6c616ac40d98bf3950b436895eea9cccf0396a6e5e12b" '.proposals | to_entries[] | select(.value.returnAddr.credential.keyHash | contains($keyHash)) | .value'
 ```
 ```
 {
