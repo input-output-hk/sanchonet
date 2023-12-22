@@ -2,7 +2,7 @@
 
 SanchoNet meetups is a way for people to get to know more about SanchoNet be it online or offline at an event. 
 
-This page can be updated by anyone in the commmunity by submitting a pull request with changes.
+This page can be updated by anyone in the community by submitting a pull request with changes.
 
 | Location       | Date                               | Link                                                                | Info                                                                          |
 |----------------|------------------------------------|---------------------------------------------------------------------|-------------------------------------------------------------------------------|
