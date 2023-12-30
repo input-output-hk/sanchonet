@@ -252,17 +252,19 @@ cardano-cli conway governance action create-info --testnet \
   --out-file info.action
 ```
 
-## Update protocol parameters
+## Update protocol parameters to change the `--key-reg-deposit-amt`
 
 ```
-cardano-cli conway governance action create-info --testnet \
+cardano-cli conway governance action create-protocol-parameters-update \
+  --testnet \
   --governance-action-deposit 1000000000 \
   --deposit-return-stake-verification-key-file stake.vkey \
   --anchor-url https://tinyurl.com/3wrwb2as \
   --anchor-data-hash 52e69500a92d80f2126c836a4903dc582006709f004cf7a28ed648f732dff8d2 \
   --key-reg-deposit-amt 1000000 \
-  --out-file
+  --out-file pp-update.action
 ```
+* Note: If there is a **previously enacted** governance action to update the protocol parameters, the proposal must also include `--governance-action-tx-id` and `--governance-action-index`.
 
 ## Submitting the `*.action` action file in a transaction
 
@@ -275,6 +277,7 @@ while also allowing members of the governance bodies to review, discuss, and ult
 ```
 cardano-cli conway transaction build \
   --testnet-magic 4 \
+  --witness-override 2 \
   --tx-in "$(cardano-cli query utxo --address "$(cat payment.addr)" --testnet-magic 4 --out-file /dev/stdout | jq -r 'keys[0]')" \
   --change-address $(cat payment.addr) \
   --proposal-file info.action \
