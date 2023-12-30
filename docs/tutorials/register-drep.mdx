@@ -57,7 +57,7 @@ There are three ways to generate the certificate:
 ````
 cardano-cli conway governance drep registration-certificate \
 --drep-verification-key-file drep.vkey \
---key-reg-deposit-amt 2000000 \
+--key-reg-deposit-amt $(cardano-cli conway query gov-state --testnet-magic 4 | jq -r .enactState.curPParams.dRepDeposit) \
 --out-file drep-register.cert
 ````
 
@@ -66,7 +66,7 @@ cardano-cli conway governance drep registration-certificate \
 ````
 cardano-cli conway governance drep registration-certificate \
 --drep-verification-key "$(cat drep.vkey | jq -r .cborHex | cut -c 5-)" \
---key-reg-deposit-amt 2000000 \
+--key-reg-deposit-amt $(cardano-cli conway query gov-state --testnet-magic 4 | jq -r .enactState.curPParams.dRepDeposit) \
 --out-file drep-register.cert
 ````
 
@@ -75,7 +75,7 @@ cardano-cli conway governance drep registration-certificate \
 ````
 cardano-cli conway governance drep registration-certificate \
 --drep-key-hash $(cat drep.id) \
---key-reg-deposit-amt 2000000 \
+--key-reg-deposit-amt $(cardano-cli conway query gov-state --testnet-magic 4 | jq -r .enactState.curPParams.dRepDeposit) \
 --out-file drep-register.cert
 ````
 
