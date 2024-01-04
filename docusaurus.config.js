@@ -138,7 +138,7 @@ const config = {
               },
               {
                 label: "Discord",
-                href: "https://discord.gg/inputoutput"
+                href: "https://discord.gg/56EQWW4rzv"
               },
               {
                 label: "X",
