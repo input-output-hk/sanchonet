@@ -7,7 +7,7 @@ sidebar_position: 2
 
 **Warning:** Please note that due to ongoing development, some answers may change over time.
 
-*Last update: 2023-10-25*
+*Last update: 2024-02-02*
 
 Based on ledger design at commit: [cd10d6b](https://github.com/IntersectMBO/cardano-ledger/blob/cd10d6b968bda704fb1ddc1226388fe221789155/eras/conway/test-suite/cddl-files/conway.cddl)
 
@@ -32,7 +32,7 @@ Based on ledger design at commit: [cd10d6b](https://github.com/IntersectMBO/card
 
 ⚠ There are currently two ways to register/unregister stake credentials because the old `stake_registration` and `stake_deregistration` will be deprecated in the era following the Conway era. ⚠ 
 
-The new version allows the ledger to check deposit amounts and return them instantly, matching the other new certificates containing deposits.
+The new version allows the ledger to check deposit amounts and return them instantly (rather than on epoch boundary), matching the other new certificates containing deposits.
 
 ### 3. Why do new certificates have a `coin` field?
 
@@ -101,8 +101,16 @@ Donations function more like fees. They are collected in a pool and then transfe
 
 The 'current treasury value' is used for conveying the current treasury amount to Plutus scripts. If the treasury field is set incorrectly, the transaction will be rejected.
 
-15. How does the process of CC resignation (resign_committee_cold_cert) work, and what happens if all CC members resign? Does this impact the quorum?
+### 15. How does the process of CC resignation (resign_committee_cold_cert) work, and what happens if all CC members resign? Does this impact the quorum?
 
 Resigned and expired constitutional committee members are automatically counted as if they have voted 'Abstain'.
 
 Another crucial point to note is that whenever the number of active committee members (those who are neither expired nor resigned) falls below the `committeeMinSize` protocol parameter, the system enters a mode in which it is as though all committee members have cast a 'No' vote.
+
+### 16. For `parameter_change_action` and `treasury_withdrawals_action` does the optionally supplied `policy_hash` require a witness from the script?
+
+Yes. It is only optional, when there is no governance policy. When there is a governance policy we require that `policy_hash` to be present and equal to the one in the elected constitution.
+
+### 17. Are the governance voting threshold Parameters set to be fixed at 2 decimal places?
+
+No, they are rational numbers on the unit interval where both numerator and denominator are specified by 64bit unsigned integers. So, those thresholds can be very precise.
