@@ -7,9 +7,9 @@ sidebar_position: 2
 
 **Warning:** Please note that due to ongoing development, some answers may change over time.
 
-*Last update: 2024-02-02*
+*Last update: 2024-02-17*
 
-Based on ledger design at commit: [cd10d6b](https://github.com/IntersectMBO/cardano-ledger/blob/cd10d6b968bda704fb1ddc1226388fe221789155/eras/conway/test-suite/cddl-files/conway.cddl)
+Based on ledger design cddl: [node 8.8.0-pre](https://github.com/IntersectMBO/cardano-ledger/blob/cardano-ledger-conway-1.12.0.0/eras/conway/impl/cddl-files/conway.cddl)
 
 ### 1. What are the new Conway certificates?
 
@@ -56,7 +56,7 @@ This change has been made to enable the checking of deposit amounts at the ledge
 | stake_vote_reg_deleg_cert              | (13, stake_credential, pool_keyhash, drep, coin)          | stake_credential                                                  | Deposit `coin` of amount `keyDeposit` |
 | auth_committee_hot_cert                | (14, committee_cold_credential, committee_hot_credential) | committee_cold_credential                                         | None                                  |
 | resign_committee_cold_cert             | (15, committee_cold_credential, anchor / null)            | committee_cold_credential                                         | None                                  |
-| reg_drep_cert                          | (16, drep_credential, coin, anchor / null)                | None                                                              | drepDeposit                           |
+| reg_drep_cert                          | (16, drep_credential, coin, anchor / null)                | drep_credential                                                   | drepDeposit                           |
 | unreg_drep_cert                        | (17, drep_credential, coin)                               | drep_credential                                                   | Refund drepDeposit of amount coin     |
 | update_drep_cert                       | (18, drep_credential, anchor / null)                      | drep_credential                                                   | None                                  |
 | voting_procedure (in Tx body)          | voting_procedures = { + voter => { + gov_action_id => voting_procedure } } | drep_credential OR committee_hot_credential OR stake_pool_keyHash | None                                  |
@@ -122,4 +122,4 @@ This decision was to prevent people from constantly withdrawing rewards just so 
 
 ### 19. Do any locked deposits count towards voting stake?
 
-No.
+The only deposits which count toward voting stake thresholds are deposits locked for governance actions.
