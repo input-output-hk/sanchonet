@@ -106,7 +106,7 @@ cardano-cli conway governance action update-committee \
   --quorum 2/3 \
   --out-file update-committee.action
 ```
-* Note: If there is a **previously enacted** governance action to update the committee, the proposal must also include `--governance-action-tx-id` and `--governance-action-index`.
+* Note: If there is a **previously enacted** governance action to update the committee, the proposal must also include `--prev-governance-action-tx-id` and `--prev-governance-action-index`.
 
 #### Update committee to *remove* an existing CC member:
 
@@ -121,8 +121,8 @@ cardano-cli conway governance action update-committee \
   --anchor-data-hash 931f1d8cdfdc82050bd2baadfe384df8bf99b00e36cb12bfb8795beab3ac7fe5 \
   --remove-cc-cold-verification-key-hash 89181f26b47c3d3b6b127df163b15b74b45bba7c3b7a1d185c05c2de \
   --quorum 1/2 \
-  --governance-action-tx-id fe2c99fe6bc75a9666427163d51ae7dbf5a60df40135361b7bfd53ac6c7912ec \
-  --governance-action-index 0 \
+  --prev-governance-action-tx-id fe2c99fe6bc75a9666427163d51ae7dbf5a60df40135361b7bfd53ac6c7912ec \
+  --prev-governance-action-index 0 \
   --out-file update-committee.action
 ```
 
@@ -188,8 +188,8 @@ cardano-cli conway governance action create-constitution \
   --anchor-data-hash "931f1d8cdfdc82050bd2baadfe384df8bf99b00e36cb12bfb8795beab3ac7fe5" \
   --constitution-url https://tinyurl.com/mr3ferf9  \
   --constitution-hash "5d372dca1a4cc90d7d16d966c48270e33e3aa0abcb0e78f0d5ca7ff330d2245d" \
-  --governance-action-tx-id "00caeb6c2db4575acc43be3e8f87b881dccb86283daf16aa2707275cbe7f3451" \
-  --governance-action-index 0 \
+  --prev-governance-action-tx-id "00caeb6c2db4575acc43be3e8f87b881dccb86283daf16aa2707275cbe7f3451" \
+  --prev-governance-action-index 0 \
   --out-file constitution.action
 ```
 
@@ -267,7 +267,7 @@ cardano-cli conway governance action create-protocol-parameters-update \
   --key-reg-deposit-amt 1000000 \
   --out-file pp-update.action
 ```
-* Note: If there is a **previously enacted** governance action to update the protocol parameters, the proposal must also include `--governance-action-tx-id` and `--governance-action-index`.
+* Note: If there is a **previously enacted** governance action to update the protocol parameters, the proposal must also include `--prev-governance-action-tx-id` and `--prev-governance-action-index`.
 
 ## Submitting the `*.action` action file in a transaction
 
