@@ -7,9 +7,9 @@ sidebar_position: 2
 
 **Warning:** Please note that due to ongoing development, some answers may change over time.
 
-*Last update: 2023-10-25*
+*Last update: 2024-02-17*
 
-Based on ledger design at commit: [cd10d6b](https://github.com/IntersectMBO/cardano-ledger/blob/cd10d6b968bda704fb1ddc1226388fe221789155/eras/conway/test-suite/cddl-files/conway.cddl)
+Based on ledger design cddl: [node 8.8.0-pre](https://github.com/IntersectMBO/cardano-ledger/blob/cardano-ledger-conway-1.12.0.0/eras/conway/impl/cddl-files/conway.cddl)
 
 ### 1. What are the new Conway certificates?
 
@@ -32,7 +32,7 @@ Based on ledger design at commit: [cd10d6b](https://github.com/IntersectMBO/card
 
 ⚠ There are currently two ways to register/unregister stake credentials because the old `stake_registration` and `stake_deregistration` will be deprecated in the era following the Conway era. ⚠ 
 
-The new version allows the ledger to check deposit amounts and return them instantly, matching the other new certificates containing deposits.
+The new version allows the ledger to check deposit amounts and return them instantly (rather than on epoch boundary), matching the other new certificates containing deposits.
 
 ### 3. Why do new certificates have a `coin` field?
 
@@ -56,7 +56,7 @@ This change has been made to enable the checking of deposit amounts at the ledge
 | stake_vote_reg_deleg_cert              | (13, stake_credential, pool_keyhash, drep, coin)          | stake_credential                                                  | Deposit `coin` of amount `keyDeposit` |
 | auth_committee_hot_cert                | (14, committee_cold_credential, committee_hot_credential) | committee_cold_credential                                         | None                                  |
 | resign_committee_cold_cert             | (15, committee_cold_credential, anchor / null)            | committee_cold_credential                                         | None                                  |
-| reg_drep_cert                          | (16, drep_credential, coin, anchor / null)                | None                                                              | drepDeposit                           |
+| reg_drep_cert                          | (16, drep_credential, coin, anchor / null)                | drep_credential                                                   | drepDeposit                           |
 | unreg_drep_cert                        | (17, drep_credential, coin)                               | drep_credential                                                   | Refund drepDeposit of amount coin     |
 | update_drep_cert                       | (18, drep_credential, anchor / null)                      | drep_credential                                                   | None                                  |
 | voting_procedure (in Tx body)          | voting_procedures = { + voter => { + gov_action_id => voting_procedure } } | drep_credential OR committee_hot_credential OR stake_pool_keyHash | None                                  |
@@ -101,8 +101,25 @@ Donations function more like fees. They are collected in a pool and then transfe
 
 The 'current treasury value' is used for conveying the current treasury amount to Plutus scripts. If the treasury field is set incorrectly, the transaction will be rejected.
 
-15. How does the process of CC resignation (resign_committee_cold_cert) work, and what happens if all CC members resign? Does this impact the quorum?
+### 15. How does the process of CC resignation (resign_committee_cold_cert) work, and what happens if all CC members resign? Does this impact the quorum?
 
 Resigned and expired constitutional committee members are automatically counted as if they have voted 'Abstain'.
 
 Another crucial point to note is that whenever the number of active committee members (those who are neither expired nor resigned) falls below the `committeeMinSize` protocol parameter, the system enters a mode in which it is as though all committee members have cast a 'No' vote.
+
+### 16. For `parameter_change_action` and `treasury_withdrawals_action` does the optionally supplied `policy_hash` require a witness from the script?
+
+Yes. It is only optional, when there is no governance policy. When there is a governance policy we require that `policy_hash` to be present and equal to the one in the elected constitution.
+
+### 17. Are the governance voting threshold Parameters set to be fixed at 2 decimal places?
+
+No, they are rational numbers on the unit interval where both numerator and denominator are specified by 64bit unsigned integers. So, those thresholds can be very precise.
+
+### 18. Do unwithdrawn staking rewards count towards one's voting power/ is counted in active/inactive voting stake amounts?
+
+Yes, the amount in the reward account is counted towards active stake, which means it will also participate in the voting.
+This decision was to prevent people from constantly withdrawing rewards just so they can get rewards on that amount.
+
+### 19. Do any locked deposits count towards voting stake?
+
+The only deposits which count toward voting stake thresholds are deposits locked for governance actions.
