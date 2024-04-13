@@ -29,7 +29,7 @@ the most recently enacted action of its respective type. Notably, this requireme
 You can get the last enacted governance action IDs with:
 
 ```bash
-cardano-cli conway query gov-state --testnet-magic 4 | jq -r .enactState.prevGovActionIds
+cardano-cli conway query gov-state --testnet-magic 4 | jq -r .nextRatifyState.nextEnactState.prevGovActionIds
 ```
 ```json
 {
@@ -89,7 +89,7 @@ Create the governance action proposal:
 ```bash
 cardano-cli conway governance action update-committee \
   --testnet \
-  --governance-action-deposit $(cardano-cli conway query gov-state --testnet-magic 4 | jq -r '.enactState.curPParams.govActionDeposit') \
+  --governance-action-deposit $(cardano-cli conway query gov-state --testnet-magic 4 | jq -r '.currentPParams.govActionDeposit') \
   --deposit-return-stake-verification-key-file stake.vkey \
   --anchor-url https://raw.githubusercontent.com/Ryun1/metadata/main/cip108/treasury-withdrawal.jsonld \
   --anchor-data-hash 931f1d8cdfdc82050bd2baadfe384df8bf99b00e36cb12bfb8795beab3ac7fe5 \
@@ -99,7 +99,7 @@ cardano-cli conway governance action update-committee \
   --epoch 95 \
   --add-cc-cold-verification-key-hash 7f6721067362d4ae9ca73469fe983ce5572dad9028386100104b0da0 \
   --epoch 90 \
-  --quorum 2/3 \
+  --threshold 2/3 \
   --out-file update-committee.action
 ```
 * Note: If there is a **previously enacted** governance action to update the committee, the proposal must also include `--prev-governance-action-tx-id` and `--prev-governance-action-index`.
@@ -111,27 +111,27 @@ Assume that you want to remove the CC member with the key hash `89181f26b47c3d3b
 ```bash
 cardano-cli conway governance action update-committee \
   --testnet \
-  --governance-action-deposit $(cardano-cli conway query gov-state --testnet-magic 4 | jq -r '.enactState.curPParams.govActionDeposit') \
+  --governance-action-deposit $(cardano-cli conway query gov-state --testnet-magic 4 | jq -r '.currentPParams.govActionDeposit') \
   --deposit-return-stake-verification-key-file stake.vkey \
   --anchor-url https://raw.githubusercontent.com/Ryun1/metadata/main/cip108/treasury-withdrawal.jsonld \
   --anchor-data-hash 931f1d8cdfdc82050bd2baadfe384df8bf99b00e36cb12bfb8795beab3ac7fe5 \
   --remove-cc-cold-verification-key-hash 89181f26b47c3d3b6b127df163b15b74b45bba7c3b7a1d185c05c2de \
-  --quorum 1/2 \
+  --threshold 1/2 \
   --prev-governance-action-tx-id fe2c99fe6bc75a9666427163d51ae7dbf5a60df40135361b7bfd53ac6c7912ec \
   --prev-governance-action-index 0 \
   --out-file update-committee.action
 ```
 
-#### Update committee to only change the *quorum*:
+#### Update committee to only change the *threshold*:
 
 ```bash
 cardano-cli conway governance action update-committee \
   --testnet \
-  --governance-action-deposit $(cardano-cli conway query gov-state --testnet-magic 4 | jq -r '.enactState.curPParams.govActionDeposit') \
+  --governance-action-deposit $(cardano-cli conway query gov-state --testnet-magic 4 | jq -r '.currentPParams.govActionDeposit') \
   --deposit-return-stake-verification-key-file stake.vkey \
   --anchor-url https://raw.githubusercontent.com/Ryun1/metadata/main/cip108/treasury-withdrawal.jsonld \
   --anchor-data-hash 931f1d8cdfdc82050bd2baadfe384df8bf99b00e36cb12bfb8795beab3ac7fe5 \
-  --quorum 60/100 \
+  --threshold 60/100 \
   --prev-governance-action-tx-id fe2c99fe6bc75a9666427163d51ae7dbf5a60df40135361b7bfd53ac6c7912ec \
   --prev-governance-action-index 0 \
   --out-file update-committee.action
@@ -146,7 +146,7 @@ the dedicated forum to explore the weighty matters of Cardano's constitution wit
 - Find the last enacted governance action of this type:
 
 ```bash
-cardano-cli conway query gov-state --testnet-magic 4 | jq .enactState.prevGovActionIds.pgaConstitution
+cardano-cli conway query gov-state --testnet-magic 4 | jq -r '.nextRatifyState.nextEnactState.prevGovActionIds.Constitution'
 ```
 ```json
 {
@@ -178,7 +178,7 @@ b2sum -l 256 constitution.txt
 ```bash
 cardano-cli conway governance action create-constitution \
   --testnet \
-  --governance-action-deposit $(cardano-cli conway query gov-state --testnet-magic 4 | jq -r '.enactState.curPParams.govActionDeposit') \
+  --governance-action-deposit $(cardano-cli conway query gov-state --testnet-magic 4 | jq -r '.currentPParams.govActionDeposit') \
   --deposit-return-stake-verification-key-file stake.vkey \
   --anchor-url https://raw.githubusercontent.com/Ryun1/metadata/main/cip108/treasury-withdrawal.jsonld \
   --anchor-data-hash "931f1d8cdfdc82050bd2baadfe384df8bf99b00e36cb12bfb8795beab3ac7fe5" \
@@ -194,7 +194,7 @@ cardano-cli conway governance action create-constitution \
 - Find the last governance action enacted of this type:
 
 ```bash
-cardano-cli conway query gov-state --testnet-magic 4 | jq -r '.enactState.prevGovActionIds.pgaCommittee'
+cardano-cli conway query gov-state --testnet-magic 4 | jq -r '.nextRatifyState.nextEnactState.prevGovActionIds.Committee'
 ```
 ```json
 {
@@ -208,7 +208,7 @@ cardano-cli conway query gov-state --testnet-magic 4 | jq -r '.enactState.prevGo
 ```bash
 cardano-cli conway governance action create-no-confidence \
   --testnet \
-  --governance-action-deposit $(cardano-cli conway query gov-state --testnet-magic 4 | jq -r '.enactState.curPParams.govActionDeposit') \
+  --governance-action-deposit $(cardano-cli conway query gov-state --testnet-magic 4 | jq -r '.currentPParams.govActionDeposit') \
   --deposit-return-stake-verification-key-file stake.vkey \
   --anchor-url https://raw.githubusercontent.com/Ryun1/metadata/main/cip108/treasury-withdrawal.jsonld \
   --anchor-data-hash 931f1d8cdfdc82050bd2baadfe384df8bf99b00e36cb12bfb8795beab3ac7fe5 \
@@ -227,7 +227,7 @@ event that the governance action is approved.
 ```bash
 cardano-cli conway governance action create-treasury-withdrawal \
   --testnet \
-  --governance-action-deposit $(cardano-cli conway query gov-state --testnet-magic 4 | jq -r '.enactState.curPParams.govActionDeposit') \
+  --governance-action-deposit $(cardano-cli conway query gov-state --testnet-magic 4 | jq -r '.currentPParams.govActionDeposit') \
   --deposit-return-stake-verification-key-file stake.vkey \
   --anchor-url https://raw.githubusercontent.com/Ryun1/metadata/main/cip108/treasury-withdrawal.jsonld \
   --anchor-data-hash 931f1d8cdfdc82050bd2baadfe384df8bf99b00e36cb12bfb8795beab3ac7fe5 \
@@ -244,10 +244,10 @@ cardano-cli conway governance action create-treasury-withdrawal \
 
 ```bash
 cardano-cli conway governance action create-info --testnet \
-  --governance-action-deposit $(cardano-cli conway query gov-state --testnet-magic 4 | jq -r '.enactState.curPParams.govActionDeposit') \
+  --governance-action-deposit $(cardano-cli conway query gov-state --testnet-magic 4 | jq -r '.currentPParams.govActionDeposit') \
   --deposit-return-stake-verification-key-file stake.vkey \
   --anchor-url  https://tinyurl.com/yc74fxx4 \
-  --anchor-data-hash  \
+  --anchor-data-hash 931f1d8cdfdc82050bd2baadfe384df8bf99b00e36cb12bfb8795beab3ac7fe5 \
   --out-file info.action
 ```
 
@@ -256,7 +256,7 @@ cardano-cli conway governance action create-info --testnet \
 ```bash
 cardano-cli conway governance action create-protocol-parameters-update \
   --testnet \
-  --governance-action-deposit $(cardano-cli conway query gov-state --testnet-magic 4 | jq -r '.enactState.curPParams.govActionDeposit') \
+  --governance-action-deposit $(cardano-cli conway query gov-state --testnet-magic 4 | jq -r '.currentPParams.govActionDeposit') \
   --deposit-return-stake-verification-key-file stake.vkey \
   --anchor-url https://raw.githubusercontent.com/Ryun1/metadata/main/cip108/treasury-withdrawal.jsonld \
   --anchor-data-hash 931f1d8cdfdc82050bd2baadfe384df8bf99b00e36cb12bfb8795beab3ac7fe5 \
@@ -304,7 +304,7 @@ proposal serve as the action ID. An effective way to find your governance action
 First, find your key hash with:
 
 ```bash
-cardano-cli conway stake-address key-hash --stake-verification-key-file stake1.vkey
+cardano-cli conway stake-address key-hash --stake-verification-key-file stake.vkey
 ```
 `8e0debc9fdc6c616ac40d98bf3950b436895eea9cccf0396a6e5e12b`
 
