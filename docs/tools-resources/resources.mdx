@@ -4,7 +4,7 @@ title: 'Tools and resources'
 sidebar_position: 1
 ---
 
-*Last update: 2024-04-17*
+*Last update: 2024-04-18*
 
 ### SanchoNet GovTool beta
 
@@ -26,7 +26,7 @@ sidebar_position: 1
 
 ### DB Sync
 
-* [Sancho-4-1-0 build](https://github.com/IntersectMBO/cardano-db-sync/releases/tag/sancho-4.1.0)
+* [Sancho-4-2-0 release](https://github.com/IntersectMBO/cardano-db-sync/releases/tag/sancho-4-2-0)
 * [Note on naming scheme](https://gist.github.com/kderme/2ab2f79fcdc159be3465bae9b7df78e7)
 * [Blog post on speeding up DB-Sync](https://github.com/IntersectMBO/cardano-db-sync/blob/blog/blog/blog.pdf)
 
@@ -60,6 +60,17 @@ developed from the ground up in Typescript.
 * https://www.npmjs.com/package/@cardano-sdk/core
 * [Usage examples](https://github.com/input-output-hk/cardano-js-sdk/tree/master/packages/core/test/Serialization)
 
+### Governance Metadata Standards
+
+The Conway ledger era ushers in on-chain governance for Cardano via [CIP-1694 | A First Step Towards On-Chain Decentralized Governance](https://github.com/cardano-foundation/CIPs/blob/master/CIP-1694/README.md), with the addition of many new on-chain governance artifacts.
+Some of these artifacts support the linking off-chain metadata, as a way to provide context.
+
+There have been three governance metadata standards developed, so far, to define what the off-chain contextual data can look like.
+
+* [CIP-100 | Governance Metadata](https://github.com/cardano-foundation/CIPs/tree/master/CIP-0100) Base standard, providing a framework for future more specific standards.
+* [CIP-108 | Governance Metadata - Governance actions (pull request)](https://github.com/cardano-foundation/CIPs/pull/632) This proposal aims to provide a specification for off-chain metadata vocabulary that can be used to give context to governance actions.
+* [CIP-119 | Governance Metadata - DReps (pull request)](https://github.com/cardano-foundation/CIPs/pull/788) This proposal aims to provide a specification for off-chain metadata vocabulary that can be used to give context to CIP-100 for DRep registration and updates.
+
 ## Built by the community
 
 Disclaimer: These tools and guides are created by the community and are not supported directly. Please refer any issues to the author.
@@ -74,7 +85,7 @@ Disclaimer: These tools and guides are created by the community and are not supp
 * [Cardano Multiplatform Library](https://github.com/dcSpark/cardano-multiplatform-lib/releases/tag/5.0.0) A standard multifunctional library for serialization & deserialization of core data structures and useful utility functions.
 * [Cexplorer.io SanchoNet](https://sancho.cexplorer.io/): The biggest and oldest Cardano explorer, supporting the SanchoNet testing network.
 * [cardano-wallet Conway release](https://github.com/cardano-foundation/cardano-wallet/releases/tag/v2024-03-01): Cardano wallet is command line based software wallet.
-* [drep.tools](https://drep.tools/): A very early version of a site to help DReps by.
+* [drep.tools](https://drep.tools/): A very early version of a site to help DReps.
 * [Plutarch](https://github.com/Plutonomicon/plutarch-plutus): A Haskell eDSL designed for writing fast and fine-tunable on-chain scripts. Currently supports PlutusLedger V1 and V2, with [V3 on its way](https://github.com/Plutonomicon/plutarch-plutus/issues/655). 
 
 ### Guides from the community:
