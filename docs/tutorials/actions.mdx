@@ -276,7 +276,6 @@ while also allowing members of the governance bodies to review, discuss, and ult
 ```bash
 cardano-cli conway transaction build \
   --testnet-magic 4 \
-  --witness-override 2 \
   --tx-in "$(cardano-cli query utxo --address "$(cat payment.addr)" --testnet-magic 4 --out-file /dev/stdout | jq -r 'keys[0]')" \
   --change-address $(cat payment.addr) \
   --proposal-file info.action \
@@ -287,7 +286,6 @@ cardano-cli conway transaction sign \
   --testnet-magic 4 \
   --tx-body-file tx.raw \
   --signing-key-file payment.skey \
-  --signing-key-file stake.skey \
   --out-file tx.signed
 ```
 ```bash
