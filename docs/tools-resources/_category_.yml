@@ -1,4 +1,4 @@
 position: 6 # float position is supported
 label: 'Tools and resources'
 collapsible: true # make the category collapsible
-collapsed: false # keep the category open by default
+collapsed: true # keep the category open by default
