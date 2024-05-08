@@ -52,7 +52,7 @@ const FeatureList: FeatureItem[] = [
         Become a Sancho DRep today!
       </>
     ),
-    href: "/roles/drep",
+    href: "/drep-pioneer-program/drep-pp/overview",
     cta: "Learn more"
   },
   /*{
