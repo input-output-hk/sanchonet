@@ -18,7 +18,7 @@ In addition to the registered SanchoNet DReps, the system features a couple of d
 * Payment keys and address with funds
 * Stake key
 * Default SanchoNet DRep selection: `--always-abstain` or `--always-no-confidence`
-* SanchoNet DRep ID (or verification key) of a registered DRep
+* SanchoNet DRep ID (key hash or script hash) of a registered DRep. See [useful cli queries](queries.mdx)
 * A SanchoNet node
 
 ### Generating the vote delegation certificate
@@ -27,28 +27,36 @@ In addition to the registered SanchoNet DReps, the system features a couple of d
 
 * Delegating to the `--always-abstain` default DRep:
 
-```
+```shell
 cardano-cli conway stake-address vote-delegation-certificate \
---stake-verification-key-file stake.vkey \
---always-abstain \
---out-file vote-deleg.cert
+  --stake-verification-key-file stake.vkey \
+  --always-abstain \
+  --out-file vote-deleg.cert
 ```
 
 * Delegating to the `--always-no-confidence` default DRep: 
 
+```shell
+cardano-cli conway stake-address vote-delegation-certificate \
+  --stake-verification-key-file stake.vkey \
+  --always-no-confidence \
+  --out-file vote-deleg.cert
+```
+
+* Delegating to a **key-based** registered SanchoNet DRep:
+
+```shell
+cardano-cli conway stake-address vote-delegation-certificate \
+  --stake-verification-key-file stake.vkey \
+  --drep-key-hash $(cat drep.id) \
+  --out-file vote-deleg.cert
+```
+* Delegating to a **script-based** (i.e. multisignature) registered SanchoNet DRep:
+
 ```
 cardano-cli conway stake-address vote-delegation-certificate \
 --stake-verification-key-file stake.vkey \
---always-no-confidence \
---out-file vote-deleg.cert
-```
-
-* Delegating to a registered SanchoNet DRep:
-
-```
-cardano-cli conway stake-address vote-delegation-certificate \
---stake-verification-key-file stake.vkey \
---drep-key-hash $(cat drep.id) \
+--drep-script-hash $(cat drep-multisig.id) \
 --out-file vote-deleg.cert
 ```
 

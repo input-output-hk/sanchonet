@@ -6,7 +6,8 @@ slug: /tutorials/cli queries
 ---
 
 ### Query the constitution:
-````
+
+```shell
 cardano-cli conway query constitution --testnet-magic 4
 {
     "anchor": {
@@ -14,11 +15,24 @@ cardano-cli conway query constitution --testnet-magic 4
         "url": "https://tinyurl.com/4xdkkjm3"
     }
 }
-````
+```
 ### Query the DRep state for all DReps:
-````
-cardano-cli conway query drep-state --testnet-magic 4
+
+```shell
+cardano-cli conway query drep-state --testnet-magic 4 --all-dreps
+
+
 [
+    [
+        {
+            "scriptHash": "1d8fe9486b5fb282287568f04445c8f4d6cddf76ce2df527fd7debbe"
+        },
+        {
+            "anchor": null,
+            "deposit": 2000000,
+            "expiry": 108
+        }
+    ],
     [
         {
             "keyHash": "1da9afe241a10fe5ee9590843134d0eebd4a32af448c9ec91db2e863"
@@ -47,13 +61,15 @@ cardano-cli conway query drep-state --testnet-magic 4
             "anchor": null,
             "deposit": 2000000,
             "expiry": 176
-        }
+        },
+
     ]
 ]
-````
+```
 
 ### Query the DRep state for an individual DRep:
-````
+
+```shell
 cardano-cli conway query drep-state --drep-key-hash 1da9afe241a10fe5ee9590843134d0eebd4a32af448c9ec91db2e863 --testnet-magic 4
 [
     [
@@ -67,9 +83,10 @@ cardano-cli conway query drep-state --drep-key-hash 1da9afe241a10fe5ee9590843134
         }
     ]
 ]
-````
+```
 ### Query the DRep stake distribution (voting power):
-````
+
+```shell
 cardano-cli conway query drep-stake-distribution --testnet-magic 4
 [
     [
@@ -85,9 +102,11 @@ cardano-cli conway query drep-stake-distribution --testnet-magic 4
         500000000000
     ]
 ]
-````
+```
+
 ### Query the committee state:
-````
+
+```shell
 cardano-cli conway query committee-state --testnet-magic 4
 {
     "committee": {
@@ -128,9 +147,11 @@ cardano-cli conway query committee-state --testnet-magic 4
     "epoch": 86,
     "quorum": 0.6666666666666666666
 }
-````
+```
+
 ### Query the state of an individual committee key hash:
-````
+
+```shell
 cardano-cli conway query committee-state --cold-verification-key-hash da9f5c5c94a6709a9188838ce8cd7fe1c39a1923de4933c16d67c1e0 --testnet-magic 4
 {
     "committee": {
@@ -149,9 +170,10 @@ cardano-cli conway query committee-state --cold-verification-key-hash da9f5c5c94
     "epoch": 89,
     "quorum": 0.6666666666666666666
 }
-````
+```
 ### Query expired committee members
-````
+
+```shell
 cardano-cli conway query committee-state --expired --testnet-magic 4
 {
     "committee": {
@@ -170,10 +192,10 @@ cardano-cli conway query committee-state --expired --testnet-magic 4
     "epoch": 169,
     "quorum": 0.6
 }
-````
+```
 ### Query active committee members
 
-````
+```shell
 cardano-cli conway query committee-state --active --testnet-magic 4
 {
     "committee": {
@@ -214,13 +236,14 @@ cardano-cli conway query committee-state --active --testnet-magic 4
     "epoch": 105,
     "quorum": 0.6
 }
-````
+```
 ### Query unrecognized committee keys
-````
+
+```shell
 cardano-cli conway query committee-state --unrecognized --testnet-magic 42
 {
     "committee": {},
     "epoch": 106,
     "quorum": 0.6
 }
-````
+```
