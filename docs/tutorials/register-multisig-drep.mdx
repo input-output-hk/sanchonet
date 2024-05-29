@@ -49,12 +49,12 @@ cardano-cli conway governance drep key-gen \
 
 ```shell
 cardano-cli conway governance drep id \
---drep-verification-key-file drep1-multisig.vkey \
+--drep-verification-key-file drep1.vkey \
 --output-format hex \
---out-file drep.id
+--out-file drep1.id
 ```
 ```shell
-cat drep.id
+cat drep1.id
 e6d27c194fd18f39e080073e5ea02aa78abe4b6c84d78a498302461c
 ```
 
@@ -146,13 +146,13 @@ d862ee2eb3ce246b23ff7e1f62ae0705013e793787485cb6e1845356
 5. Get the DRep deposit amount and store in a variable:
 
 ```shell
-drepDeposit=$(cardano-cli conway query gov-state | jq -r .currentPParams.dRepDeposit)
+drepDeposit=$(cardano-cli conway query gov-state --testnet-magic 4 | jq -r .currentPParams.dRepDeposit)
 ```
 
 6. Generate the DRep registration certificate:
 ```shell
 cardano-cli conway governance drep registration-certificate \
-  --drep-script-hash drep-multisig.id \
+  --drep-script-hash "$(cat drep-multisig.id)" \
   --key-reg-deposit-amt "$drepDeposit" \
   --out-file drep-multisig-reg.cert
 ```
@@ -165,7 +165,7 @@ and up to 3 members of the DRep.
 ```shell
 cardano-cli conway transaction build \
   --testnet-magic 4 \
-  --tx-in $(cardano-cli conway query utxo --address $(cat payment.addr) --output-json | jq -r 'keys[0]') \
+  --tx-in $(cardano-cli conway query utxo --address $(cat payment.addr) --testnet-magic 4 --output-json | jq -r 'keys[0]') \
   --change-address $(cat payment.addr) \
   --witness-override 4 \
   --certificate-file drep-multisig-reg.cert \
@@ -237,7 +237,8 @@ cardano-cli conway transaction submit \
 cardano-cli conway query drep-state \
   --testnet-magic 4 \
   --drep-script-hash $(cat drep-multisig.id)
-
+```
+```json
 [
     [
         {
