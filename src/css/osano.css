@@ -5,10 +5,7 @@
   --osano-dialog-elastic-padding: calc(
     (100% - min(100vw, var(--osano-dialog-max-width))) / 2
   );
-  --osano-dialog-magic-padding: max(
-    var(--osano-dialog-elastic-padding),
-    20px
-  );
+  --osano-dialog-magic-padding: max(var(--osano-dialog-elastic-padding), 20px);
   --osano-close-color: #000;
   --osano-link-color: #000;
   --osano-disclosure-color: var(--osano-accent-color);
@@ -18,7 +15,7 @@
   --osano-background-color: #fff;
   --osano-border-radius: 10px;
   --osano-btn-border-radius: 21px;
-  --osano-btn-color: #FFF;
+  --osano-btn-color: #fff;
   --osano-btn-bg-color: var(--osano-accent-color);
   --osano-btn-hover-color: #fff;
   --osano-btn-bg-hover-color: var(--osano-accent-color);
@@ -26,25 +23,26 @@
   --osano-switch-active-color: var(--osano-accent-color);
   --osano-switch-disabled-color: #737373;
   --osano-border-gradient: linear-gradient(
-      94.22deg,
-      #737373 -18.3%,
-      #737373 118.89%
-    );
+    94.22deg,
+    #737373 -18.3%,
+    #737373 118.89%
+  );
   --osano-btn-border-gradient: linear-gradient(
-      94.22deg,
-      var(--osano-accent-color) -18.3%,
-      var(--osano-accent-color) 118.89%
-    );
+    94.22deg,
+    var(--osano-accent-color) -18.3%,
+    var(--osano-accent-color) 118.89%
+  );
   --osano-background-gradient: linear-gradient(
-      var(--osano-background-color) 0%,
-      var(--osano-background-color) 100%
-    ) padding-box,
+        var(--osano-background-color) 0%,
+        var(--osano-background-color) 100%
+      )
+      padding-box,
     var(--osano-border-gradient) border-box;
   --osano-btn-bg-gradient: linear-gradient(
-      var(--osano-btn-bg-color),
-      var(--osano-btn-bg-color)
-    )
-    padding-box,
+        var(--osano-btn-bg-color),
+        var(--osano-btn-bg-color)
+      )
+      padding-box,
     var(--osano-btn-border-gradient) border-box;
 }
 
@@ -220,7 +218,7 @@
 }
 
 @media screen and (min-width: 768px) {
- .osano-cm-info-dialog-header  osano-cm-close {
+  .osano-cm-info-dialog-header osano-cm-close {
     margin-top: -30px; /* 2 */
   }
 }
@@ -306,7 +304,7 @@
   height: 8.5px; /* 2 */
   margin-right: 8px; /* 2 */
   background: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxNCIgaGVpZ2h0PSIxMCIgZmlsbD0ibm9uZSI+PHBhdGggc3Ryb2tlPSIjNTExQ0Y3IiBzdHJva2UtbGluZWNhcD0ic3F1YXJlIiBzdHJva2Utd2lkdGg9IjIiIGQ9Im0yIDEuNSA1IDYgNS02Ii8+PC9zdmc+")
-  center center no-repeat; /* 2 */
+    center center no-repeat; /* 2 */
 }
 
 /**
@@ -314,7 +312,7 @@
   */
 .osano-cm-window__widget {
   background: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI1MCIgaGVpZ2h0PSI1MCIgZmlsbD0ibm9uZSI+PGNpcmNsZSBjeD0iMjUiIGN5PSIyNSIgcj0iMjUiIGZpbGw9Im5vbmUiLz48cGF0aCBmaWxsPSIjMDE2YjgyIiBkPSJNMjIuMDA2IDIxLjE4MWMuODYzIDAgMS41OTQtLjMwMiAyLjE5NC0uOTA2LjYtLjYwNC45LTEuMzM3LjktMi4yIDAtLjg2My0uMzAyLTEuNTk0LS45MDYtMi4xOTQtLjYwNC0uNi0xLjMzNy0uOS0yLjItLjktLjg2MyAwLTEuNTk0LjMwMi0yLjE5NC45MDYtLjYuNjA0LS45IDEuMzM3LS45IDIuMiAwIC44NjMuMzAyIDEuNTk0LjkwNiAyLjE5NC42MDQuNiAxLjMzNy45IDIuMi45Wm0tNCAxMGMuODYzIDAgMS41OTQtLjMwMiAyLjE5NC0uOTA2LjYtLjYwNC45LTEuMzM3LjktMi4yIDAtLjg2My0uMzAyLTEuNTk0LS45MDYtMi4xOTQtLjYwNC0uNi0xLjMzNy0uOS0yLjItLjktLjg2MyAwLTEuNTk0LjMwMi0yLjE5NC45MDYtLjYuNjA0LS45IDEuMzM3LS45IDIuMiAwIC44NjMuMzAyIDEuNTk0LjkwNiAyLjE5NC42MDQuNiAxLjMzNy45IDIuMi45Wk0zMSAzMy4wODFjLjU2NyAwIDEuMDQyLS4xOTIgMS40MjUtLjU3NS4zODMtLjM4My41NzUtLjg1OC41NzUtMS40MjUgMC0uNTY2LS4xOTItMS4wNDEtLjU3NS0xLjQyNS0uMzgzLS4zODMtLjg1OC0uNTc1LTEuNDI1LS41NzUtLjU2NyAwLTEuMDQyLjE5Mi0xLjQyNS41NzUtLjM4My4zODQtLjU3NS44NTktLjU3NSAxLjQyNSAwIC41NjcuMTkyIDEuMDQyLjU3NSAxLjQyNS4zODMuMzgzLjg1OC41NzUgMS40MjUuNTc1Wm0tNS45ODggMTJjLTIuNzQxIDAtNS4zMjktLjUyNS03Ljc2Mi0xLjU3NS0yLjQzMy0xLjA1LTQuNTU4LTIuNDgzLTYuMzc1LTQuMy0xLjgxNy0xLjgxNy0zLjI1LTMuOTQyLTQuMy02LjM3NUM1LjUyNSAzMC4zOTggNSAyNy44MTQgNSAyNS4wODFjMC0zLjA2Ni42NS01LjkzMyAxLjk1LTguNiAxLjMtMi42NjcgMy4wNDItNC45MjUgNS4yMjUtNi43NzUgMi4xODMtMS44NSA0LjctMy4xODMgNy41NS00IDIuODUtLjgxNiA1LjgwOC0uOTI1IDguODc1LS4zMjUtLjIgMS41LS4wNjcgMi45MTcuNCA0LjI1LjQ2NyAxLjMzMyAxLjE3NSAyLjQ2NyAyLjEyNSAzLjQuOTUuOTMzIDIuMDkyIDEuNjE3IDMuNDI1IDIuMDUgMS4zMzMuNDM0IDIuNzMzLjUzNCA0LjIuMy0uNjY3IDIuMDM0LS4zIDMuODU4IDEuMSA1LjQ3NSAxLjQgMS42MTcgMy4xIDIuNTA4IDUuMSAyLjY3NS4yNjcgMi45LS4wNzUgNS42NS0xLjAyNSA4LjI1LS45NSAyLjYtMi4zNDIgNC44ODMtNC4xNzUgNi44NS0xLjgzMyAxLjk2Ny00LjAxMyAzLjUzMy02LjU0IDQuNy0yLjUyNiAxLjE2Ny01LjI1OSAxLjc1LTguMTk4IDEuNzVabS0uMDEyLTNjNC43MzMgMCA4LjY2Ny0xLjU1OCAxMS44LTQuNjc1IDMuMTMzLTMuMTE3IDQuODgzLTYuOTU4IDUuMjUtMTEuNTI1LTEuOC0uNjY2LTMuMjU4LTEuNjU4LTQuMzc1LTIuOTc1YTkuMDM0IDkuMDM0IDAgMCAxLTIuMDc1LTQuNTI1Yy0yLjctLjM2Ni00Ljk3NS0xLjUzMy02LjgyNS0zLjUtMS44NS0xLjk2Ni0yLjkwOC00LjI1LTMuMTc1LTYuODUtMi40NjctLjEtNC43NzUuMy02LjkyNSAxLjItMi4xNS45LTQuMDE3IDIuMTMzLTUuNiAzLjctMS41ODMgMS41NjctMi44MjUgMy40MDktMy43MjUgNS41MjVBMTYuNzYyIDE2Ljc2MiAwIDAgMCA4IDI1LjA4MWMwIDQuNzMzIDEuNjUgOC43NSA0Ljk1IDEyLjA1IDMuMyAzLjMgNy4zMTcgNC45NSAxMi4wNSA0Ljk1WiIvPjwvc3ZnPg==")
-  center center no-repeat; /* 1 */
+    center center no-repeat; /* 1 */
   background-size: 40px; /* 1 */
   background-color: var(--ifm-background-color);
   border-radius: 50%;
@@ -336,4 +334,46 @@
 .osano-cm-dialog__close {
   color: var(--osano-close-color); /* 1 */
   stroke: var(--osano-close-color); /* 1 */
+}
+
+.osano-cm-disclosure--collapse {
+  border-bottom: 0;
+  padding-bottom: 0;
+}
+.osano-cm-disclosure {
+  margin: 0;
+  padding: 0;
+}
+.osano-cm-toggle {
+  padding-top: 1.5em;
+}
+label[for="osano-cm-drawer-toggle--category_MARKETING"] {
+  display: none;
+}
+p[id="osano-cm-drawer-toggle--category_MARKETING--description"] {
+  display: none;
+}
+div[aria-controls="osano-cm-MARKETING_disclosures"] {
+  display: none;
+}
+ul[id="osano-cm-MARKETING_disclosures"] {
+  display: none;
+}
+label[for="osano-cm-dialog-toggle--category_MARKETING"] {
+  display: none;
+}
+label[for="osano-cm-drawer-toggle--category_PERSONALIZATION"] {
+  display: none;
+}
+p[id="osano-cm-drawer-toggle--category_PERSONALIZATION--description"] {
+  display: none;
+}
+div[aria-controls="osano-cm-PERSONALIZATION_disclosures"] {
+  display: none;
+}
+ul[id="osano-cm-PERSONALIZATION_disclosures"] {
+  display: none;
+}
+label[for="osano-cm-dialog-toggle--category_PERSONALIZATION"] {
+  display: none;
 }
