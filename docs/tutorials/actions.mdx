@@ -139,41 +139,93 @@ cardano-cli conway governance action update-committee \
 
 ## Updating the constitution
 
-Should you decide to propose an update to the SanchoNet constitution, please note that all rules and principles outlined for SanchoNet should be fictional and unrelated to the actual rules on the Cardano blockchain. Quotes directly from Don Quixote
-are encouraged, as well as rules in a similar spirit that aren't directly extracted from the book. SanchoNet is not the space for serious discussions about the future governance of Cardano. For substantial conversations, please visit
-the dedicated forum to explore the weighty matters of Cardano's constitution with the depth they deserve. [Cardano Forum](https://forum.cardano.org/c/governance/constitution/212)
+This section describes how to propose a new constitution. Lets's use as an axample the interim constitution that is to be used 
+on Mainnet. It is available in https://ipfs.io/ipfs/Qmdo2J5vkGKVu2ur43PuTrM7FdaeyfeFav8fhovT6C2tto
 
-- Find the last enacted governance action of this type:
+#### Find the last enacted Constitution governance action 
 
-```bash
+Find the last enacted governance action of this type, If the query returns `null` it means the current consitution (if it exists) is not enacted in a governance action, 
+but instead supplied on the Conway genesis file.
+
+```shell
 cardano-cli conway query gov-state --testnet-magic 4 | jq -r '.nextRatifyState.nextEnactState.prevGovActionIds.Constitution'
+null
 ```
-```json
+
+When the constitution has been enacted through a governance action, you will see the transaction ID and index of the proposing transaction, we will use this information later:
+
+```shell
+cardano-cli conway query gov-state | jq -r '.nextRatifyState.nextEnactState.prevGovActionIds.Constitution'
 {
   "govActionIx": 0,
-  "txId": "00caeb6c2db4575acc43be3e8f87b881dccb86283daf16aa2707275cbe7f3451"
+  "txId": "bf4832f443fe34f26f929ce2fbb26cc35ef4fda31150b2da45969a9bac4f7a8c"
 }
 ```
+#### Prepare the constiuttion anchor.
 
-- Write a constitution update and save it to `constitution.txt`
-- Upload the `constitution.txt` file to a URL so that everyone can read it, for example, https://tinyurl.com/mr3ferf9
-- Check the hash of the `constitution.txt` file using [b2sum](https://man7.org/linux/man-pages/man1/b2sum.1.html).
+When proposing a new constitution, you are required to put it on a URL that is publicly accessible and, idealy, in some sort of persistent form. For example 
+put it on IPFS, like the [interim constitution](https://ipfs.io/ipfs/Qmdo2J5vkGKVu2ur43PuTrM7FdaeyfeFav8fhovT6C2tto)
+
+Now, download the file from the url:
 
 ```bash
-wget https://tinyurl.com/mr3ferf9 -O constitution.txt
+wget https://ipfs.io/ipfs/Qmdo2J5vkGKVu2ur43PuTrM7FdaeyfeFav8fhovT6C2tto -O constitution.txt
 ```
+
+Get its hash, you can do it with blake2 or with cardano-cli:
+
 ```bash
-cardano-cli conway governance hash anchor-data --file-text constitution.txt
-5d372dca1a4cc90d7d16d966c48270e33e3aa0abcb0e78f0d5ca7ff330d2245d
+b2sum -l 256 constitution.txt
+a77245f63bc7504c6ce34383633729692388dc1823723b0ee9825743a87a6a6d  constitution.txt
 ```
 or
 
 ```bash
-b2sum -l 256 constitution.txt
-5d372dca1a4cc90d7d16d966c48270e33e3aa0abcb0e78f0d5ca7ff330d2245d  constitution.txt
+cardano-cli conway governance hash anchor-data --file-text constitution.txt
+a77245f63bc7504c6ce34383633729692388dc1823723b0ee9825743a87a6a6d
+```
+
+#### The guardrails script
+
+The Guardrails script is soon to be open sourced, you will find it here: https://github.com/IntersectMBO/constitution-priv 
+
+Follow the instructions in the README.md file to compile the PlutusV3 script. A successful compilation creates the 'compiled' directory containing the script in a text envelope.
+
+```
+cat compiled/guardrails-script.plutus 
+```
+```
+{
+    "type": "PlutusScriptV3",
+    "description": "",
+    "cborHex": "59082f59082c0101003232323232323232323232323232323232323232323232323232323232323232323232323232323232323225932325333573466e1d2000001180098121bab357426ae88d55cf001054ccd5cd19b874801000460042c6aae74004dd51aba1357446ae88d55cf1baa325333573466e1d200a35573a00226ae84d5d11aab9e0011637546ae84d5d11aba235573c6ea800642b26006003149a2c8a4c3021801c0052000c00e0070018016006901e40608058c00e00290016007003800c00b0034830268320306007001800600690406d6204e00060001801c0052004c00e007001801600690404001e0006007001800600690404007e00060001801c0052006c00e006023801c006001801a4101000980018000600700148023003801808e0070018006006904827600060001801c005200ac00e0070018016006904044bd4060c00e003000c00d2080ade204c000c0003003800a4019801c00e003002c00d2080cab5ee0180c100d1801c005200ec00e0060238000c00e00290086007003800c00b003483d00e0306007001800600690500fe00040243003800a4025803c00c01a0103003800a4029803c00e003002c00cc07520d00f8079801c006001801980ea4120078001800060070014805b00780180360070018006006603e900a4038c0003003800a4041801c00c04601a3003800a4045801c00e003002c00d20f02e80c1801c006001801a4190cb80010090c00e00290126000c00e0029013600b003803c00e003002c00cc0752032c000c00e003000c00cc075200ac000c0006007007801c006005801980ea418170058001801c006001801980ea41209d80018000c0003003800a4051802c00e007003011c00e003000c00d2080e89226c000c0006007003801808e007001800600690406c4770b7e000600030000c00e0029015600b003801c00c047003800c00300348202e2e1cb00030001801c00e006023801c006001801a410181f905540580018000c0003003800a4059801c00c047003800c00300348203000700030000c00e00290176007003800c00b003483200603060070018006006904801e00040243003800a4061801c00c0430001801c0052032c016006003801801e00600780180140100c00e002901a600b003001c00c00f003003c00c00f003002c00c007003001c00c007003803c00e003002c00c0560184014802000c00e002901b6007003800c00b003480030034801b0001801c006001801a4029800180006007001480e3003801c006005801a4001801a40498000c00e003000c00d20ca04c00080486007001480eb00380180860070018006006900f600060001801c005203cc00e006015801c006001801a4101012bcf138c09800180006007001480fb003801805600700180060069040505bc3f482e00060001801c0052040c00e0070018016006900d4060c00e003000c00d204ac000c0003003800a4085801c00c04601630000000000200f003006c00e003000c00c05a0166000200f003005c00e003000c00c057003010c0006000200f003800c00b003012c00cc05d2028c0004008801c01e007001801600602380010043000400e003000c00c04b003011c0006000800c00b00300d8049001801600601d801980924190038000801c0060010066000801c00600900f6000800c00b003480030034820225eb0001003800c003003483403f0003000400c023000400e003000c00d208094ebdc03c000c001003009c001003300f4800b0004006005801a40058001001801401c6014900518052402860169004180424008600a900a180324005003480030001806240cc6016900d18052402460129004180424004600e900018032400c6014446666aae7c004a0005003328009aab9d0019aab9e0011aba100298019aba200224c6012444a6520071300149a4432005225900689802a4d2219002912c998099bad0020068ac99807002800c4cc03001c00e300244cc03001c02a3002012c801460012218010c00888004c004880094cc8c0040048848c8cc0088c00888c00800c8c00888c00400c8d4cc01001000cd400c0044888cc00c896400a300090999804c00488ccd5cd19b87002001800400a01522333573466e2000800600100291199ab9a33712004003000801488ccd5cd19b89002001801400244666ae68cdc4001000c00a001225333573466e240080044004400a44a666ae68cdc4801000880108008004dd6801484cc010004dd6001484c8ccc02a002452005229003912999ab9a3370e0080042666ae68cdc3801800c00200430022452005229003911980899b820040013370400400648a400a45200722333573466e20cdc100200099b82002003800400880648a400a45200722333573466e24cdc100200099b82002003801400091480148a400e44666ae68cdc419b8200400133704004007002800122593300e0020018800c400922593300e00200188014400400233323357346ae8cd5d10009198051bad357420066eb4d5d08011aba2001268001bac00214800c8ccd5cd1aba3001800400a444b26600c0066ae8400626600a0046ae8800630020c0148894ccd5cd19b87480000045854ccd5cd19b88001480004cc00ccdc0a400000466e05200000113280099b8400300199b840020011980200100098021112999ab9a3370e9000000880109980180099b860020012223300622590018c002443200522323300d225900189804803488564cc0140080322600800318010004b20051900991111111001a3201322222222005448964ce402e444444440100020018c00a30000002225333573466e1c00800460002a666ae68cdc48010008c010600445200522900391199ab9a3371266e08010004cdc1001001c0020041191800800918011198010010009"
+}
+```
+
+Now, get the script hash with:
+
+```shell
+cardano-cli conway governance hash script --script-file guardrails-script.plutus 
+edcd84c10e36ae810dc50847477083069db796219b39ccde790484e0
 ```
 
 #### Create the proposal to update the constitution:
+
+When there is no previously enacted constiutition: 
+
+```bash
+cardano-cli conway governance action create-constitution \
+  --testnet \
+  --governance-action-deposit $(cardano-cli conway query gov-state --testnet-magic 4 | jq -r '.currentPParams.govActionDeposit') \
+  --deposit-return-stake-verification-key-file stake.vkey \
+  --anchor-url https://raw.githubusercontent.com/cardano-foundation/CIPs/master/CIP-0100/cip-0100.common.schema.json \
+  --anchor-data-hash "9d99fbca260b2d77e6d3012204e1a8658f872637ae94cdb1d8a53f4369400aa9" \
+  --constitution-url https://ipfs.io/ipfs/Qmdo2J5vkGKVu2ur43PuTrM7FdaeyfeFav8fhovT6C2tto \
+  --constitution-hash "a77245f63bc7504c6ce34383633729692388dc1823723b0ee9825743a87a6a6d" \
+  --constitution-script-hash "edcd84c10e36ae810dc50847477083069db796219b39ccde790484e0"
+  --out-file 
+```
+When there a previously enacted constitution we need to reference the previous governance action id (TXID and INDEX):
 
 ```bash
 cardano-cli conway governance action create-constitution \
@@ -181,13 +233,19 @@ cardano-cli conway governance action create-constitution \
   --governance-action-deposit $(cardano-cli conway query gov-state --testnet-magic 4 | jq -r '.currentPParams.govActionDeposit') \
   --deposit-return-stake-verification-key-file stake.vkey \
   --anchor-url https://raw.githubusercontent.com/Ryun1/metadata/main/cip108/treasury-withdrawal.jsonld \
-  --anchor-data-hash "931f1d8cdfdc82050bd2baadfe384df8bf99b00e36cb12bfb8795beab3ac7fe5" \
-  --constitution-url https://tinyurl.com/mr3ferf9  \
-  --constitution-hash "5d372dca1a4cc90d7d16d966c48270e33e3aa0abcb0e78f0d5ca7ff330d2245d" \
-  --prev-governance-action-tx-id "00caeb6c2db4575acc43be3e8f87b881dccb86283daf16aa2707275cbe7f3451" \
+  --anchor-data-hash 931f1d8cdfdc82050bd2baadfe384df8bf99b00e36cb12bfb8795beab3ac7fe5 \
+  --constitution-url https://ipfs.io/ipfs/Qmdo2J5vkGKVu2ur43PuTrM7FdaeyfeFav8fhovT6C2tto \
+  --constitution-hash "a77245f63bc7504c6ce34383633729692388dc1823723b0ee9825743a87a6a6d" \
+  --constitution-script-hash "edcd84c10e36ae810dc50847477083069db796219b39ccde790484e0" \
+  --prev-governance-action-tx-id "bf4832f443fe34f26f929ce2fbb26cc35ef4fda31150b2da45969a9bac4f7a8c" \
   --prev-governance-action-index 0 \
   --out-file constitution.action
 ```
+From here, you just need to [submit the proposal in a transaction](#submitting-the-action-file-in-a-transaction) 
+
+Should you decide to propose an update to the SanchoNet constitution, please note that all rules and principles outlined for SanchoNet should be fictional and unrelated to the actual rules on the Cardano blockchain. Quotes directly from Don Quixote
+are encouraged, as well as rules in a similar spirit that aren't directly extracted from the book. SanchoNet is not the space for serious discussions about the future governance of Cardano. For substantial conversations, please visit
+the dedicated forum to explore the weighty matters of Cardano's constitution with the depth they deserve. [Cardano Forum](https://forum.cardano.org/c/governance/constitution/212)
 
 ## Motion of no confidence
 
@@ -222,6 +280,8 @@ cardano-cli conway governance action create-no-confidence \
 In addition to the stake credential required to obtain a deposit refund, the proposer must also furnish stake credentials for receiving funds from the treasury in the
 event that the governance action is approved.
 
+Also, treasury withdrawals must reference the Guardrails script. 
+
 #### Create the treasury withdrawal proposal:
 
 ```bash
@@ -232,6 +292,7 @@ cardano-cli conway governance action create-treasury-withdrawal \
   --anchor-url https://raw.githubusercontent.com/Ryun1/metadata/main/cip108/treasury-withdrawal.jsonld \
   --anchor-data-hash 931f1d8cdfdc82050bd2baadfe384df8bf99b00e36cb12bfb8795beab3ac7fe5 \
   --funds-receiving-stake-verification-key-file stake.vkey \
+  --constitution-script-hash "edcd84c10e36ae810dc50847477083069db796219b39ccde790484e0" \
   --transfer 50000000000 \
   --out-file treasury.action
 ```
@@ -251,7 +312,11 @@ cardano-cli conway governance action create-info --testnet \
   --out-file info.action
 ```
 
-## Update protocol parameters to change the `--key-reg-deposit-amt`
+## Update protocol parameters
+
+When updating protocol parameters, you must reference the Guardrails script. This reference is not automatically inferred 
+because, actions can be created off-line so the cli may not have access to a node, and also because a governance action may be submitted in advance, 
+anticipating that a new Guardrails script will be ratified and enacted during the proposal's lifespan.
 
 ```bash
 cardano-cli conway governance action create-protocol-parameters-update \
@@ -260,12 +325,16 @@ cardano-cli conway governance action create-protocol-parameters-update \
   --deposit-return-stake-verification-key-file stake.vkey \
   --anchor-url https://raw.githubusercontent.com/Ryun1/metadata/main/cip108/treasury-withdrawal.jsonld \
   --anchor-data-hash 931f1d8cdfdc82050bd2baadfe384df8bf99b00e36cb12bfb8795beab3ac7fe5 \
+  --constitution-script-hash "edcd84c10e36ae810dc50847477083069db796219b39ccde790484e0" \
   --key-reg-deposit-amt 1000000 \
   --out-file pp-update.action
 ```
+
 * Note: If there is a **previously enacted** governance action to update the protocol parameters, the proposal must also include `--prev-governance-action-tx-id` and `--prev-governance-action-index`.
 
-## Submitting the `*.action` action file in a transaction
+Continue with [build, sign and submit the transactions](#submitting-a-treasuy-withdrawal-and-protocol-parameter-update-governance-action) 
+
+## Submitting the action file in a transaction
 
 Submitting the `*.action` file to the blockchain is the essential step in bringing your proposal to life and making it accessible for the community to participate in the
 voting process. This process essentially transforms your proposal from a conceptual idea into an actionable item. Once submitted, it becomes part of the public ledger,
@@ -292,6 +361,88 @@ cardano-cli conway transaction sign \
 cardano-cli conway transaction submit \
   --testnet-magic 4 \
   --tx-file tx.signed
+```
+
+## Submitting a treasuy-withdrawal and protocol-parameter-update governance action
+
+:::info
+This transaction will pay the governance action deposit and fee, in addition, we must supply a collateral since we will be running a plutus script: the guardrails script.
+:::
+
+:::note
+At the time of writing this tutorial, the `build` command has a bug that causes it to underestimate the execution units. For now we will use `build-raw` instead. 
+:::
+Query the utxos of our address:
+
+```bash
+cardano-cli conway query utxo --address $(cat payment.addr)
+                           TxHash                                 TxIx        Amount
+--------------------------------------------------------------------------------------
+0a2d91bcc0775581594f49eb9709108aa8b75c9f59e77774868462d8251c6b31     0        149999600000 lovelace + TxOutDatumNone
+1fa4fd83daf44c6cc2db9abd495306568b5f64b28296d4e55958bee3d9b4f90e     1        50816371 lovelace + TxOutDatumNone
+c925e0e4b83f5f36b3950f4e940f59632f9589cd9bcae4a071878a54d455a47e     0        49999690803 lovelace + TxOutDatumNone
+```
+#### Balance the transaction:
+
+We will use `build-raw`, this means we need to balance the transaction manually, in other words, we need to calculate the change of the transaction ourselves so that inputs = outputs.
+
+Get the value of the UTxO at index 0 (first UTxO). This will be our input (--tx-in) for the transaction.
+
+```bash
+utxo_value=$(ccardano-cli conway query utxo --address "$(cat payment.addr)" --output-json | jq '.[keys[0]].value.lovelace')
+```
+
+We'll need to deduct the fee. For simplicity let's set the fee on 500000 lovelace:
+
+```bash
+fee=500000
+```
+
+We need to take the governance action deposit into account:
+
+```bash
+govActDeposit=$(cardano-cli conway query gov-state | jq -r .currentPParams.govActionDeposit)
+```
+
+Now we can calculate the change of the transaction. Later, we will use $change in the transaction output (--tx-out).
+
+```bash
+change=$(($utxo_value - $fee - $govActDeposit))
+```
+
+#### Build, sign and submit the transaction 
+
+When building the transaction, we include the `*.action` file and supply the guardrails script with --proposal-script-file. Note that the guardrails script does not require a datum to be passed.
+
+```bash
+cardano-cli conway transaction build-raw \
+--proposal-script-file guardrails-script.plutus \
+--tx-in-collateral "$(cardano-cli query utxo --address "$(cat payment.addr)" --output-json | jq -r 'keys[1]')" \
+--proposal-redeemer-value {} \
+--proposal-execution-units  "(119000000, 555000)" \
+--tx-in "$(cardano-cli query utxo --address "$(cat payment.addr)" --output-json | jq -r 'keys[0]')" \
+--tx-out "$(cat payment.addr)+$change" \
+--fee "$fee" \
+--protocol-params-file pparams.json \
+--proposal-file pparams.action \
+--out-file pparams-tx.raw
+```
+
+This example uses the second UTxO (Index 1) of payment.addr as collateral: `$( ...--output-json | jq -r 'keys[1]').` Adjust the command so that it accomodates to your needs and preferences of utxos to use.
+
+We sign the transaction only with `payment.skey` since we are using the same for fees and collateral:
+
+```bash
+cardano-cli conway transaction sign \
+--tx-file pparams-tx.raw \
+--signing-key-file payment.addr \ 
+--out-file pparams-tx.signed 
+```
+
+And submit it to the chain with:
+```bash
+cardano-cli conway transaction submit \
+--tx-file pparams-tx.signed
 ```
 
 ## Finding the governance action ID of your proposal
