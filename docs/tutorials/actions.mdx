@@ -225,7 +225,7 @@ cardano-cli conway governance action create-constitution \
   --constitution-script-hash "edcd84c10e36ae810dc50847477083069db796219b39ccde790484e0"
   --out-file 
 ```
-When there a previously enacted constitution we need to reference the previous governance action id (TXID and INDEX):
+When there is a previously enacted constitution, we need to reference the previous governance action id (TXID and INDEX):
 
 ```bash
 cardano-cli conway governance action create-constitution \
@@ -389,7 +389,7 @@ We will use `build-raw`, this means we need to balance the transaction manually,
 Get the value of the UTxO at index 0 (first UTxO). This will be our input (--tx-in) for the transaction.
 
 ```bash
-utxo_value=$(ccardano-cli conway query utxo --address "$(cat payment.addr)" --output-json | jq '.[keys[0]].value.lovelace')
+utxo_value=$(cardano-cli conway query utxo --address "$(cat payment.addr)" --output-json | jq '.[keys[0]].value.lovelace')
 ```
 
 We'll need to deduct the fee. For simplicity let's set the fee on 500000 lovelace:
