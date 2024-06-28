@@ -435,7 +435,7 @@ We sign the transaction only with `payment.skey` since we are using the same for
 ```bash
 cardano-cli conway transaction sign \
 --tx-file pparams-tx.raw \
---signing-key-file payment.addr \ 
+--signing-key-file payment.skey \ 
 --out-file pparams-tx.signed 
 ```
 
