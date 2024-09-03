@@ -61,8 +61,8 @@ This change has been made to enable the checking of deposit amounts at the ledge
 | update_drep_cert                       | (18, drep_credential, anchor / null)                      | drep_credential                                                   | None                                  |
 | voting_procedure (in Tx body)          | voting_procedures = { + voter => { + gov_action_id => voting_procedure } } | drep_credential OR committee_hot_credential OR stake_pool_keyHash | None                                  |
 | proposal_procedure (in Tx body)        | proposal_procedure = [ deposit : coin, reward_account, gov_action, anchor] | coin                                                              | Deposit is returned at the epoch boundary to the `reward_account` that is specified in the proposal. |
-| Current treasury value (in Tx body)    | coin                                                      | payment_credential                                                | None                                  |
-| Treasury donation (in Tx body)         | positive_coin                                             | payment_credential                                                | None                                  |
+| Current treasury value (in Tx body)    | coin                                                      | none                                                | None                                  |
+| Treasury donation (in Tx body)         | positive_coin                                             | none                                                | None                                  |
 
 
 ### 5. Why isn't the script directly included in a new constitution proposal for the proposal policy?
