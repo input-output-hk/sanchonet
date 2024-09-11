@@ -12,23 +12,22 @@ To compile the current version of the guardrail script yourself, you first have 
 git clone https://github.com/IntersectMBO/plutus.git
 cd plutus
 ```
-Next we check out the version 1.31.0.0 of plutus and enter a nix development shell via
+Next we check out the version 1.34.0.0 of plutus and enter a nix development shell via
 ```bash
-git checkout 1.31.0.0
+git checkout 1.34.0.0
 nix develop
 ```
-We then create a file `cabal.project.local` to override some dependencies as a hotfix (there is a circular dependency otherwise).
+The executable `create-json-envelope` can be used to compile the guardrail script.
+Unfortunately, building this executable is disabled by default (caused by a circular dependency).
+To re-enable it you have to uncomment the following lines in `cabal.project`:
 ```cabal
-cat <<EOF > cabal.project.local
-allow-newer: *:plutus-ledger-api
-allow-newer: *:prettyprinter-configurable
-EOF
+-- package cardano-constitution
+--   flags: +force-build
+-- allow-newer: *:plutus-ledger-api
+-- allow-newer: *:prettyprinter-configurable
+-- allow-older: *:nothunks
 ```
-Next, we open in a text editor the file `cardano-constitution/cardano-constitution.cabal` and delete line 134 that reads `buildable:      False` via
-```bash
-sed -i '134d' cardano-constitution/cardano-constitution.cabal
-```
-Next, we can build the script via
+Next, we can compile the script via
 ```bash
 cabal update
 cabal run cardano-constitution:create-json-envelope -- guardrail.plutus
