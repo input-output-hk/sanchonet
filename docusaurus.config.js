@@ -8,8 +8,7 @@ const path = require("path");
 /** @type {import('@docusaurus/types').Config} */
 const config = {
   title: "SanchoNet",
-  tagline:
-    "Building together in the age of Voltaire",
+  tagline: "Building together in the age of Voltaire",
   favicon: "img/favicon.ico",
 
   // Set the production url of your site here
@@ -25,6 +24,7 @@ const config = {
 
   onBrokenLinks: "throw",
   onBrokenMarkdownLinks: "warn",
+  trailingSlash: false,
 
   // Even if you don't use internalization, you can use this field to set useful
   // metadata like html lang. For example, if your site is Chinese, you may want
