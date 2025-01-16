@@ -63,7 +63,7 @@ Following CIP-100, we canonize the metadata anchor first, via [JSON-LD playgroun
 You can use `cardano-cli` to get the hash:
 
 ```bash
-cardano-cli conway governance hash anchor-data --file-text treasury-withdrawal.canonical
+cardano-cli hash anchor-data --file-text treasury-withdrawal.canonical
 931f1d8cdfdc82050bd2baadfe384df8bf99b00e36cb12bfb8795beab3ac7fe5
 ```
 Alternatively, utilize b2sum to hash the document:
@@ -181,7 +181,7 @@ a77245f63bc7504c6ce34383633729692388dc1823723b0ee9825743a87a6a6d  constitution.t
 or
 
 ```bash
-cardano-cli conway governance hash anchor-data --file-text constitution.txt
+cardano-cli hash anchor-data --file-text constitution.txt
 a77245f63bc7504c6ce34383633729692388dc1823723b0ee9825743a87a6a6d
 ```
 
@@ -205,7 +205,7 @@ cat compiled/guardrails-script.plutus
 Now, get the script hash with:
 
 ```shell
-cardano-cli conway governance hash script --script-file guardrails-script.plutus 
+cardano-cli hash script --script-file guardrails-script.plutus 
 edcd84c10e36ae810dc50847477083069db796219b39ccde790484e0
 ```
 
@@ -363,7 +363,7 @@ cardano-cli conway transaction submit \
   --tx-file tx.signed
 ```
 
-## Submitting a treasuy-withdrawal and protocol-parameter-update governance action
+## Submitting a treasury-withdrawal and protocol-parameter-update governance action
 
 :::info
 This transaction will pay the governance action deposit and fee, in addition, we must supply a collateral since we will be running a plutus script: the guardrails script.

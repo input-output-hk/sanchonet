@@ -144,7 +144,7 @@ cardano-cli conway transaction witness \
 4. Assemble the transaction:
 
 ```shell
-cardano-cli transaction assemble \
+cardano-cli conway transaction assemble \
   --tx-body-file vote-tx.raw \
   --witness-file  payment.witness \
   --witness-file  drep1.witness \
@@ -155,5 +155,5 @@ cardano-cli transaction assemble \
 
 5. Submit the transaction:
 ```shell
-cardano-cli transaction submit --testnet-magic 4 --tx-file vote-tx.signed
+cardano-cli conway transaction submit --testnet-magic 4 --tx-file vote-tx.signed
 ```

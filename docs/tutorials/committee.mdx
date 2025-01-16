@@ -43,7 +43,7 @@ cardano-cli conway governance committee key-gen-hot \
 ```
 cardano-cli conway governance committee create-hot-key-authorization-certificate \
     --cold-verification-key-file cc-cold.vkey \
-    --hot-key-file cc-hot.vkey \
+    --hot-verification-key-file cc-hot.vkey \
     --out-file cc-hot-key-authorization.cert
 ```
 
@@ -53,7 +53,7 @@ cardano-cli conway governance committee create-hot-key-authorization-certificate
 cardano-cli conway transaction build \
   --testnet-magic 4 \
   --tx-in "$(cardano-cli query utxo --address "$(cat payment.addr)" --testnet-magic 4 --out-file /dev/stdout | jq -r 'keys[0]')" \
-  --change-address payment.addr \
+  --change-address $(cat payment.addr) \
   --certificate-file cc-hot-key-authorization.cert \
   --witness-override 2 \
   --out-file tx.raw
