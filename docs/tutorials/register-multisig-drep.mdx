@@ -135,7 +135,7 @@ Or for a more strict setup we can use type "all", where all the signatures are r
 4. We'll need the script hash (the DRep ID), calculate it with:
 
 ```shell
-cardano-cli conway governance hash script \
+cardano-cli hash script \
   --script-file drep-multisig.json \
   --out-file drep-multisig.id
 ```
@@ -214,7 +214,7 @@ cardano-cli conway transaction witness \
 9. Assemble the tranaction with all the witnesses from previous step:
 
 ```shell
-cardano-cli transaction assemble \
+cardano-cli conway transaction assemble \
   --tx-body-file tx.raw \
   --witness-file  payment.witness \
   --witness-file  drep1.witness \
